@@ -17,7 +17,6 @@ public class ScheduleManager : MonoBehaviour
     public static bool isActing;
 
     buttonManager buttonManager;
-    public GameObject ButtonM;
     public GameObject panel_select_task;
     public Text dDayTxT;
     public Text MonthWeekText;
@@ -36,16 +35,16 @@ public class ScheduleManager : MonoBehaviour
         buttonManager = btmObject.gameObject.GetComponent<buttonManager>();
         if (DataBase.DB.playerData.HP < 1)
         {
-            ButtonM.GetComponent<buttonManager>().btn[0].GetComponentInChildren<Text>().text = "휴식";
+            buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
         }
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
-        
     }
 
     //D-Day 설정
     public void dDaySet(int _dDay)
     {
+        
         if (_dDay == 0)
         {
             dDayTxT.text = "D-Day";
@@ -112,7 +111,7 @@ public class ScheduleManager : MonoBehaviour
             GameObject.Find("panel_select_task").SetActive(false);
 
             //행동 진행 중 다른 버튼 비활성화
-            ButtonM.GetComponent<buttonManager>().falseBtnItr();
+            buttonManager.falseBtnItr();
 
             //행동 시작
             StartCoroutine(Process(schedules[daycount]));
@@ -277,7 +276,7 @@ public class ScheduleManager : MonoBehaviour
             {
                 schedules[index] = 0;
             }
-            ButtonM.GetComponent<buttonManager>().trueBtnItr();
+            buttonManager.trueBtnItr();
 
             //오디션 이벤트 발생
             if (DataBase.DB.playerData.dDay == 39 || DataBase.DB.playerData.dDay == 26 || DataBase.DB.playerData.dDay == 19)
@@ -289,13 +288,14 @@ public class ScheduleManager : MonoBehaviour
             else if(DataBase.DB.playerData.dDay == 0)
             {
                 //Final Audition
-                ButtonM.GetComponent<buttonManager>().btn[0].interactable = false;
-                ButtonM.GetComponent<buttonManager>().btn[4].gameObject.SetActive(true);
-                ButtonM.GetComponent<buttonManager>().btn[5].gameObject.SetActive(true);
+                buttonManager.btn[0].interactable = false;
+                buttonManager.btn[4].gameObject.SetActive(true);
+                buttonManager.btn[5].gameObject.SetActive(true);
             }
+            //HP가 0일 때 휴식 이벤트
             if (DataBase.DB.playerData.HP < 1)
             {
-                ButtonM.GetComponent<buttonManager>().btn[0].GetComponentInChildren<Text>().text = "휴식";
+                buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
             }
         }
     }
@@ -340,6 +340,6 @@ public class ScheduleManager : MonoBehaviour
         vCams[20].Priority = 5;
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
-        ButtonM.GetComponent<buttonManager>().btn[0].GetComponentInChildren<Text>().text = "스케쥴";
+        buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";
     }
 }
