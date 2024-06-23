@@ -32,14 +32,8 @@ public class Slot : MonoBehaviour
         {
             //세이브 없으면 바로 세이브
             DataBase.DB.SaveData(nowSlot);
+            selectCs.slotNum = 0;
         }
-    }
-
-    public void SaveData()
-    {
-        DataBase.DB.SaveData(nowSlot);
-        if (warningPanel.activeSelf)
-            warningPanel.SetActive(false);
     }
 
     public void GetNowSlot()

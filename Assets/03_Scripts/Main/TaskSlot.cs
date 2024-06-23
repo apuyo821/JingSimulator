@@ -8,9 +8,9 @@ using System;
 public class TaskSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject DetailInfoPanel;
-    float time = 0;
+    public float time = 0;
     [SerializeField] float waitingTime = 1.0f;
-    bool onPointer;
+    public bool onPointer;
 
     //포인터가 들어왔을 때, 진행
     public void OnPointerEnter(PointerEventData eventData)
@@ -42,5 +42,11 @@ public class TaskSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             DetailInfoPanel.SetActive(false);
         }
+    }
+
+    private void Update()
+    {
+        if (onPointer == false)
+            DetailInfoPanel.SetActive(false);
     }
 }
