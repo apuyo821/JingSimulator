@@ -22,6 +22,8 @@ public class ScheduleManager : MonoBehaviour
     public Text MonthWeekText;
     string WeekName;
 
+    int asd;
+
     //초기값 초기화
     void Awake()
     {
@@ -37,8 +39,34 @@ public class ScheduleManager : MonoBehaviour
         {
             buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
         }
+    }
+
+    void OnEnable()
+    {
+        Setting();
+        //StartCoroutine(Setting());
+    }
+
+    /*
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(Setting());
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    */
+
+    void Setting()
+    {
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
+        if (DataBase.DB.playerData.HP < 1)
+        {
+            buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
+        }
     }
 
     //D-Day 설정
