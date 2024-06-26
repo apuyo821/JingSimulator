@@ -8,11 +8,13 @@ public class viewNowActing : MonoBehaviour
 {
     public Image image;
     public Sprite[] selectImg;
-    [SerializeField]
-    private int NowIndex;
+
+    [SerializeField] private int NowIndex;
+
     int sprNum;
     int nowActing;
 
+    //ScheduleManager의 schedules의 인덱스에 따라서 이미지를 변경하여 선택한 행동을 보여줌
     void viewImg()
     {
         nowActing = ScheduleManager.schedules[NowIndex];
