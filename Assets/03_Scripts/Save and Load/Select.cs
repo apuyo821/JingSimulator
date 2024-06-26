@@ -13,7 +13,6 @@ public class Select : MonoBehaviour
     public GameObject warningPanel;
     public bool[] saveFile = new bool[6];
     public int slotNum;
-    public ScheduleManager schedule;
 
     public void OnEnable()
     {

@@ -11,6 +11,7 @@ public class Slot : MonoBehaviour
 
     Select selectCs;
 
+    //Select 스크립트 불러오기
     private void Start()
     {
         selectCs = selectObj.gameObject.GetComponent<Select>();
@@ -21,6 +22,7 @@ public class Slot : MonoBehaviour
         DataBase.DB.LoadData(nowSlot);
     }
 
+    //세이브 슬롯 눌렀을 때, 세이브 파일 유무 판단
     public void checkSaveExist()
     {
         if (selectCs.saveFile[nowSlot-1])
@@ -36,6 +38,7 @@ public class Slot : MonoBehaviour
         }
     }
 
+    //각 슬롯의 인덱스 넘버 넘겨주기
     public void GetNowSlot()
     {
         selectCs.slotNum = nowSlot;

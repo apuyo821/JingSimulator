@@ -11,7 +11,7 @@ public class ScheduleManager : MonoBehaviour
 {
     [SerializeField]    float actFlowTIme;
     [SerializeField]    float actChgTime;
-    [SerializeField]    int daycount = 0;
+    public int daycount = 0;
     public static int[] schedules;
     public CinemachineVirtualCamera[] vCams;
     public static bool isActing;
@@ -22,8 +22,6 @@ public class ScheduleManager : MonoBehaviour
     public Text MonthWeekText;
     string WeekName;
 
-    int asd;
-
     //초기값 초기화
     void Awake()
     {
@@ -31,6 +29,7 @@ public class ScheduleManager : MonoBehaviour
         isActing = false;
     }
 
+    //버튼매니저 오브제와 스크립트 불러오기
     private void Start()
     {
         GameObject btmObject = GameObject.Find("ButtonManager");
@@ -44,21 +43,9 @@ public class ScheduleManager : MonoBehaviour
     void OnEnable()
     {
         Setting();
-        //StartCoroutine(Setting());
     }
 
-    /*
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        StartCoroutine(Setting());
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    */
-
+    //왼쪽 위 날짜 텍스트 설정 & HP가 0일 때 휴식 이벤트 실행되게 해주는 코드
     void Setting()
     {
         dDaySet(DataBase.DB.playerData.dDay);
@@ -69,7 +56,7 @@ public class ScheduleManager : MonoBehaviour
         }
     }
 
-    //D-Day 설정
+    //D-Day 텍스트 설정
     public void dDaySet(int _dDay)
     {
         
@@ -85,6 +72,26 @@ public class ScheduleManager : MonoBehaviour
 
     public void MonthWeekSet(int _week, int _month, int _day)
     {
+        //n요일 계산
+        //week가 7(없는 숫자)이면 0으로 만들어서 순환시키기
+        DataBase.DB.playerData.week++;
+        if (DataBase.DB.playerData.week == 7)
+        {
+            DataBase.DB.playerData.week = 0;
+        }
+
+        //Day가 31(7월 31일)이라면 8월 1일로 만들어주는 코드
+        if (DataBase.DB.playerData.Day == 31)
+        {
+            DataBase.DB.playerData.Day = 1;
+            DataBase.DB.playerData.Month++;
+        }
+        else
+        {
+            DataBase.DB.playerData.Day++;
+        }
+
+        //week에 따라서 요일이 바뀜
         switch (_week)
         {
             case 0:
@@ -111,23 +118,11 @@ public class ScheduleManager : MonoBehaviour
             default:
                 break;
         }
+        //바꾼 값 들로 텍스트 변환
         MonthWeekText.text = _month + "월 " + _day + "일 " + WeekName;
     }
 
-    public void MonthCount()
-    {
-        if(DataBase.DB.playerData.Day == 31)
-        {
-            DataBase.DB.playerData.Day = 1;
-            DataBase.DB.playerData.Month++;
-        }
-        else
-        {
-            DataBase.DB.playerData.Day++;
-        }
-    }
-
-    //일과 진행
+    //스케쥴 진행
     public void Processing()
     {
         //하나라도 선택되지 않았다면 일과가 시작 되지 않음
@@ -145,7 +140,7 @@ public class ScheduleManager : MonoBehaviour
             StartCoroutine(Process(schedules[daycount]));
         }
     }
-    //10초의 시간 동안 행동 진행
+    //n초의 시간 동안 행동 진행
     IEnumerator Process(int _actNum)
     {
         switch (_actNum)
@@ -160,7 +155,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.strength += 2;
                 DataBase.DB.playerData.HP -= 3;
                 DataBase.DB.playerData.MP -= 1;
-                daycount++;
                 break;
 
             //drawing
@@ -168,7 +162,6 @@ public class ScheduleManager : MonoBehaviour
                 vCams[_actNum - 10].Priority = 11;
                 DataBase.DB.playerData.deft += 2;
                 DataBase.DB.playerData.HP -= 1;
-                daycount++;
                 break;
 
             //vocalTraning
@@ -179,7 +172,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP -= 2;
                 DataBase.DB.playerData.MP -= 1;
                 Debug.Log(DataBase.DB.playerData.vocal);
-                daycount++;
                 break;
 
             //danceTraning
@@ -189,7 +181,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.dance++;
                 DataBase.DB.playerData.HP -= 3;
                 DataBase.DB.playerData.MP -= 1;
-                daycount++;
                 break;
 
             //actTraining
@@ -198,7 +189,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.rizz += 2;
                 DataBase.DB.playerData.HP -= 2;
                 DataBase.DB.playerData.MP -= 2;
-                daycount++;
                 break;
 
             //skinCare
@@ -206,13 +196,11 @@ public class ScheduleManager : MonoBehaviour
                 vCams[_actNum - 10].Priority = 11;
                 DataBase.DB.playerData.rizz += 4;
                 DataBase.DB.playerData.MP += 1;
-                daycount++;
                 break;
 
             //미정
             case 17:
                 vCams[_actNum - 10].Priority = 11;
-                daycount++;
                 break;
 
             //Game
@@ -221,7 +209,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP += 4;
                 DataBase.DB.playerData.MP += 3;
                 DataBase.DB.playerData.game += 2;
-                daycount++;
                 break;
 
             //WalkPark
@@ -229,7 +216,6 @@ public class ScheduleManager : MonoBehaviour
                 vCams[_actNum - 10].Priority = 11;
                 DataBase.DB.playerData.HP += 1;
                 DataBase.DB.playerData.MP += 5;
-                daycount++;
                 break;
 
             //Fan
@@ -237,7 +223,6 @@ public class ScheduleManager : MonoBehaviour
                 vCams[_actNum - 10].Priority = 11;
                 DataBase.DB.playerData.HP += 1;
                 DataBase.DB.playerData.MP += 4;
-                daycount++;
                 break;
 
             //Cheating
@@ -246,7 +231,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP += 5;
                 DataBase.DB.playerData.MP += 4;
                 DataBase.DB.playerData.rizz -= 2;
-                daycount++;
                 break;
 
             //Hamburger
@@ -256,7 +240,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP -= 2;
                 DataBase.DB.playerData.money += 400;
                 DataBase.DB.playerData.deft += 1;
-                daycount++;
                 break;
 
             //Store
@@ -265,7 +248,6 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP -= 1;
                 DataBase.DB.playerData.MP -= 2;
                 DataBase.DB.playerData.money += 200;
-                daycount++;
                 break;
 
             //Drawing Academy
@@ -275,30 +257,28 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP -= 2;
                 DataBase.DB.playerData.money += 300;
                 DataBase.DB.playerData.deft += 1;
-                daycount++;
                 break;
 
             default:
                 break;
         }
+        daycount++;
 
         yield return new WaitForSeconds(actFlowTIme); //행동 진행 시간
         vCams[_actNum - 10].Priority = 5;
         yield return new WaitForSeconds(actChgTime); //배경 전환 시간, 집으로 카메라 바뀌었다가 행동 배경으로 전환
         
-        if(daycount < 3)
+        if(daycount < 2)
         {
-            //daycount가 3 보다 작으면, 남은 행동 진행
+            //daycount가 2 보다 작으면, 남은 행동 진행
             StartCoroutine(Process(schedules[daycount]));
         }
         else
         {
-            //datcount가 3 이상이면 하루 스케쥴 종료 및 스탯, 돈, 날짜 정산
+            //datcount가 2 보다 크면 하루 스케쥴 종료 및 스탯, 날짜 정산
             daycount = 0;
             DataBase.DB.playerData.dDay--;
-            WeekCount();
             dDaySet(DataBase.DB.playerData.dDay);
-            MonthCount();
             MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
             for (int index = 0; index < schedules.Length; index++)
             {
@@ -328,21 +308,14 @@ public class ScheduleManager : MonoBehaviour
         }
     }
 
-    public void WeekCount()
-    {
-        DataBase.DB.playerData.week++;
-        if (DataBase.DB.playerData.week == 7)
-        {
-            DataBase.DB.playerData.week = 0;
-        }
-    }
-
     //오디션 진행
     public void AuditionPricessing()
     {
         SceneManager.LoadScene("auditionScene");
     }
 
+    //스케쥴 버튼 눌렀을 때, HP나 MP를 검사하여 '휴식' 이벤트 판단하는 코드
+    //True일 경우 휴식 이벤트 실행, False일 경우 정상 진행
     public void CheckHpMP()
     {
         if(DataBase.DB.playerData.HP == 0 || DataBase.DB.playerData.MP == 0)
@@ -360,8 +333,6 @@ public class ScheduleManager : MonoBehaviour
     {
         vCams[20].Priority = 11;
         DataBase.DB.playerData.dDay--;
-        DataBase.DB.playerData.week++;
-        MonthCount();
         DataBase.DB.playerData.HP += 25;
         DataBase.DB.playerData.MP += 13;
         yield return new WaitForSeconds(4.0f);
