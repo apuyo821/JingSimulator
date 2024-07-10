@@ -60,8 +60,6 @@ public class DataBase : MonoBehaviour
         path = Application.persistentDataPath + "/jingsave";
     }
 
-
-
     public void SaveData(int slotIndex)
     {
         string JsonData = JsonUtility.ToJson(playerData, true);

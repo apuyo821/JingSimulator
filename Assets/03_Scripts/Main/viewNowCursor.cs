@@ -10,6 +10,7 @@ public class viewNowCursor : MonoBehaviour
 
     int schedules;
 
+    //UI의 트랜스폼은 RectTransform을 써야하기에 이것만 빼면은 일반 오브젝트의 Transform을 가져오는 것과 같음
     void Start()
     {
         cursorRect = GetComponent<RectTransform>();
@@ -22,6 +23,7 @@ public class viewNowCursor : MonoBehaviour
         schedules = scheduleManagerCs.daycount;
         switch (schedules)
         {
+            case 0:
             case 1:
                 cursorRect.anchoredPosition = new Vector2(115, -318);
                 break;

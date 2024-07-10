@@ -268,7 +268,7 @@ public class ScheduleManager : MonoBehaviour
         vCams[_actNum - 10].Priority = 5;
         yield return new WaitForSeconds(actChgTime); //배경 전환 시간, 집으로 카메라 바뀌었다가 행동 배경으로 전환
         
-        if(daycount < 2)
+        if(daycount < 3)
         {
             //daycount가 2 보다 작으면, 남은 행동 진행
             StartCoroutine(Process(schedules[daycount]));
