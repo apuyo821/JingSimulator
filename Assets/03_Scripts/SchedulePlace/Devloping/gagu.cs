@@ -11,16 +11,17 @@ public class gagu : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Devloping devloping = other.gameObject.GetComponent<Devloping>();
         isEventing = true;
         Rigidbody rigid = other.attachedRigidbody;
         if(rigid.velocity.y == 0)
         {
-            Debug.Log("¼öÆò ÀÌº¥Æ®");
             StartCoroutine(checkTime());
         }
         else if(rigid.velocity.y < 0)
         {
-            Debug.Log("À§¿¡¼­ ¶³¾îÁü");
+            if(!devloping.isHanging)
+                Debug.Log("À§¿¡¼­ ¶³¾îÁü");
         }
     }
 
