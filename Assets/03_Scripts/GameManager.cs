@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject selectPanel;
     public GameObject status_panel;
+    public GameObject option_panel;
     public Text[] Texts;
 
     public Bar[] bars;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
     {
         selectPanel.SetActive(false);
         status_panel.SetActive(false);
+        option_panel.SetActive(false);
         daySet(DataBase.DB.playerData.dDay);
 
         //텍스트 파일에 있는 값들 유니티로 불러오기

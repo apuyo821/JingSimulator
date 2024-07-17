@@ -21,7 +21,7 @@ public class Devloping : MonoBehaviour
     {
         while (false)
         {
-            rigid.velocity = new Vector3(veloX*2, rigid.velocity.y, rigid.velocity.z);
+            //rigid.velocity = new Vector3(veloX*2, rigid.velocity.y, rigid.velocity.z);
             yield return null;
         }
     }

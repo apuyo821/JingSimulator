@@ -35,6 +35,7 @@ public class Slot : MonoBehaviour
             //세이브 없으면 바로 세이브
             DataBase.DB.SaveData(nowSlot);
             selectCs.slotNum = 0;
+            selectCs.refreshInfo();
         }
     }
 

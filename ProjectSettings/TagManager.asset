@@ -12,6 +12,7 @@ TagManager:
   - Consumer
   - EventZone
   - gagu
+  - Note
   layers:
   - Default
   - TransparentFX
