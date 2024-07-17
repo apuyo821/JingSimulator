@@ -15,37 +15,16 @@ public class Notes : MonoBehaviour
     public static int pressNoteIndex=0;
     public int lastNoteIndex;
     
+    
     public static List<GameObject> noteList = new List<GameObject>();
 
-    /*
-    private void Update()
-    {
-        TypeSetting();
-        if (Input.GetKeyDown(KeyToPress))
-        {
-            if(index == pressNoteIndex)
-            {
-                Debug.Log(pressNoteIndex);
-                noteList.Add(gameObject);
-                image.enabled = false;
-            }
-            pressNoteIndex++;
-            if (lastNoteIndex == pressNoteIndex)
-            {
-                pressNoteIndex = 0;
-                Debug.Log("노트 다 침");
-                for (int j = 0; j < noteList.Count; j++)
-                {
-                    noteList[j].GetComponent<Notes>().Invoke("remove", 0.1f);
-                }
-            }
-        }
-    }
-    */
+    Timer timerCS;
 
     public void OnEnable()
     {
         noteList.Add(gameObject);
+        GameObject timerObj = GameObject.Find("Timer");
+        timerCS = timerObj.GetComponent<Timer>();
     }
 
     public void startProcess()
@@ -57,22 +36,46 @@ public class Notes : MonoBehaviour
     {
         while (true)
         {
+            //여기는 건드는거 아님
             TypeSetting();
             yield return null;
-            if (Input.GetKeyDown(KeyToPress))
+            //여기는 건드는거 아님
+            
+
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (index == pressNoteIndex)
+                if(index == pressNoteIndex)
                 {
-                    Debug.Log(pressNoteIndex);
-                    image.enabled = false;
-                    yield return null;
-                    pressNoteIndex++;
-                }
-                if (lastNoteIndex == pressNoteIndex)
-                {
-                    pressNoteIndex = 0;
-                    Debug.Log("노트 다 침");
-                    RemoveProcess();
+                    if (Input.GetKeyDown(KeyToPress))
+                    {
+                        image.enabled = false;
+                        yield return null;
+                        pressNoteIndex++;
+                    }
+                    else
+                    {
+                        for(int k = 0; k<noteList.Count; k++)
+                        {
+                            noteList[k].GetComponent<Image>().color = new Color32(225, 105, 105, 150);
+                        }
+                        yield return new WaitForSeconds(0.25f);
+                        for (int k = 0; k < noteList.Count; k++)
+                        {
+                            noteList[k].GetComponent<Image>().enabled = true;
+                            noteList[k].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                        }
+                        pressNoteIndex = 0;
+                        RGManager.RGinstance.miss++;
+                    }
+                    if (lastNoteIndex == pressNoteIndex)
+                    {
+                        pressNoteIndex = 0;
+                        RGManager.RGinstance.clear = true;
+                        timerCS.timeStop();
+                        RGManager.RGinstance.Victory();
+                        RGManager.RGinstance.Objs[4].SetActive(true);
+                        RemoveProcess();
+                    }
                 }
             }
         }

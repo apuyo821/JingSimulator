@@ -11,20 +11,33 @@ public class Timer : MonoBehaviour
     public GameObject noteObj;
     public Notes noteCS;
 
+    public IEnumerator timeProcessCoroutine;
+
+    public bool isEventing;
+
     private void Start()
     {
         slider.value = 0;
         slider.maxValue = time;
+        timeProcessCoroutine = timerProcess();    
     }
 
     public void timerStart()
     {
-        StartCoroutine(timerProcess());
+        StartCoroutine(timeProcessCoroutine);
+    }
+
+    public void timeStop()
+    {
+        
+        StopCoroutine(timeProcessCoroutine);
+        slider.value = 0;
     }
 
     IEnumerator timerProcess()
     {
-        while (true)
+        isEventing = true;
+        while (isEventing)
         {
             slider.value++;
             if (slider.value == time)
@@ -36,6 +49,9 @@ public class Timer : MonoBehaviour
         noteObj = GameObject.FindGameObjectWithTag("Note");
         noteCS = noteObj.GetComponent<Notes>();
         noteCS.RemoveProcess();
+        RGManager.RGinstance.Fail();
+        yield return null;
+        isEventing = false;
         slider.value = 0;
     }
 }

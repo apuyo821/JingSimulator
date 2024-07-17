@@ -27,5 +27,6 @@ public class NowKeyDown : MonoBehaviour
         {
             image.sprite = defaultImage;
         }
+
     }
 }
