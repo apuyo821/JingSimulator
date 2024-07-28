@@ -12,9 +12,11 @@ public class DialogTest : MonoBehaviour
     [SerializeField]
     private DialogSystem dialogSystem02;
 
+
     private IEnumerator Start()
     {
         textCountdown.gameObject.SetActive(false);
+        dialogSystem02.gameObject.SetActive(false);
 
         // 첫 번째 대사 분기 시작
         yield return new WaitUntil(() => dialogSystem01.UpdateDialog());
@@ -32,6 +34,7 @@ public class DialogTest : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         textCountdown.gameObject.SetActive(false);
+        dialogSystem01.gameObject.SetActive(false);
 
         // 두 번째 대사 분기 시작
         yield return new WaitUntil(() => dialogSystem02.UpdateDialog());

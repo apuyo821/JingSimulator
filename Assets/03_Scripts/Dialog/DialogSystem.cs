@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class DialogSystem : MonoBehaviour
 {
-    [SerializeField]
+    public GameObject[] WhoDialog;
+
     private Speaker[] speakers;                        // 대화에 참여하는 캐릭터들의 UI 배열
+    public DialogData[] dialogs;                      // 현재 분기의 대사 목록 배열
     [SerializeField]
-    private DialogData[] dialogs;                      // 현재 분기의 대사 목록 배열
-    [SerializeField]
+    private Transform canvas;
     private bool isAutoStart = true;                   // 자동 시작 여부
     private bool isFirst = true;                       // 최초 1회만 호출하기 위한 변수
     private int currentDialogSentenceIndex = -1;       // 현재 대사 순번
@@ -18,7 +19,40 @@ public class DialogSystem : MonoBehaviour
 
     private void Awake()
     {
-        Setup();
+        SetupSpeakers();
+    }
+
+    void SetupSpeakers()
+    {
+        // 에러반환
+        if (WhoDialog == null || WhoDialog.Length == 0)
+        {
+            Debug.LogError("에러");
+            return;
+        }
+
+        speakers = new Speaker[WhoDialog.Length];
+
+        for (int i = 0; i < speakers.Length; ++i)
+        {
+            GameObject dialogObject = GameObject.Find(WhoDialog[i].name);
+
+            // 기존 오브젝트가 존재하지 않는 경우에만 새로 생성
+            if (dialogObject == null || dialogObject.transform.parent != canvas)
+            {
+                dialogObject = Instantiate(WhoDialog[i], canvas);
+                dialogObject.name = WhoDialog[i].name;
+            }
+
+            speakers[i] = new Speaker
+            {
+                speakerImage = dialogObject.GetComponent<Image>(),
+                imageDialog = dialogObject.GetComponentInChildren<Image>(),
+                textName = dialogObject.transform.Find("name").GetComponent<Text>(),
+                textDialog = dialogObject.transform.Find("sentence").GetComponent<Text>(),
+                objectArrow = dialogObject.transform.Find("Arrow").gameObject
+            };
+        }
     }
 
     private void Setup()
@@ -26,11 +60,12 @@ public class DialogSystem : MonoBehaviour
         // 모든 대화 관련 게임오브젝트 비활성화
         for (int i = 0; i < speakers.Length; ++i)
         {
-            SetActiveObjects(speakers[i], false);
+            SetActiveObjects(speakers[i], true);
             // 캐릭터 이미지는 보이도록 설정
             speakers[i].speakerImage.gameObject.SetActive(true);
         }
     }
+
 
     public bool UpdateDialog()
     {
@@ -41,7 +76,7 @@ public class DialogSystem : MonoBehaviour
             Setup();
 
             // 자동 재생(isAutoStart=true)으로 설정되어 있으면 첫 번째 대사 재생
-            if (isAutoStart) SetNextDialog();
+            if (isAutoStart) StartCoroutine(SetNextDialog()) ;
 
             isFirst = false;
         }
@@ -51,7 +86,7 @@ public class DialogSystem : MonoBehaviour
             // 대사가 남아있을 경우 다음 대사 진행
             if (dialogs.Length > currentDialogSentenceIndex + 1)
             {
-                SetNextDialog();
+                StartCoroutine(SetNextDialog());
             }
             // 대사가 더 이상 없을 경우 모든 오브젝트를 비활성화하고 true 반환
             else
@@ -69,13 +104,15 @@ public class DialogSystem : MonoBehaviour
         return false;
     }
 
-    private void SetNextDialog()
+    IEnumerator SetNextDialog()
     {
         // 이전 화자의 대화 관련 오브젝트 비활성화
         SetActiveObjects(speakers[currentSpeakerIndex], false);
 
         // 다음 대사를 진행하도록
         currentDialogSentenceIndex++;
+
+        yield return new WaitUntil(() => dialogs != null);
 
         // 현재 화자 순번 설정
         currentSpeakerIndex = dialogs[currentDialogSentenceIndex].speakerIndex;
