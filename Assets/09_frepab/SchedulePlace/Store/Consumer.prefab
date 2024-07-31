@@ -54,7 +54,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 869bc27adc151d5469e1d7329c5dfb96, type: 3}
   - {fileID: 21300000, guid: 3b1a21f86827c61419be266cf2f1b46a, type: 3}
   plusY: 1.5
-  velo: 1
+  velo: 0.5
   velo3: 0.25
 --- !u!54 &1849669962432339981
 Rigidbody:

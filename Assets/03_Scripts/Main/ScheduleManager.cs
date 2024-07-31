@@ -299,12 +299,12 @@ public class ScheduleManager : MonoBehaviour
     //체력 or MP가 0일 때의 이벤트
     IEnumerator IsZero()
     {
-        vCams[20].Priority = 11;
+        vCams[10].Priority = 11;
         DataBase.DB.playerData.dDay--;
         DataBase.DB.playerData.HP += 25;
         DataBase.DB.playerData.MP += 13;
         yield return new WaitForSeconds(4.0f);
-        vCams[20].Priority = 5;
+        vCams[10].Priority = 5;
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
         buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";

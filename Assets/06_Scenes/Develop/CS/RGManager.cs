@@ -32,7 +32,7 @@ public class RGManager : MonoBehaviour
     {
         timerCS.timerStart();
         timerCS.slider.value = 0;
-        noteAmount = Random.Range(4,7);
+        noteAmount = Random.Range(10,11);
         for(int i = 0; i<noteAmount; i++)
         {
             GameObject notes = Instantiate(Objs[0]);
