@@ -11,6 +11,12 @@ TagManager:
   - DetailInfo
   - Consumer
   - EventZone
+  - gagu
+  - noteHead
+  - noteBody
+  - noteFoot
+  - Note
+  - Judge
   layers:
   - Default
   - TransparentFX

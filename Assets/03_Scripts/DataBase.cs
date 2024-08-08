@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
 public class PlayerData
 {
     //Audition Index
@@ -59,8 +60,6 @@ public class DataBase : MonoBehaviour
 
         path = Application.persistentDataPath + "/jingsave";
     }
-
-
 
     public void SaveData(int slotIndex)
     {

@@ -76,11 +76,4 @@ public class buttonManager : MonoBehaviour
             Texts[6].gameObject.SetActive(false);
         }
     }
-
-    /*
-    public void Save()
-    {
-        DataBase.DB.SaveData();
-    }
-    */
 }

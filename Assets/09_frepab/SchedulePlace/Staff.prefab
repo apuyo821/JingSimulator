@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3677841988648124548, guid: ee45c8c93aa91a140bc7deab0c03ebf9, type: 3}
   staffObj: {fileID: 5220705098282798869}
+  staffTransform: {fileID: 0}
   plusY: 1.5
 --- !u!212 &5060898310485058069
 SpriteRenderer:
@@ -148,5 +149,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0

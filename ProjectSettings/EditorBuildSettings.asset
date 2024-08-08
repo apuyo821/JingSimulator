@@ -5,16 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/06_Scenes/Start/Title.unity
     guid: b948441db53b4c24b800355b01791660
-  - enabled: 1
+  - enabled: 0
     path: Assets/06_Scenes/Start/Start_option_menu.unity
     guid: 3361b142248abe240aa826b997b7e824
-  - enabled: 1
+  - enabled: 0
     path: Assets/06_Scenes/Main.unity
     guid: b8f24077392c02a45a7df35395c96945
-  - enabled: 1
+  - enabled: 0
     path: Assets/06_Scenes/auditionScene.unity
     guid: e04c380863c7195489e1ca6811d0ed66
+  - enabled: 1
+    path: Assets/06_Scenes/Develop/Rythm Game.unity
+    guid: 8a85d76dce749734896e085727562ae2
+  - enabled: 0
+    path: Assets/06_Scenes/DialogExample.unity
+    guid: ce50441aa2fdb1f44ab70cbab845b6b3
   m_configObjects: {}
