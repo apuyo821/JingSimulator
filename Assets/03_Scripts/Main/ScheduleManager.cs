@@ -9,12 +9,12 @@ using UnityEngine.SceneManagement;
 
 public class ScheduleManager : MonoBehaviour
 {
-    [SerializeField]    float actFlowTIme;
-    [SerializeField]    float actChgTime;
+    [SerializeField] float actFlowTIme;
+    [SerializeField] float actChgTime;
     public int daycount = 0;
     public static int[] schedules;
     public CinemachineVirtualCamera[] vCams;
-    public static bool isActing;
+    //public static bool isActing;
 
     buttonManager buttonManager;
     public GameObject panel_select_task;
@@ -22,11 +22,18 @@ public class ScheduleManager : MonoBehaviour
     public Text MonthWeekText;
     string WeekName;
 
+    int dialoguLength;
+    public bool isEvent = false;
+    public bool isFirst = true;
+    public bool isGO = false;
+    [SerializeField] InteractionEvent itrCs;
+    [SerializeField] DialogueManager dmCs;
+
     //초기값 초기화
     void Awake()
     {
         schedules = new int[3];
-        isActing = false;
+        //isActing = false;
     }
 
     //버튼매니저 오브제와 스크립트 불러오기
@@ -34,6 +41,14 @@ public class ScheduleManager : MonoBehaviour
     {
         GameObject btmObject = GameObject.Find("ButtonManager");
         buttonManager = btmObject.gameObject.GetComponent<buttonManager>();
+        itrCs = GameObject.FindGameObjectWithTag("DialogueObj").GetComponent<InteractionEvent>();
+        dmCs = FindObjectOfType<DialogueManager>();
+
+        if (isFirst)
+        {
+            eventCheck(DataBase.DB.playerData.dDay);
+        }
+
         if (DataBase.DB.playerData.HP < 1)
         {
             buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
@@ -244,10 +259,18 @@ public class ScheduleManager : MonoBehaviour
             //datcount가 2 보다 크면 하루 스케쥴 종료 및 스탯, 날짜 정산
             daycount = 0;
             DataBase.DB.playerData.dDay--;
+
+            //날짜 계산 및 가시화
             WeekCalculate();
             DayAndMonthCalculate();
             dDaySet(DataBase.DB.playerData.dDay);
             MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
+
+            //대사 이벤트 확인 및 진행
+            eventCheck(DataBase.DB.playerData.dDay);
+            yield return new WaitUntil(() => isGO == true);
+
+            //선택 된 행동들 리셋 및 비활성화된 버튼들 다시 활성화
             for (int index = 0; index < schedules.Length; index++)
             {
                 schedules[index] = 0;
@@ -274,6 +297,44 @@ public class ScheduleManager : MonoBehaviour
                 buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
             }
         }
+    }
+
+    public bool eventCheck(int _dday)
+    {
+        Debug.Log(_dday);
+        switch (_dday)
+        {
+            case 50:
+                isFirst = false;
+                isGO = false;
+                isEvent = true;
+                itrCs.dialogueEvent.line.x = 1;
+                itrCs.dialogueEvent.line.y = 3;
+                dialoguLength = 3;
+                itrCs.dialogueEvent.name = "튜토리얼";
+                break;
+
+            case 48:
+                isGO = false;
+                isEvent = true;
+                itrCs.dialogueEvent.line.x = 4;
+                itrCs.dialogueEvent.line.y = 6;
+                dialoguLength = 3;
+                itrCs.dialogueEvent.name = "뢴트와 왁의 대화";
+                break;
+
+            default:
+                isGO = true;
+                break;
+        }
+        if (isEvent)
+        {
+            buttonManager.falseBtnItr();
+            itrCs.dialogueEvent.dialogues = new Dialogue[dialoguLength];
+            dmCs.ShowDialogue(itrCs.GetDialogue());
+        }
+
+        return isGO;
     }
 
     //오디션 진행

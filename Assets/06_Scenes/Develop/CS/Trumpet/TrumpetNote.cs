@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class TrumpetNote : MonoBehaviour
 {
-    public GameObject[] trumObj;
-
-    public GameObject Head;
-    public GameObject Body;
-    public GameObject Foot;
-
     public bool headHit = false;
     public bool footHit = false;
 
@@ -20,6 +14,16 @@ public class TrumpetNote : MonoBehaviour
     private void Update()
     {
         transform.Translate(Vector3.left * velo);
+    }
+
+    public void DestroyTimer()
+    {
+        Invoke("Destroy", 3.0f);
+    }
+
+    void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 
     //여기 아래는 나중에 활성화 할 예정

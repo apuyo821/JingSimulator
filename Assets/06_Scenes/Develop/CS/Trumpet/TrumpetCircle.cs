@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TrumpetCircle : MonoBehaviour
 {
-    public GameObject JudgeZone;
-    public GameObject noteObj;
     public TrumpetNote noteCs;
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -4,34 +4,53 @@ using UnityEngine;
 
 public class TrumpetJudge : MonoBehaviour
 {
-    public GameObject noteObj;
     public TrumpetNote noteCs;
+    public Collider2D coll;
 
-    public int Perfect;
-    public int Good;
-    public int OK;
     public int Miss;
 
     public string rank;
+    public int combo;
+
+    [SerializeField] int noteIndex;
+    [SerializeField] int score;
+    [SerializeField] string resultRank;
+
+    private void Start()
+    {
+        Miss = 0;
+        combo = 0;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         noteCs = collision.gameObject.GetComponentInParent<TrumpetNote>();
-        Collider2D coll = collision.gameObject.GetComponent<Collider2D>();
+        coll = collision.gameObject.GetComponent<Collider2D>();
         switch (collision.transform.tag)
         {
             case "noteHead":
-                noteCs.headHit = false;
-                Destroy(coll);
+                Debug.Log(collision.name);
+                if (noteCs.headHit  != true)
+                {
+                    Debug.Log(collision.name);
+                    noteCs.headHit = false;
+                    Destroy(coll);
+                }
                 break;
 
             case "noteBody":
+                Debug.Log(collision.name);
                 break;
 
             case "noteFoot":
-                noteCs.footHit = false;
-                Destroy(coll);
-                scoreCalculate();
+                Debug.Log(collision.name);
+                if (noteCs.footHit != true)
+                {
+                    noteCs.footHit = false;
+                    Destroy(coll);
+                }
+                noteCs.DestroyTimer();
+                scoreJudge();
                 break;
 
             default:
@@ -39,27 +58,52 @@ public class TrumpetJudge : MonoBehaviour
         }
     }
 
-    void scoreCalculate()
+    void scoreJudge()
     {
-        if(noteCs.headHit == true && noteCs.noteTime > 5 && noteCs.footHit == true)
+        if(noteCs.headHit == true && noteCs.noteTime > 2 && noteCs.footHit == true)
         {
-            Perfect++;
+            score += 500;
+            combo++;
+            noteIndex++;
             rank = "Perfect";
         }
-        else if(noteCs.headHit == true && noteCs.noteTime > 3 && noteCs.noteTime < 5 && noteCs.footHit == true)
+        else if(noteCs.headHit == false && noteCs.noteTime >= 2 && noteCs.footHit == true)
         {
-            Good++;
+            score += 300;
+            combo++;
+            noteIndex++;
             rank = "Good";
         }
-        else if (noteCs.headHit == false && noteCs.noteTime > 0 && noteCs.noteTime < 3 && noteCs.footHit == true)
+        else if (noteCs.headHit == false && noteCs.noteTime < 2 && noteCs.footHit == true)
         {
-            OK++;
+            score += 100;
+            combo = 0;
+            noteIndex++;
             rank = "OK";
         }
         else if (noteCs.headHit == false && noteCs.footHit == false)
         {
             Miss++;
+            combo = 0;
+            noteIndex++;
             rank = "Miss";
         }
+
+        if(noteIndex == 5)
+            scoreCalculate();
+    }
+
+    void scoreCalculate()
+    {
+        if (score >= 2000)
+            resultRank = "S";
+        else if (score < 2000 && score >= 1500)
+            resultRank = "A";
+        else if (score < 1500 && score >= 500)
+            resultRank = "B";
+        else if (score < 500 && score >= 0)
+            resultRank = "C";
+        else if (score <= 0)
+            resultRank = "D";
     }
 }
