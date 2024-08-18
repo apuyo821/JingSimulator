@@ -17,6 +17,8 @@ TagManager:
   - noteFoot
   - Note
   - Judge
+  - DialogueObj
+  - Shop
   layers:
   - Default
   - TransparentFX

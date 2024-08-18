@@ -22,7 +22,7 @@ public class SpriteManager : MonoBehaviour
     {
         // 1. t_image 이미지를 변경
         // Standing Image 오브젝트에는 Image 컴포넌트 X → 그 자식인 Image 오브젝트에는 Image 컴포넌트 O
-        t_image = p_target.GetComponentInChildren<Image>();
+        t_image = p_target.GetChild(1).GetComponent<Image>();
 
         // 2. t_sprite 이미지로 변경
         //Characters 안에서 p_spriteName와 같은 이름의 이미지를 가여와서 t_sprite에 덮기

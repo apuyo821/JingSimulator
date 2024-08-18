@@ -26,6 +26,7 @@ public class ScheduleManager : MonoBehaviour
     public bool isEvent = false;
     public bool isFirst = true;
     public bool isGO = false;
+    [SerializeField] GameObject itrObj;
     [SerializeField] InteractionEvent itrCs;
     [SerializeField] DialogueManager dmCs;
 
@@ -41,7 +42,7 @@ public class ScheduleManager : MonoBehaviour
     {
         GameObject btmObject = GameObject.Find("ButtonManager");
         buttonManager = btmObject.gameObject.GetComponent<buttonManager>();
-        itrCs = GameObject.FindGameObjectWithTag("DialogueObj").GetComponent<InteractionEvent>();
+        itrCs = itrObj.GetComponent<InteractionEvent>();
         dmCs = FindObjectOfType<DialogueManager>();
 
         if (isFirst)
