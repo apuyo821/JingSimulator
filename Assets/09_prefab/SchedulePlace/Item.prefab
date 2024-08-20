@@ -54,11 +54,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CountTxt: {fileID: 5409633004634984692}
-  itemSprite: []
+  itemSprite:
+  - {fileID: 21300000, guid: 86ba2b6b5ad1b2248bcb517979b47f2f, type: 3}
+  - {fileID: 21300000, guid: 3b502987f4250d544a191a70fdba65a3, type: 3}
+  - {fileID: 21300000, guid: baa6d15fbfc7a8e498a1832e2f35ad67, type: 3}
   itemData:
+    itemName: 
     ItemID: 0
     ItemCount: 0
   buyButton: {fileID: 0}
+  itemImage: {fileID: 0}
 --- !u!222 &7526691375457694823
 CanvasRenderer:
   m_ObjectHideFlags: 0

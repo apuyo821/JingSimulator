@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class ItemData
 {
+    public string itemName;
     public int ItemID;
     public int ItemCount;
 }
@@ -20,13 +21,13 @@ public class Item : MonoBehaviour
 
     public GameObject buyButton;
     BuyButton buyButtonCs;
-    Image itemImage;
+    public Image itemImage;
 
     private void Start()
     {
         if(transform.tag == "Shop")
             buyButtonCs = buyButton.GetComponent<BuyButton>();
-        itemImage = GetComponent<Image>();
+        itemImage = transform.GetChild(0).GetComponent<Image>();
         Invoke("ImageSet", 0.1f);
     }
 
@@ -51,23 +52,7 @@ public class Item : MonoBehaviour
 
     void ImageSet()
     {
-        int sprNum = itemData.ItemCount - 1001;
-        switch (sprNum)
-        {
-            case 0:
-                itemImage.sprite = itemSprite[sprNum];
-                break;
-
-            case 1:
-                itemImage.sprite = itemSprite[sprNum];
-                break;
-
-            case 2:
-                itemImage.sprite = itemSprite[sprNum];
-                break;
-
-            default:
-                break;
-        }
+        int sprNum = itemData.ItemID - 1001;
+        itemImage.sprite = itemSprite[sprNum];
     }
 }
