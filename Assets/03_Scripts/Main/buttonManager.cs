@@ -15,6 +15,8 @@ public class buttonManager : MonoBehaviour
     //status text
     public Text[] Texts;
 
+    public GameObject[] UIs;
+
     public void falseBtnItr()
     {
         for (int i = 0; i < btn.Length; i++)
@@ -74,6 +76,22 @@ public class buttonManager : MonoBehaviour
         else
         {
             Texts[6].gameObject.SetActive(false);
+        }
+    }
+
+    public void setInvenExplainObj(bool p_flag)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            UIs[i].SetActive(p_flag);
+        }
+    }
+
+    public void uiControl(bool p_flag)
+    {
+        for (int i = 3; i < 8; i++)
+        {
+            UIs[i].SetActive(p_flag);
         }
     }
 }

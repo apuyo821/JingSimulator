@@ -103,6 +103,8 @@ public class Select : MonoBehaviour
     public void GoGame()
     {
         SceneManager.LoadScene("Main");
+        //ItemManager itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+        //itemManager.LoadData();
     }
 
     public void SaveData()

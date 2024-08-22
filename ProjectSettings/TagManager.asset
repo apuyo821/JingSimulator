@@ -19,6 +19,7 @@ TagManager:
   - Judge
   - DialogueObj
   - Shop
+  - Item
   layers:
   - Default
   - TransparentFX

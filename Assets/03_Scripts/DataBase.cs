@@ -31,6 +31,8 @@ public class PlayerData
     public int dance = 0;        //5, ´í½º
     public int misukham = 0;      //6, ¹Ì¼÷ÇÔ
     public int game = 0;
+
+    public List<ItemData> itemDatas;
 }
 
 public class DataBase : MonoBehaviour
@@ -59,6 +61,8 @@ public class DataBase : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         path = Application.persistentDataPath + "/jingsave";
+
+        playerData.itemDatas = new List<ItemData>();
     }
 
     public void SaveData(int slotIndex)
