@@ -9,102 +9,15 @@ public class viewNowActing : MonoBehaviour
     public Image image;
     public Sprite[] selectImg;
 
-    [SerializeField] private int NowIndex;
+    [SerializeField] int NowIndex;
 
-    int sprNum;
-    int nowActing;
-
-    //ScheduleManager의 schedules의 인덱스에 따라서 이미지를 변경하여 선택한 행동을 보여줌
-    void viewImg()
+    private void Start()
     {
-        nowActing = ScheduleManager.schedules[NowIndex];
-        
-        switch (nowActing)
-        {
-            //empty
-            case 0:
-                sprNum = 0;
-                break;
-
-            //workout
-            case 11:
-                sprNum = 1;
-                break;
-
-            //drawing
-            case 12:
-                sprNum = 2;
-                break;
-
-            //vocalTraning
-            case 13:
-                sprNum = 3;
-                break;
-
-            //danceTraning
-            case 14:
-                sprNum = 4;
-                break;
-
-            //actTraining
-            case 15:
-                sprNum = 5;
-                break;
-
-            //skinCare
-            case 16:
-                sprNum = 6;
-                break;
-
-            //미정
-            case 17:
-                sprNum = 7;
-                break;
-
-            //미정
-            case 21:
-                sprNum = 8;
-                break;
-
-            //미정
-            case 22:
-                sprNum = 9;
-                break;
-
-            //미정
-            case 23:
-                sprNum = 10;
-                break;
-
-            //미정
-            case 24:
-                sprNum = 11;
-                break;
-
-            //미정
-            case 31:
-                sprNum = 12;
-                break;
-
-            //미정
-            case 32:
-                sprNum = 13;
-                break;
-
-            //미정
-            case 33:
-                sprNum = 14;
-                break;
-
-
-            default:
-                    break;
-        }
-        image.sprite = selectImg[sprNum];
+        image = GetComponent<Image>();
     }
 
     private void Update()
     {
-        viewImg();
+        image.sprite = selectImg[ScheduleManager.schedules[NowIndex]];
     }
 }

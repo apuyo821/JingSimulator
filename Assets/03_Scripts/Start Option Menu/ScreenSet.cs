@@ -8,4 +8,9 @@ public class ScreenSet : MonoBehaviour
     {
         Screen.SetResolution(1366, 768, false);
     }
+
+    public void DataClear()
+    {
+        DataBase.DB.playerData = new PlayerData();
+    }
 }

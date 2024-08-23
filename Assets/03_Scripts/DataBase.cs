@@ -39,9 +39,6 @@ public class DataBase : MonoBehaviour
 {
     public static DataBase DB;
 
-    //Audition Index
-    public int auditionIndex = 0;
-
     public string path;
 
     private static List<string> dontDestroyObjects = new List<string>();

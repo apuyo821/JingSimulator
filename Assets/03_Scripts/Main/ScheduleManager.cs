@@ -167,22 +167,14 @@ public class ScheduleManager : MonoBehaviour
     {
         switch (_actNum)
         {
-            //workout
-            case 0:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.strength += 2;
-                DataBase.DB.playerData.HP -= 3;
-                DataBase.DB.playerData.MP -= 1;
-                break;
-
-            //drawing
+            //vocalTraning
             case 1:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.deft += 2;
                 DataBase.DB.playerData.HP -= 1;
                 break;
 
-            //vocalTraning
+            //danceTraning
             case 2:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.rizz++;
@@ -191,7 +183,7 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP -= 1;
                 break;
 
-            //danceTraning
+            //broadcast
             case 3:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.rizz++;
@@ -200,7 +192,7 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP -= 1;
                 break;
 
-            //actTraining
+            //Game
             case 4:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.rizz += 2;
@@ -208,19 +200,19 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP -= 2;
                 break;
 
-            //skinCare
+            //GYM
             case 5:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.rizz += 4;
                 DataBase.DB.playerData.MP += 1;
                 break;
 
-            //미정
+            //Drawing
             case 6:
                 vCams[_actNum].Priority = 11;
                 break;
 
-            //Game
+            //Guitar
             case 7:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.HP += 4;
@@ -228,13 +220,14 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.game += 2;
                 break;
 
-            //WalkPark
+            //Hamburger
             case 8:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.HP += 1;
                 DataBase.DB.playerData.MP += 5;
                 break;
 
+            //Commission
             case 9:
                 vCams[_actNum].Priority = 11;
                 DataBase.DB.playerData.HP += 1;
@@ -302,7 +295,6 @@ public class ScheduleManager : MonoBehaviour
 
     public bool eventCheck(int _dday)
     {
-        Debug.Log(_dday);
         switch (_dday)
         {
             case 50:
@@ -341,7 +333,7 @@ public class ScheduleManager : MonoBehaviour
     //오디션 진행
     public void AuditionPricessing()
     {
-        SceneManager.LoadScene("auditionScene");
+        SceneManager.LoadScene("Audition");
     }
 
     //스케쥴 버튼 눌렀을 때, HP나 MP를 검사하여 '휴식' 이벤트 판단하는 코드
