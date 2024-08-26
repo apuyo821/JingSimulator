@@ -113,15 +113,15 @@ public class TrumpetJudge : MonoBehaviour
     void scoreCalculate()
     {
         if (score >= 2000)
-            resultRank = "S";
+            resultRank = "1등";
         else if (score < 2000 && score >= 1500)
-            resultRank = "A";
+            resultRank = "2등";
         else if (score < 1500 && score >= 500)
-            resultRank = "B";
+            resultRank = "3등";
         else if (score < 500 && score >= 0)
-            resultRank = "C";
+            resultRank = "4등";
         else if (score <= 0)
-            resultRank = "D";
+            resultRank = "탈락";
     }
 
     void noteVeloSet(int _velo)

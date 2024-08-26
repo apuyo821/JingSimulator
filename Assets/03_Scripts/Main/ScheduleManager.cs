@@ -13,11 +13,10 @@ public class ScheduleManager : MonoBehaviour
     [SerializeField] float actChgTime;
     public int daycount = 0;
     public static int[] schedules;
-    public CinemachineVirtualCamera[] vCams;
-    //public static bool isActing;
+    public GameObject[] SchedulePlace;
 
     buttonManager buttonManager;
-    public GameObject panel_select_task;
+    public GameObject[] UIObjects;  //0 : panel_select_task, 1 : panel_select
     public Text dDayTxT;
     public Text MonthWeekText;
     string WeekName;
@@ -34,7 +33,6 @@ public class ScheduleManager : MonoBehaviour
     void Awake()
     {
         schedules = new int[3];
-        //isActing = false;
     }
 
     //버튼매니저 오브제와 스크립트 불러오기
@@ -153,7 +151,7 @@ public class ScheduleManager : MonoBehaviour
            schedules[2] != 0)
         {
             //일과 선택 패널 숨김
-            GameObject.Find("panel_select_task").SetActive(false);
+            UIObjects[0].SetActive(false);
 
             //행동 진행 중 다른 버튼 비활성화
             buttonManager.falseBtnItr();
@@ -165,73 +163,88 @@ public class ScheduleManager : MonoBehaviour
     //n초의 시간 동안 행동 진행
     IEnumerator Process(int _actNum)
     {
+        UIObjects[1].SetActive(false);  
+        SchedulePlace[0].SetActive(false);
+        SchedulePlace[_actNum].SetActive(true);
         switch (_actNum)
         {
             //vocalTraning
             case 1:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.deft += 2;
-                DataBase.DB.playerData.HP -= 1;
+                DataBase.DB.playerData.HP -= 3;
+                DataBase.DB.playerData.MP -= 1;
+                DataBase.DB.playerData.vocal += 2;
+                DataBase.DB.playerData.vocalCount++;
+                DataBase.DB.playerData.rizz += 2;
+                DataBase.DB.playerData.misukham += 1;
                 break;
 
             //danceTraning
             case 2:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.rizz++;
-                DataBase.DB.playerData.vocal++;
-                DataBase.DB.playerData.HP -= 2;
+                DataBase.DB.playerData.HP  -= 8;
                 DataBase.DB.playerData.MP -= 1;
+                DataBase.DB.playerData.dance += 2;
+                DataBase.DB.playerData.danceCount++;
+                DataBase.DB.playerData.rizz += 2;
+                DataBase.DB.playerData.misukham += 1;
                 break;
 
             //broadcast
             case 3:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.rizz++;
-                DataBase.DB.playerData.dance++;
-                DataBase.DB.playerData.HP -= 3;
-                DataBase.DB.playerData.MP -= 1;
+                DataBase.DB.playerData.HP -= 5;
+                DataBase.DB.playerData.MP -= 4;
+                DataBase.DB.playerData.rizz += 7;
+                DataBase.DB.playerData.broadcastCount++;
+                DataBase.DB.playerData.misukham += 1;
                 break;
 
             //Game
             case 4:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.rizz += 2;
-                DataBase.DB.playerData.HP -= 2;
-                DataBase.DB.playerData.MP -= 2;
+                DataBase.DB.playerData.HP += 4;
+                DataBase.DB.playerData.MP += 3;
+                DataBase.DB.playerData.misukham--;
+                DataBase.DB.playerData.gameCOunt++;
                 break;
 
             //GYM
             case 5:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.rizz += 4;
+                DataBase.DB.playerData.HP += 3;
                 DataBase.DB.playerData.MP += 1;
+                DataBase.DB.playerData.strength += 10;
                 break;
 
             //Drawing
             case 6:
-                vCams[_actNum].Priority = 11;
+                DataBase.DB.playerData.HP += 2;
+                DataBase.DB.playerData.MP += 2;
+                DataBase.DB.playerData.deft += 7;
+                DataBase.DB.playerData.misukham--;
                 break;
 
             //Guitar
             case 7:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.HP += 4;
-                DataBase.DB.playerData.MP += 3;
-                DataBase.DB.playerData.game += 2;
+                DataBase.DB.playerData.HP++;
+                DataBase.DB.playerData.MP += 2;
+                DataBase.DB.playerData.deft += 6;
+                DataBase.DB.playerData.misukham--;
                 break;
 
             //Hamburger
             case 8:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.HP += 1;
-                DataBase.DB.playerData.MP += 5;
+                DataBase.DB.playerData.HP -= 7;
+                DataBase.DB.playerData.MP -= 5;
+                DataBase.DB.playerData.deft += 3;
+                DataBase.DB.playerData.money += 100;
+                DataBase.DB.playerData.misukham--;
+
                 break;
 
             //Commission
             case 9:
-                vCams[_actNum].Priority = 11;
-                DataBase.DB.playerData.HP += 1;
-                DataBase.DB.playerData.MP += 5;
+                DataBase.DB.playerData.HP -= 2;
+                DataBase.DB.playerData.MP -= 2;
+                DataBase.DB.playerData.deft += 12;
+                DataBase.DB.playerData.money += 40;
+                DataBase.DB.playerData.misukham--;
                 break;
 
             default:
@@ -240,7 +253,8 @@ public class ScheduleManager : MonoBehaviour
         daycount++;
 
         yield return new WaitForSeconds(actFlowTIme); //행동 진행 시간
-        vCams[_actNum].Priority = 5;
+        SchedulePlace[_actNum].SetActive(false);
+        SchedulePlace[0].SetActive(true);
         yield return new WaitForSeconds(actChgTime); //배경 전환 시간, 집으로 카메라 바뀌었다가 행동 배경으로 전환
         
         if(daycount < 3)
@@ -264,6 +278,8 @@ public class ScheduleManager : MonoBehaviour
             eventCheck(DataBase.DB.playerData.dDay);
             yield return new WaitUntil(() => isGO == true);
 
+            UIObjects[1].SetActive(true);
+
             //선택 된 행동들 리셋 및 비활성화된 버튼들 다시 활성화
             for (int index = 0; index < schedules.Length; index++)
             {
@@ -286,7 +302,7 @@ public class ScheduleManager : MonoBehaviour
                 buttonManager.btn[5].gameObject.SetActive(true);
             }
             //HP가 0일 때 휴식 이벤트
-            if (DataBase.DB.playerData.HP < 1)
+            if (DataBase.DB.playerData.HP < 1 || DataBase.DB.playerData.MP < 1)
             {
                 buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
             }
@@ -346,19 +362,21 @@ public class ScheduleManager : MonoBehaviour
         }
         else
         {
-            panel_select_task.SetActive(true);
+            UIObjects[0].SetActive(true);
         }
     }
 
     //체력 or MP가 0일 때의 이벤트
     IEnumerator IsZero()
     {
-        vCams[10].Priority = 11;
+        SchedulePlace[0].SetActive(false);
+        SchedulePlace[10].SetActive(true);
         DataBase.DB.playerData.dDay--;
         DataBase.DB.playerData.HP += 25;
         DataBase.DB.playerData.MP += 13;
         yield return new WaitForSeconds(4.0f);
-        vCams[10].Priority = 5;
+        SchedulePlace[10].SetActive(false);
+        SchedulePlace[0].SetActive(true);
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
         buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";

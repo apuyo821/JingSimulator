@@ -15,7 +15,7 @@ public class GalleryManager : MonoBehaviour
     string serializeText, LoadDataText;
 
     public static List<int> EndingIndex = new List<int>();
-    public List<int> EventIndex = new List<int>();
+    public static List<int> EventIndex = new List<int>();
     public List<int> savedInfo = new List<int>();
     List<int> dummyData;
 
@@ -57,10 +57,14 @@ public class GalleryManager : MonoBehaviour
         EndingIndex.Add(9);
         EndingIndex.Add(11);
         EndingIndex.Add(2);
+        EventIndex.Add(1);
+        
         foreach (GameObject i in illustPanel)
         {
             i.SetActive(false);
         }
+
+        //세이브 과정, 병력을 직렬로 하고 키와 함께 저장, 그 후 레포지트리에 전체적으로 저장
         string endingSerializedData = Serialize(EndingIndex);
         string eventSerializedData = Serialize(EventIndex);
         PlayerPrefs.SetString(EndingKey, endingSerializedData);

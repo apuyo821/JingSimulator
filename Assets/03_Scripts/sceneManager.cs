@@ -31,4 +31,9 @@ public class sceneManager : MonoBehaviour
     {
         SceneManager.LoadScene("ScheduleProcess");
     }
+
+    public void GoToEventScene()
+    {
+        SceneManager.LoadScene("Event");
+    }
 }

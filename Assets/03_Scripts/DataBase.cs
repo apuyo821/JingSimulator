@@ -30,7 +30,17 @@ public class PlayerData
     public int rizz = 0;         //4, ¸Å·Â
     public int dance = 0;        //5, ´í½º
     public int misukham = 0;      //6, ¹Ì¼÷ÇÔ
-    public int game = 0;
+
+    public int firstPlace = 0;
+    public int rankScore = 0;
+
+    public int danceCount = 0;
+    public int vocalCount = 0;
+    public int broadcastCount = 0;
+    public int GYMCount = 0;
+    public int gameCOunt = 0;
+    public int drawingCount = 0;
+    public int guitarCount = 0;
 
     public List<ItemData> itemDatas;
 }
