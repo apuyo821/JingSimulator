@@ -55,7 +55,7 @@ public class jingMove : MonoBehaviour
     {
         while (veloControlBool)
         {
-            coolTime = Random.Range(1, 4);
+            coolTime = Random.Range(2, 4);
             yield return new WaitForSeconds(coolTime);
             veloX = Random.Range(-2, 3) * 2;
         }

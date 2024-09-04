@@ -11,7 +11,7 @@ public class PlayerData
     public int auditionIndex = 0;
 
     //날짜 정보
-    public int dDay = 50;
+    public int dDay = 40;
     public int week = 3;        //0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
     public int Month = 7;
     public int Day = 7;
@@ -43,6 +43,8 @@ public class PlayerData
     public int guitarCount = 0;
 
     public List<ItemData> itemDatas;
+    public List<int> EndingIndex = new List<int>();
+    public List<int> EventIndex = new List<int>();
 }
 
 public class DataBase : MonoBehaviour
@@ -52,7 +54,7 @@ public class DataBase : MonoBehaviour
     public string path;
 
     private static List<string> dontDestroyObjects = new List<string>();
-    public PlayerData playerData = new PlayerData();
+    public PlayerData playerData;
 
     private void Awake()
     {
@@ -68,12 +70,13 @@ public class DataBase : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         path = Application.persistentDataPath + "/jingsave";
-
+        playerData = new PlayerData();
         playerData.itemDatas = new List<ItemData>();
     }
 
     public void SaveData(int slotIndex)
     {
+        GalleryManager.galleryManager.SaveData();
         string JsonData = JsonUtility.ToJson(playerData, true);
         File.WriteAllText(path + slotIndex.ToString(), JsonData);
     }

@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class GalleryManager : MonoBehaviour
 {
+    public static GalleryManager galleryManager;
+
     public GameObject[] illustPanel;
 
     public GameObject[] EndingCards;
@@ -14,14 +17,25 @@ public class GalleryManager : MonoBehaviour
     string EventKey = "EventNum";
     string serializeText, LoadDataText;
 
-    public static List<int> EndingIndex = new List<int>();
+    public static List<int> EndingTypeIndex = new List<int>();
     public static List<int> EventIndex = new List<int>();
-    public List<int> savedInfo = new List<int>();
+    //public List<int> savedInfo = new List<int>();
     List<int> dummyData;
+    public SaveRefreshInfo saveRefresh = new SaveRefreshInfo();
 
     bool endingFirst = false;
     bool eventFirst = false;
+
     int j = 1;
+
+    string path;
+
+    private void Awake()
+    {
+        galleryManager = this;
+
+        path = Application.persistentDataPath + "/jingsave";
+    }
 
     public string Serialize(List<int> _indexData)
     {
@@ -29,12 +43,16 @@ public class GalleryManager : MonoBehaviour
         if (_indexData.Count > 0)
         {
             serializeText += _indexData[0].ToString();
-            do
+            if(_indexData.Count > 1)
             {
-                serializeText += "," + _indexData[j].ToString();
-                ++j;
-            } while (j < _indexData.Count);
-            j = 1;
+                do
+                {
+                    serializeText += "," + _indexData[j].ToString();
+                    ++j;
+                } while (j < _indexData.Count);
+                //j를 1로 초기화
+                j = 1;
+            }
             return serializeText;
         }
         else
@@ -43,30 +61,88 @@ public class GalleryManager : MonoBehaviour
 
     public List<int> Deserialize(string data)
     {
-        dummyData = new List<int>();
-        string[] parts = data.Split(',');
-        for (int i = 0; i < parts.Length; i++)
+        if (data.Length > 0)
         {
-            dummyData.Add(int.Parse(parts[i]));
+            dummyData = new List<int>();
+            string[] parts = data.Split(',');
+            for (int i = 0; i < parts.Length; i++)
+            {
+                dummyData.Add(int.Parse(parts[i]));
+            }
+            return dummyData;
         }
-        return dummyData;
+        else
+            return null;
     }
 
     private void Start()
     {
-        EndingIndex.Add(9);
-        EndingIndex.Add(11);
-        EndingIndex.Add(2);
-        EventIndex.Add(1);
+        //PlayerPrefs.DeleteAll();
         
         foreach (GameObject i in illustPanel)
         {
             i.SetActive(false);
         }
 
-        //세이브 과정, 병력을 직렬로 하고 키와 함께 저장, 그 후 레포지트리에 전체적으로 저장
-        string endingSerializedData = Serialize(EndingIndex);
-        string eventSerializedData = Serialize(EventIndex);
+        setUp();
+    }
+
+    public void setUp()
+    {
+        LoadData(0);
+        LoadData(1);
+        for (int i = 1; i < 7; i++)
+        {
+            if (File.Exists(path + $"{i}"))
+            {
+                saveRefresh = new SaveRefreshInfo();
+                saveRefresh = GetDummySave(i);
+                if (saveRefresh.EndingIndex.Count > 0)
+                {
+                    for (int j = 0; j < saveRefresh.EndingIndex.Count; j++)
+                    {
+                        bool isExit = false;
+                        if(EndingTypeIndex.Count > 0)
+                        {
+                            for (int k = 0; k < EndingTypeIndex.Count; k++)
+                            {
+                                if (saveRefresh.EndingIndex[j] == EndingTypeIndex[k])
+                                {
+                                    isExit = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                        if (!isExit)
+                        {
+                            EndingTypeIndex.Add(saveRefresh.EndingIndex[j]);
+                        }
+                    }
+                }
+            }
+        }
+        DataBase.DB.playerData.EndingIndex = EndingTypeIndex;
+        string endingSerializedData = Serialize(DataBase.DB.playerData.EndingIndex);
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetString(EndingKey, endingSerializedData);
+        PlayerPrefs.Save();
+    }
+
+    SaveRefreshInfo GetDummySave(int saveIndex)
+    {
+        string sss = File.ReadAllText(path + saveIndex.ToString());
+        SaveRefreshInfo dummySaveData = JsonUtility.FromJson<SaveRefreshInfo>(sss);
+        return dummySaveData;
+    }
+
+    public void SaveData()
+    {
+        string endingSerializedData = Serialize(DataBase.DB.playerData.EndingIndex);
+        string eventSerializedData = Serialize(DataBase.DB.playerData.EventIndex);
         PlayerPrefs.SetString(EndingKey, endingSerializedData);
         PlayerPrefs.SetString(EventKey, eventSerializedData);
         PlayerPrefs.Save();
@@ -74,38 +150,40 @@ public class GalleryManager : MonoBehaviour
 
     public void LoadData(int _index)
     {
+        LoadDataText = "";
         if (PlayerPrefs.HasKey(EndingKey))
         {
             LoadDataText = "";
             switch (_index)
             {
                 case 0:
+                    EndingTypeIndex = new List<int>();
                     LoadDataText = PlayerPrefs.GetString("EndingNum");
+                    EndingTypeIndex = Deserialize(LoadDataText);
                     break;
 
                 case 1:
+                    EventIndex = new List<int>();
                     LoadDataText = PlayerPrefs.GetString("EventNum");
+                    EventIndex = Deserialize(LoadDataText);
                     break;
 
                 default:
                     break;
             }
-            EndingIndex = new List<int>();
-            EndingIndex = Deserialize(LoadDataText);
-            showEnding(_index);
         }
     }
 
-    void showEnding(int _index)
+    public void show(int _index)
     {
         switch (_index)
         {
             case 0:
                 if(endingFirst == false)
                 {
-                    for (int i = 0; i < EndingIndex.Count; i++)
+                    for (int i = 0; i < DataBase.DB.playerData.EndingIndex.Count; i++)
                     {
-                        GalleryCards galleryCards = EndingCards[EndingIndex[i]].GetComponent<GalleryCards>();
+                        GalleryCards galleryCards = EndingCards[EndingTypeIndex[i]].GetComponent<GalleryCards>();
                         galleryCards.ImageChange(1);
                     }
                     endingFirst = true;
@@ -119,9 +197,9 @@ public class GalleryManager : MonoBehaviour
             case 1:
                 if (eventFirst == false)
                 {
-                    for (int i = 0; i < EndingIndex.Count; i++)
+                    for (int i = 0; i < DataBase.DB.playerData.EventIndex.Count; i++)
                     {
-                        GalleryCards galleryCards = EventCards[EndingIndex[i]].GetComponent<GalleryCards>();
+                        GalleryCards galleryCards = EventCards[EventIndex[i]].GetComponent<GalleryCards>();
                         galleryCards.ImageChange(1);
                     }
                     eventFirst = true;

@@ -7,6 +7,8 @@ public class AuditionManager : MonoBehaviour
     public GameObject[] rythmGameSystem;
     public GameObject[] endingIllust;
 
+    public EndingTransition endingTransition;
+
     string ending;
     int endingType;
 
@@ -17,12 +19,23 @@ public class AuditionManager : MonoBehaviour
             rythmGameSystem[i].SetActive(false);
         }
 
-        Debug.Log(DataBase.DB.playerData.auditionIndex);
+        switch (DataBase.DB.playerData.auditionIndex)
+        {
+            case 0:
+                rythmGameSystem[0].SetActive(true);
+                break;
 
-        if (DataBase.DB.playerData.auditionIndex == 0)
-            rythmGameSystem[0].SetActive(true);
-        else if (DataBase.DB.playerData.auditionIndex == 1)
-            rythmGameSystem[1].SetActive(true);
+            case 1:
+                rythmGameSystem[1].SetActive(true);
+                break;
+
+            case 3:
+                AuditionResultCalculate(DataBase.DB);
+                break;
+
+            default:
+                break;
+        }
     }
 
     public void AuditionResultCalculate(DataBase dataBase)
@@ -102,7 +115,7 @@ public class AuditionManager : MonoBehaviour
                 ending = "±âÅ¸ À¯Æ©¹ö";
             }
         }
-        GalleryManager.EndingIndex.Add(endingType);
-        endingIllust[endingType].SetActive(true);
+        GalleryManager.EndingTypeIndex.Add(6);
+        endingTransition.ProcessStart(endingType);
     }
 }

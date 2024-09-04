@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ItemButton : MonoBehaviour
 {
     public int buttonItemID;
     public ItemManager itemManager;
     public buttonManager buttonManager;
+
+    public AudioSource omuriceAudioSource;
+    public GameObject jellyBinIntroducePanel;
+    public GameObject skipButton;
 
     int minusMoney = 0;
     int itemOrder;
@@ -33,6 +39,75 @@ public class ItemButton : MonoBehaviour
         Item itemCs = itemManager.items[itemOrder].GetComponent<Item>();
         itemCs.itemData.ItemCount--;
         DataBase.DB.playerData.itemDatas[itemOrder].ItemCount--;
+        switch (buttonItemID)
+        {
+            case 1001:
+                DataBase.DB.playerData.HP += 6;
+                break;
+
+            case 1002:
+                DataBase.DB.playerData.MP += 4;
+                break;
+
+            case 1003:
+                int random = Random.Range(1, 5);
+                int plusminus = Random.Range(-3, 6);
+                string changeString ,statusName ="", pmText ="";
+                switch (random)
+                {
+                    case 0:
+                        statusName = "손재주";
+                        DataBase.DB.playerData.deft += plusminus;
+                        break;
+
+                    case 1:
+                        statusName = "가창력";
+                        DataBase.DB.playerData.vocal += plusminus;
+                        break;
+
+                    case 2:
+                        statusName = "근력";
+                        DataBase.DB.playerData.strength += plusminus;
+                        break;
+
+                    case 3:
+                        statusName = "매력";
+                        DataBase.DB.playerData.rizz += plusminus;
+                        break;
+
+                    case 4:
+                        statusName = "댄스";
+                        DataBase.DB.playerData.dance += plusminus;
+                        break;
+
+                    default:
+                        break;
+                }
+                if (plusminus > 0)
+                    pmText = "증가";
+                else
+                    pmText = "감소";
+                TMP_Text introduceText = jellyBinIntroducePanel.gameObject.GetComponentInChildren<TMP_Text>();
+                changeString = introduceText.text;
+                introduceText.text = changeString.Replace("OO".ToString(), statusName).Replace("n".ToString(),plusminus.ToString()).Replace("MM".ToString(),pmText);
+                jellyBinIntroducePanel.SetActive(true);
+                break;
+
+            //useButton 클릭하자마자 소리 나오고 스킵 버튼 나오기
+            case 1004:
+                DataBase.DB.playerData.rizz += 10;
+                skipButton.SetActive(true);
+                omuriceAudioSource.Play();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void omuriceSkip()
+    {
+        omuriceAudioSource.Stop();
     }
 
     public void hideExplainPanel()
@@ -49,15 +124,19 @@ public class ItemButton : MonoBehaviour
         switch (_itemID)
         {
             case 1001:
-                minusMoney = 300;
+                minusMoney = 140;
                 break;
 
             case 1002:
-                minusMoney = 500;
+                minusMoney = 80;
                 break;
 
             case 1003:
-                minusMoney = 700;
+                minusMoney = 200;
+                break;
+
+            case 1004:
+                minusMoney = 300;
                 break;
 
             default:

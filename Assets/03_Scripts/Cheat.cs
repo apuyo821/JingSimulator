@@ -22,7 +22,7 @@ public class Cheat : MonoBehaviour
         InputInt = int.Parse(Input.text);
         DataBase.DB.playerData.dDay = int.Parse(Input.text);
         schedule.dDaySet(DataBase.DB.playerData.dDay);
-        DataBase.DB.playerData.Day = (50 - DataBase.DB.playerData.dDay) + 7;
+        DataBase.DB.playerData.Day = (40 - DataBase.DB.playerData.dDay) + 7;
         if (DataBase.DB.playerData.Day > 31)
         {
             DataBase.DB.playerData.Day -= 31;
@@ -49,5 +49,24 @@ public class Cheat : MonoBehaviour
     public void MpZero()
     {
         DataBase.DB.playerData.MP = 0;
+    }
+
+    public void moneyPlus()
+    {
+        DataBase.DB.playerData.money += 99999;
+    }
+
+    public void strUp()
+    {
+        DataBase.DB.playerData.strength += 100;
+    }
+
+    public void deftUp()
+    {
+        DataBase.DB.playerData.deft += 100;
+    }
+    public void misukhmaUp()
+    {
+        DataBase.DB.playerData.misukham += 100;
     }
 }

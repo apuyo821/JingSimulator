@@ -1,4 +1,4 @@
-using System;
+//using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class ScheduleManager : MonoBehaviour
 {
-    [SerializeField] float actFlowTIme;
-    [SerializeField] float actChgTime;
-    public int daycount = 0;
+    public float actFlowTIme;
+    public float actChgTime;
+    public static int daycount = 0;
     public static int[] schedules;
     public GameObject[] SchedulePlace;
 
@@ -25,9 +25,17 @@ public class ScheduleManager : MonoBehaviour
     public bool isEvent = false;
     public bool isFirst = true;
     public bool isGO = false;
+    public static bool isActing;
+    public static bool isHome;
+
     [SerializeField] GameObject itrObj;
     [SerializeField] InteractionEvent itrCs;
     [SerializeField] DialogueManager dmCs;
+
+    public GameObject[] jingObjs;
+    public ProcessBar processBar;
+
+    int hpChangeValue,hpPreviusValue;
 
     //초기값 초기화
     void Awake()
@@ -163,9 +171,14 @@ public class ScheduleManager : MonoBehaviour
     //n초의 시간 동안 행동 진행
     IEnumerator Process(int _actNum)
     {
-        UIObjects[1].SetActive(false);  
+        isHome = false;
+        UIObjects[1].SetActive(false);
         SchedulePlace[0].SetActive(false);
         SchedulePlace[_actNum].SetActive(true);
+        isActing = true;
+        jingAnimControl.jingAnim.animPosSet(_actNum);
+        processBar.processTimerStart();
+        hpPreviusValue = DataBase.DB.playerData.HP;
         switch (_actNum)
         {
             //vocalTraning
@@ -209,14 +222,14 @@ public class ScheduleManager : MonoBehaviour
             case 5:
                 DataBase.DB.playerData.HP += 3;
                 DataBase.DB.playerData.MP += 1;
-                DataBase.DB.playerData.strength += 10;
+                DataBase.DB.playerData.strength += 2;
                 break;
 
             //Drawing
             case 6:
                 DataBase.DB.playerData.HP += 2;
                 DataBase.DB.playerData.MP += 2;
-                DataBase.DB.playerData.deft += 7;
+                DataBase.DB.playerData.deft += 4;
                 DataBase.DB.playerData.misukham--;
                 break;
 
@@ -224,7 +237,7 @@ public class ScheduleManager : MonoBehaviour
             case 7:
                 DataBase.DB.playerData.HP++;
                 DataBase.DB.playerData.MP += 2;
-                DataBase.DB.playerData.deft += 6;
+                DataBase.DB.playerData.deft += 2;
                 DataBase.DB.playerData.misukham--;
                 break;
 
@@ -232,7 +245,7 @@ public class ScheduleManager : MonoBehaviour
             case 8:
                 DataBase.DB.playerData.HP -= 7;
                 DataBase.DB.playerData.MP -= 5;
-                DataBase.DB.playerData.deft += 3;
+                DataBase.DB.playerData.deft += 2;
                 DataBase.DB.playerData.money += 100;
                 DataBase.DB.playerData.misukham--;
 
@@ -242,7 +255,7 @@ public class ScheduleManager : MonoBehaviour
             case 9:
                 DataBase.DB.playerData.HP -= 2;
                 DataBase.DB.playerData.MP -= 2;
-                DataBase.DB.playerData.deft += 12;
+                DataBase.DB.playerData.deft += 8;
                 DataBase.DB.playerData.money += 40;
                 DataBase.DB.playerData.misukham--;
                 break;
@@ -250,11 +263,19 @@ public class ScheduleManager : MonoBehaviour
             default:
                 break;
         }
-        daycount++;
+        hpChangeValue = Mathf.Abs(DataBase.DB.playerData.HP - hpPreviusValue);
 
-        yield return new WaitForSeconds(actFlowTIme); //행동 진행 시간
+        //스탯 효과 점검
+        yield return new WaitForSeconds(actFlowTIme / (float)2);
+        statusCheck(DataBase.DB, hpChangeValue, _actNum);
+
+        yield return new WaitUntil(() => isActing == false);
+        daycount++;
         SchedulePlace[_actNum].SetActive(false);
+        isActing = false;
         SchedulePlace[0].SetActive(true);
+        isHome = true;
+        jingAnimControl.jingAnim.animPosSet(0);
         yield return new WaitForSeconds(actChgTime); //배경 전환 시간, 집으로 카메라 바뀌었다가 행동 배경으로 전환
         
         if(daycount < 3)
@@ -265,6 +286,7 @@ public class ScheduleManager : MonoBehaviour
         else
         {
             //datcount가 2 보다 크면 하루 스케쥴 종료 및 스탯, 날짜 정산
+            jingAnimControl.jingAnim.animPosSet(0);
             daycount = 0;
             DataBase.DB.playerData.dDay--;
 
@@ -288,7 +310,7 @@ public class ScheduleManager : MonoBehaviour
             buttonManager.trueBtnItr();
 
             //오디션 이벤트 발생
-            if (DataBase.DB.playerData.dDay == 39 || DataBase.DB.playerData.dDay == 26 || DataBase.DB.playerData.dDay == 19)
+            if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2)
             {
                 //fist, second, third Audition
                 buttonManager.btn[0].interactable = false;
@@ -313,7 +335,7 @@ public class ScheduleManager : MonoBehaviour
     {
         switch (_dday)
         {
-            case 50:
+            case 40:
                 isFirst = false;
                 isGO = false;
                 isEvent = true;
@@ -323,7 +345,7 @@ public class ScheduleManager : MonoBehaviour
                 itrCs.dialogueEvent.name = "튜토리얼";
                 break;
 
-            case 48:
+            case 38:
                 isGO = false;
                 isEvent = true;
                 itrCs.dialogueEvent.line.x = 4;
@@ -344,6 +366,49 @@ public class ScheduleManager : MonoBehaviour
         }
 
         return isGO;
+    }
+
+    void statusCheck(DataBase data, int _changeValue, int _actNum)
+    {
+        int statusType = Random.Range(0,3), gacha;
+        bool goal;
+        GameObject statusIcon = Instantiate(jingObjs[1], jingObjs[0].transform);
+        statusIcon.transform.parent = jingObjs[0].transform;
+        statusEffect statusIconCs = statusIcon.GetComponent<statusEffect>();
+        statusIconCs.statusType = statusType;
+        statusIconCs.iconMoving();
+        switch (statusType)
+        {
+            //str
+            case 0:
+                if((_actNum >= 1 && _actNum <=3) || _actNum == 8 || _actNum == 9)
+                {
+                    gacha = Random.Range(1, 101);
+                    if (goal = (gacha <= data.playerData.strength))
+                        data.playerData.HP += _changeValue;
+                }
+                break;
+
+            //deft
+            case 1:
+                if(_actNum == 8 || _actNum == 9)
+                {
+                    gacha = Random.Range(1, 101);
+                    if (goal = (gacha <= data.playerData.deft))
+                        data.playerData.money += 50;
+                }
+                break;
+
+            //misukham
+            case 2:
+                gacha = Random.Range(1, 101);
+                if (goal = (gacha <= Mathf.Abs(data.playerData.misukham)))
+                    data.playerData.MP -= 4;
+                break;
+
+            default:
+                break;
+        }
     }
 
     //오디션 진행

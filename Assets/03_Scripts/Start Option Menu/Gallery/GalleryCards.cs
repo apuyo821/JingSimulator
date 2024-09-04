@@ -8,11 +8,6 @@ public class GalleryCards : MonoBehaviour
     Image Image;
     public Sprite[] sprites;
 
-    private void Start()
-    {
-
-    }
-
     public void ImageChange(int _index)
     {
         Image = GetComponent<Image>();

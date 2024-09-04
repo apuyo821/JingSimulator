@@ -920,7 +920,6 @@ GameObject:
   - component: {fileID: 746316632}
   - component: {fileID: 746316631}
   - component: {fileID: 746316630}
-  - component: {fileID: 746316633}
   m_Layer: 5
   m_Name: Yes
   m_TagString: Untagged
@@ -1054,19 +1053,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746316628}
   m_CullTransparentMesh: 0
---- !u!114 &746316633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746316628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a771342dfc2dc194e8d0b4001e765933, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  database: {fileID: 1995361759962397850, guid: 685674c04062b3b409ede1c1713df122, type: 3}
 --- !u!1 &747213721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,6 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ca0306e3e62284cb8d9b3c1ffe5b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UiObjs: []
 --- !u!4 &747213723
 Transform:
   m_ObjectHideFlags: 0
@@ -1174,8 +1161,18 @@ MonoBehaviour:
     rizz: 0
     dance: 0
     misukham: 0
-    game: 0
+    firstPlace: 0
+    rankScore: 0
+    danceCount: 0
+    vocalCount: 0
+    broadcastCount: 0
+    GYMCount: 0
+    gameCOunt: 0
+    drawingCount: 0
+    guitarCount: 0
     itemDatas: []
+    EndingIndex: 
+    EventIndex: 
 --- !u!4 &847907995
 Transform:
   m_ObjectHideFlags: 0
@@ -1446,6 +1443,35 @@ MonoBehaviour:
   saveFile: 000000000000
   slotNum: 0
   path: 
+  saveRefreshInfo:
+    auditionIndex: 0
+    dDay: 50
+    week: 3
+    Month: 7
+    Day: 7
+    MaxHP: 50
+    HP: 50
+    MaxMP: 25
+    MP: 25
+    money: 0
+    deft: 0
+    vocal: 0
+    strength: 0
+    rizz: 0
+    dance: 0
+    misukham: 0
+    firstPlace: 0
+    rankScore: 0
+    danceCount: 0
+    vocalCount: 0
+    broadcastCount: 0
+    GYMCount: 0
+    gameCOunt: 0
+    drawingCount: 0
+    guitarCount: 0
+    itemDatas: []
+    EndingIndex: 
+    EventIndex: 
 --- !u!1001 &933971288
 PrefabInstance:
   m_ObjectHideFlags: 0

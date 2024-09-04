@@ -31,7 +31,9 @@ public class TrumpetCircle : MonoBehaviour
     {
         if(collision.transform.tag == "noteBody")
         {
-            noteCs.noteTime += 0.1f;
+            //noteCs.noteTime += 0.1f;
+            noteCs.noteTime += noteCs.velo * 0.01f;
+
         }
     }
 

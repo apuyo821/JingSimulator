@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         UISet(false);
-        daySet(DataBase.DB.playerData.dDay);
 
         //텍스트 파일에 있는 값들 유니티로 불러오기
         //텍스트 파일에 텍스트 들을 \n(엔터)를 기준으로 나누기 - 총 13개의 배열이 생성 된다
@@ -75,6 +74,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetMaxHPMental(DataBase.DB.playerData.MaxHP, DataBase.DB.playerData.MaxMP);
+        daySet(DataBase.DB.playerData.dDay);
+
     }
 
     private void Update()

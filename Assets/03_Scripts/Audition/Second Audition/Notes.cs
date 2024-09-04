@@ -29,6 +29,7 @@ public class Notes : MonoBehaviour
 
     public void startProcess()
     {
+        //TypeSetting();
         StartCoroutine(process());
     }
 
@@ -37,14 +38,12 @@ public class Notes : MonoBehaviour
         while (true)
         {
             //여기는 건드는거 아님
-            TypeSetting();
+            //TypeSetting();
             yield return null;
             //여기는 건드는거 아님
-            
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if(index == pressNoteIndex)
+            if (Input.anyKeyDown)
+                if (index == pressNoteIndex)
                 {
                     if (Input.GetKeyDown(KeyToPress))
                     {
@@ -54,7 +53,7 @@ public class Notes : MonoBehaviour
                     }
                     else
                     {
-                        for(int k = 0; k<noteList.Count; k++)
+                        for (int k = 0; k < noteList.Count; k++)
                         {
                             noteList[k].GetComponent<Image>().color = new Color32(225, 105, 105, 150);
                         }
@@ -77,7 +76,6 @@ public class Notes : MonoBehaviour
                         RemoveProcess();
                     }
                 }
-            }
         }
     }
 
@@ -109,6 +107,36 @@ public class Notes : MonoBehaviour
                 KeyToPress = KeyCode.DownArrow;
                 break;
 
+            case 4:
+                image.sprite = NoteType[typeNum];
+                KeyToPress = KeyCode.Q;
+                break;
+
+            case 5:
+                image.sprite = NoteType[typeNum];
+                KeyToPress = KeyCode.W;
+                break;
+
+            case 6:
+                image.sprite = NoteType[typeNum];
+                KeyToPress = KeyCode.E;
+                break;
+
+            case 7:
+                image.sprite = NoteType[typeNum];
+                KeyToPress = KeyCode.R;
+                break;
+
+            case 8:
+                image.sprite = NoteType[typeNum];
+                KeyToPress = KeyCode.T;
+                break;
+
+            case 9:
+                image.sprite = NoteType[typeNum];
+                KeyToPress = KeyCode.Y;
+                break;
+
             default:
                 break;
 
@@ -135,11 +163,26 @@ public class Notes : MonoBehaviour
     void ResultCalculate(int _miss, bool _clear)
     {
         if (_clear == true || _miss == 0)
-            resultRank = "S";
-        else if (_clear == true || _miss > 0 || _miss < 3)
-            resultRank = "A";
-        else if (_clear == true || _miss >= 3)
-            resultRank = "F";
+        {
+            resultRank = "1등";
+            DataBase.DB.playerData.firstPlace++;
+            DataBase.DB.playerData.rankScore++;
+        }
+        else if (_clear == true || _miss == 1)
+        {
+            resultRank = "2등";
+            DataBase.DB.playerData.rankScore += 2;
+        }
+        else if (_clear == true || _miss == 2)
+        {
+            resultRank = "3등";
+            DataBase.DB.playerData.rankScore += 3;
+        }
+        else if (_clear == false || _miss == 2)
+        {
+            resultRank = "4등";
+            DataBase.DB.playerData.rankScore += 4;
+        }
 
         RGManager.RGinstance.texts[3].text = resultRank;
     }

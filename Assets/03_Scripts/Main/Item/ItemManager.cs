@@ -19,6 +19,13 @@ public class ItemManager : MonoBehaviour
 
     public Text moneyTxt;
 
+    public List<Info> itemInfoList;
+
+    private void Awake()
+    {
+        
+    }
+
     private void Start()
     {
         items = new List<GameObject>();
@@ -87,15 +94,19 @@ public class ItemManager : MonoBehaviour
         switch (_itemID)
         {
             case 1001:
-                dummyItemName = "ÇÏÆ®";
+                dummyItemName = "burger";
                 break;
 
             case 1002:
-                dummyItemName = "Ine";
+                dummyItemName = "jingsix";
                 break;
 
             case 1003:
-                dummyItemName = "dumbell";
+                dummyItemName = "jellyBin";
+                break;
+
+            case 1004:
+                dummyItemName = "omurice";
                 break;
 
             default:

@@ -20,7 +20,7 @@ public class viewNowCursor : MonoBehaviour
     //ScheduleManager의 daycount에 따라서 지금 하는 행동을 가리키는 커서의 위치 변경
     void viweImgPosition()
     {
-        schedules = scheduleManagerCs.daycount;
+        schedules = ScheduleManager.daycount;
         switch (schedules)
         {
             case 0:

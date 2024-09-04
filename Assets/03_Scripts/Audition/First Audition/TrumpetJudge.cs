@@ -10,6 +10,7 @@ public class TrumpetJudge : MonoBehaviour
     [SerializeField] TrumpetNote noteCs;
     public Collider2D coll;
     public GameObject resultButton;
+    public GameObject explainPanel;
 
     int Miss;
 
@@ -27,8 +28,11 @@ public class TrumpetJudge : MonoBehaviour
 
     public List<GameObject> notenote = new List<GameObject>();
 
+    public Camera mainCamera;
     private void Start()
     {
+        mainCamera = Camera.main;
+        mainCamera.orthographic = true;
         beforeNoteObjs = GameObject.FindGameObjectsWithTag("Note");
         beforeNoteCss = new TrumpetNote[beforeNoteObjs.Length];
         for (int i = 0; i < beforeNoteCss.Length; i++)
@@ -36,10 +40,16 @@ public class TrumpetJudge : MonoBehaviour
             beforeNoteCss[i] = beforeNoteObjs[i].gameObject.GetComponent<TrumpetNote>();
         }
         noteVeloSet(0);
-        StartCoroutine(TimeCount());
+        explainPanel.SetActive(true);
         Miss = 0;
         combo = 0;
         resultButton.SetActive(false);
+    }
+
+    public void beforeStart()
+    {
+        explainPanel.SetActive(false);
+        StartCoroutine(TimeCount());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -63,6 +73,7 @@ public class TrumpetJudge : MonoBehaviour
                     Destroy(coll);
                 }
                 noteCs.DestroyTimer();
+                noteIndex++;
                 scoreJudge();
                 break;
 
@@ -77,28 +88,24 @@ public class TrumpetJudge : MonoBehaviour
         {
             score += 500;
             combo++;
-            noteIndex++;
             rank = "Perfect";
         }
         else if(noteCs.headHit == false && noteCs.noteTime >= 2 && noteCs.footHit == true)
         {
             score += 300;
             combo++;
-            noteIndex++;
             rank = "Good";
         }
         else if (noteCs.headHit == false && noteCs.noteTime < 2 && noteCs.footHit == true)
         {
             score += 100;
             combo = 0;
-            noteIndex++;
             rank = "OK";
         }
         else if (noteCs.headHit == false && noteCs.footHit == false)
         {
             Miss++;
             combo = 0;
-            noteIndex++;
             rank = "Miss";
         }
 
@@ -113,13 +120,26 @@ public class TrumpetJudge : MonoBehaviour
     void scoreCalculate()
     {
         if (score >= 2000)
+        {
             resultRank = "1등";
+            DataBase.DB.playerData.firstPlace++;
+            DataBase.DB.playerData.rankScore += 1;
+        }
         else if (score < 2000 && score >= 1500)
+        {
             resultRank = "2등";
+            DataBase.DB.playerData.rankScore += 2;
+        }
         else if (score < 1500 && score >= 500)
+        {
             resultRank = "3등";
+            DataBase.DB.playerData.rankScore += 3;
+        }
         else if (score < 500 && score >= 0)
+        {
             resultRank = "4등";
+            DataBase.DB.playerData.rankScore += 4;
+        }
         else if (score <= 0)
             resultRank = "탈락";
     }
@@ -156,7 +176,13 @@ public class TrumpetJudge : MonoBehaviour
         }
         TimeCountPanel.SetActive(false);
         yield return null;
-        noteVeloSet(10);
+        //noteVeloSet(10);
+        if (DataBase.DB.playerData.vocal >= 47)
+            noteVeloSet(6);
+        else if (DataBase.DB.playerData.vocal >= 35 && DataBase.DB.playerData.vocal < 47)
+            noteVeloSet(10);
+        else if (DataBase.DB.playerData.vocal < 35)
+            noteVeloSet(16);
         removeObjs();
     }
 }

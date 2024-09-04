@@ -7,6 +7,7 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] GameObject dialoguePanel;
     [SerializeField] GameObject StandingImage;
+    [SerializeField] GameObject dialogueObj;
 
     [SerializeField] Text txt_dialogue;
     [SerializeField] Text txt_name;
@@ -27,7 +28,7 @@ public class DialogueManager : MonoBehaviour
         buttonManager = GameObject.Find("ButtonManager").gameObject.GetComponent<buttonManager>();
         sm = GetComponent<SpriteManager>();
 
-        SettingUI(false);
+        dialogueObj.SetActive(false);
     }
 
     private void Update()
@@ -83,7 +84,8 @@ public class DialogueManager : MonoBehaviour
         txt_dialogue.text = "";
         txt_name.text = "";
 
-        SettingUI(true);
+        dialogueObj.SetActive(true);
+        //SettingUI(true);
         dialogues = p_dialogues;
 
         TypeWriter();
@@ -102,7 +104,7 @@ public class DialogueManager : MonoBehaviour
         dialogueCnt = 0;
         dialogues = null;
         isNext = false;
-        SettingUI(false);
+        dialogueObj.SetActive(false);
         scheduleManager.isGO = true;
         scheduleManager.isEvent = false;
         buttonManager.trueBtnItr();
@@ -110,7 +112,7 @@ public class DialogueManager : MonoBehaviour
 
     void TypeWriter()
     {
-        SettingUI(true);    // 대사창 이미지를 띄운다.
+        dialogueObj.SetActive(true);    // 대사창 이미지를 띄운다.
         ChangeSprite();		// 스탠딩 이미지를 변경한다.
 
         string t_ReplaceText = dialogues[dialogueCnt].contexts[contextCnt];   // 특수문자를 ,로 치환

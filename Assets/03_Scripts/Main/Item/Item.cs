@@ -96,17 +96,22 @@ public class Item : MonoBehaviour
         {
             case 1001:
                 itemIcon.sprite = itemSprite[0];
-                explainTxt.text = "하트입니다";
+                explainTxt.text = "닭가슴살 햄버거 : 체력을 회복해줍니다";
                 break;
 
             case 1002:
                 itemIcon.sprite = itemSprite[1];
-                explainTxt.text = "아이네입니다";
+                explainTxt.text = "징누 : 정신력을 회복해줍니다.";
                 break;
 
             case 1003:
                 itemIcon.sprite = itemSprite[2];
-                explainTxt.text = "덤벨입니다";
+                explainTxt.text = "젤리 빈 : 랜덤으로 스탯을 증감소합니다.";
+                break;
+
+            case 1004:
+                itemIcon.sprite = itemSprite[3];
+                explainTxt.text = "오무라이스 : 오무라이스.";
                 break;
 
             default:

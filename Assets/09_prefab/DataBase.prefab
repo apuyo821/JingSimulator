@@ -44,19 +44,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1379f751ad866478a372fa500dbb8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  auditionIndex: 0
-  dDay: 50
-  week: 3
-  Month: 7
-  Day: 7
-  MaxHP: 50
-  HP: 50
-  MaxMP: 25
-  MP: 25
-  money: 0
-  deft: 0
-  vocal: 0
-  strength: 0
-  rizz: 0
-  dance: 0
-  anknown: 0
+  path: 
+  playerData:
+    auditionIndex: 0
+    dDay: 40
+    week: 3
+    Month: 7
+    Day: 7
+    MaxHP: 50
+    HP: 50
+    MaxMP: 25
+    MP: 25
+    money: 0
+    deft: 0
+    vocal: 0
+    strength: 0
+    rizz: 0
+    dance: 0
+    misukham: 0
+    firstPlace: 0
+    rankScore: 0
+    danceCount: 0
+    vocalCount: 0
+    broadcastCount: 0
+    GYMCount: 0
+    gameCOunt: 0
+    drawingCount: 0
+    guitarCount: 0
+    itemDatas: []
+    EndingIndex: 
+    EventIndex: 
