@@ -417,6 +417,7 @@ MonoBehaviour:
   omuriceAudioSource: {fileID: 0}
   jellyBinIntroducePanel: {fileID: 0}
   skipButton: {fileID: 0}
+  buyButton: {fileID: 885393878773750398}
 --- !u!222 &3760191958680056890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -473,7 +474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1693782849425257708
 RectTransform:
   m_ObjectHideFlags: 0

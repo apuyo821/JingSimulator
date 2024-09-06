@@ -171,6 +171,7 @@ public class ScheduleManager : MonoBehaviour
     //n초의 시간 동안 행동 진행
     IEnumerator Process(int _actNum)
     {
+        Debug.Log(daycount);
         isHome = false;
         UIObjects[1].SetActive(false);
         SchedulePlace[0].SetActive(false);
@@ -371,12 +372,7 @@ public class ScheduleManager : MonoBehaviour
     void statusCheck(DataBase data, int _changeValue, int _actNum)
     {
         int statusType = Random.Range(0,3), gacha;
-        bool goal;
-        GameObject statusIcon = Instantiate(jingObjs[1], jingObjs[0].transform);
-        statusIcon.transform.parent = jingObjs[0].transform;
-        statusEffect statusIconCs = statusIcon.GetComponent<statusEffect>();
-        statusIconCs.statusType = statusType;
-        statusIconCs.iconMoving();
+        bool goal = false;
         switch (statusType)
         {
             //str
@@ -408,6 +404,14 @@ public class ScheduleManager : MonoBehaviour
 
             default:
                 break;
+        }
+        if (goal)
+        {
+            GameObject statusIcon = Instantiate(jingObjs[1], jingObjs[0].transform);
+            statusIcon.transform.parent = jingObjs[0].transform;
+            statusEffect statusIconCs = statusIcon.GetComponent<statusEffect>();
+            statusIconCs.statusType = statusType;
+            statusIconCs.iconMoving();
         }
     }
 

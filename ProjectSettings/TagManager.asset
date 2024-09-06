@@ -20,6 +20,9 @@ TagManager:
   - Shop
   - Item
   - Wall
+  - gagu
+  - eventScene
+  - room
   layers:
   - Default
   - TransparentFX

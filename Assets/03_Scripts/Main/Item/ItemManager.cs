@@ -21,6 +21,8 @@ public class ItemManager : MonoBehaviour
 
     public List<Info> itemInfoList;
 
+    bool isListExit;
+
     private void Awake()
     {
         
@@ -117,7 +119,7 @@ public class ItemManager : MonoBehaviour
 
     public void LoadData()
     {
-        if(DataBase.DB.playerData.itemDatas.Count > 0)
+        if (DataBase.DB.playerData.itemDatas != null)
         {
             for (int i = 0; i < DataBase.DB.playerData.itemDatas.Count; i++)
             {

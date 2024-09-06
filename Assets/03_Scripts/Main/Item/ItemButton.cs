@@ -17,6 +17,14 @@ public class ItemButton : MonoBehaviour
     int minusMoney = 0;
     int itemOrder;
 
+    public GameObject buyButton;
+    Image buttonImage;
+
+    private void Start()
+    {
+        buttonImage = buyButton.GetComponent<Image>();
+    }
+
     public void BuyItem()
     {
         CheckMoney(buttonItemID);
@@ -151,7 +159,21 @@ public class ItemButton : MonoBehaviour
         }
         else
         {
+            StartCoroutine(sparkleButton());
             minusMoney = 0;
         }
+    }
+
+    IEnumerator sparkleButton()
+    {
+        Button buyButtonButton = buyButton.GetComponent<Button>();
+        //buyButtonButton.interactable = false;
+        buyButtonButton.enabled = false;
+        Color previusColor = buttonImage.color;
+        Color newColor = new Color(255, 0, 0);
+        buttonImage.color = newColor;
+        yield return new WaitForSeconds(0.5f);
+        buttonImage.color = previusColor;
+        buyButtonButton.enabled = true;
     }
 }

@@ -14,8 +14,8 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] ScheduleManager scheduleManager;
     public Dialogue[] dialogues;
-    SpriteManager sm;
-    buttonManager buttonManager;
+    public  SpriteManager sm;
+    [SerializeField] buttonManager buttonManager;
 
     bool isNext = false;    // 특정 키 입력 대기를 위한 변수
     public int dialogueCnt = 0;    // 대화 카운트. 한 캐릭터가 다 말하면 1 증가
@@ -25,7 +25,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        buttonManager = GameObject.Find("ButtonManager").gameObject.GetComponent<buttonManager>();
+        if(transform.tag == "room")
+            buttonManager = GameObject.Find("ButtonManager").gameObject.GetComponent<buttonManager>();
         sm = GetComponent<SpriteManager>();
 
         dialogueObj.SetActive(false);
@@ -105,9 +106,16 @@ public class DialogueManager : MonoBehaviour
         dialogues = null;
         isNext = false;
         dialogueObj.SetActive(false);
-        scheduleManager.isGO = true;
-        scheduleManager.isEvent = false;
-        buttonManager.trueBtnItr();
+        if(transform.tag == "room")
+        {
+            scheduleManager.isGO = true;
+            scheduleManager.isEvent = false;
+            buttonManager.trueBtnItr();
+        }
+        if(transform.tag == "eventScene")
+        {
+            gameEventManager.isEnd = true;
+        }
     }
 
     void TypeWriter()
