@@ -71,8 +71,8 @@ public class Notes : MonoBehaviour
                         pressNoteIndex = 0;
                         RGManager.RGinstance.clear = true;
                         timerCS.timeStop();
-                        RGManager.RGinstance.winOrLose(0);  //success
                         ResultCalculate(RGManager.RGinstance.miss, RGManager.RGinstance.clear);
+                        RGManager.RGinstance.winOrLose(0);  //success
                         RemoveProcess();
                     }
                 }
@@ -178,7 +178,7 @@ public class Notes : MonoBehaviour
             resultRank = "3µî";
             DataBase.DB.playerData.rankScore += 3;
         }
-        else if (_clear == false || _miss == 2)
+        else if (_clear == false || _miss > 2)
         {
             resultRank = "4µî";
             DataBase.DB.playerData.rankScore += 4;

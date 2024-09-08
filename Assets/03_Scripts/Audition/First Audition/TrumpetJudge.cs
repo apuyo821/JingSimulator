@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class TrumpetJudge : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class TrumpetJudge : MonoBehaviour
     public GameObject resultButton;
     public GameObject explainPanel;
 
-    int Miss;
+    int Miss, noteVelo;
 
     public string rank;
     public int combo;
@@ -29,6 +30,10 @@ public class TrumpetJudge : MonoBehaviour
     public List<GameObject> notenote = new List<GameObject>();
 
     public Camera mainCamera;
+
+    [SerializeField] GameObject auditionStepExplainPanel;
+    [SerializeField] TMP_Text auditionStepExplainText;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -40,10 +45,45 @@ public class TrumpetJudge : MonoBehaviour
             beforeNoteCss[i] = beforeNoteObjs[i].gameObject.GetComponent<TrumpetNote>();
         }
         noteVeloSet(0);
-        explainPanel.SetActive(true);
         Miss = 0;
         combo = 0;
         resultButton.SetActive(false);
+        showStepExplainPanel();
+    }
+
+    void showStepExplainPanel()
+    {
+        if (DataBase.DB.playerData.vocal >= 35)
+            noteVelo = 6;
+        else if (DataBase.DB.playerData.vocal >= 28 && DataBase.DB.playerData.vocal < 35)
+            noteVelo = 10;
+        else if (DataBase.DB.playerData.vocal < 28)
+            noteVelo = 16;
+
+        switch (noteVelo)
+        {
+            case 6:
+                auditionStepExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
+                break;
+
+            case 10:
+                auditionStepExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
+                break;
+
+            case 16:
+                auditionStepExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
+                break;
+
+            default:
+                break;
+        }
+        auditionStepExplainPanel.SetActive(true);
+    }
+
+    public void showExplainPanel()
+    {
+        auditionStepExplainPanel.SetActive(false);
+        explainPanel.SetActive(true);
     }
 
     public void beforeStart()
@@ -176,13 +216,7 @@ public class TrumpetJudge : MonoBehaviour
         }
         TimeCountPanel.SetActive(false);
         yield return null;
-        //noteVeloSet(10);
-        if (DataBase.DB.playerData.vocal >= 47)
-            noteVeloSet(6);
-        else if (DataBase.DB.playerData.vocal >= 35 && DataBase.DB.playerData.vocal < 47)
-            noteVeloSet(10);
-        else if (DataBase.DB.playerData.vocal < 35)
-            noteVeloSet(16);
+        noteVeloSet(noteVelo);
         removeObjs();
     }
 }

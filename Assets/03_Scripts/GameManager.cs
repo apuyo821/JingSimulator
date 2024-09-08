@@ -90,6 +90,10 @@ public class GameManager : MonoBehaviour
             DataBase.DB.playerData.HP = 0;
         if (DataBase.DB.playerData.MP < 0)
             DataBase.DB.playerData.MP = 0;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            UISet(false);
+            
     }
 
     public void SetMaxHPMental(int _health, int _mental)

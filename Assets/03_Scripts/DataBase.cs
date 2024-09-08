@@ -91,4 +91,12 @@ public class DataBase : MonoBehaviour
     {
         playerData = new PlayerData();
     }
+
+    private void Update()
+    {
+        if(playerData.deft < 0 || playerData.strength < 0 || playerData.vocal < 0 || playerData.rizz < 0 || playerData.dance < 0 || playerData.misukham < 0)
+        {
+
+        }
+    }
 }

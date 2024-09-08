@@ -18,11 +18,12 @@ public class ItemButton : MonoBehaviour
     int itemOrder;
 
     public GameObject buyButton;
-    Image buttonImage;
+    [SerializeField] Image buttonImage;
 
     private void Start()
     {
-        buttonImage = buyButton.GetComponent<Image>();
+        if (transform.tag == "Shop")
+            buttonImage = GetComponent<Image>();
     }
 
     public void BuyItem()
@@ -50,11 +51,11 @@ public class ItemButton : MonoBehaviour
         switch (buttonItemID)
         {
             case 1001:
-                DataBase.DB.playerData.HP += 6;
+                DataBase.DB.playerData.HP += 8;
                 break;
 
             case 1002:
-                DataBase.DB.playerData.MP += 4;
+                DataBase.DB.playerData.MP += 6;
                 break;
 
             case 1003:
@@ -66,26 +67,36 @@ public class ItemButton : MonoBehaviour
                     case 0:
                         statusName = "손재주";
                         DataBase.DB.playerData.deft += plusminus;
+                        if (DataBase.DB.playerData.deft < 0)
+                            DataBase.DB.playerData.deft = 0;
                         break;
 
                     case 1:
                         statusName = "가창력";
                         DataBase.DB.playerData.vocal += plusminus;
+                        if (DataBase.DB.playerData.vocal < 0)
+                            DataBase.DB.playerData.vocal = 0;
                         break;
 
                     case 2:
                         statusName = "근력";
                         DataBase.DB.playerData.strength += plusminus;
+                        if (DataBase.DB.playerData.strength < 0)
+                            DataBase.DB.playerData.strength = 0;
                         break;
 
                     case 3:
                         statusName = "매력";
                         DataBase.DB.playerData.rizz += plusminus;
+                        if (DataBase.DB.playerData.rizz < 0)
+                            DataBase.DB.playerData.rizz = 0;
                         break;
 
                     case 4:
                         statusName = "댄스";
                         DataBase.DB.playerData.dance += plusminus;
+                        if (DataBase.DB.playerData.dance < 0)
+                            DataBase.DB.playerData.dance = 0;
                         break;
 
                     default:
@@ -97,8 +108,10 @@ public class ItemButton : MonoBehaviour
                     pmText = "감소";
                 TMP_Text introduceText = jellyBinIntroducePanel.gameObject.GetComponentInChildren<TMP_Text>();
                 changeString = introduceText.text;
-                introduceText.text = changeString.Replace("OO".ToString(), statusName).Replace("n".ToString(),plusminus.ToString()).Replace("MM".ToString(),pmText);
                 jellyBinIntroducePanel.SetActive(true);
+                introduceText.text = changeString.Replace("OO".ToString(), statusName).Replace("n".ToString(),plusminus.ToString()).Replace("MM".ToString(),pmText);
+                Debug.Log(statusName); Debug.Log(plusminus); Debug.Log(pmText);
+                
                 break;
 
             //useButton 클릭하자마자 소리 나오고 스킵 버튼 나오기

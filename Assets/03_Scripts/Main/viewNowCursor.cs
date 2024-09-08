@@ -58,7 +58,6 @@ public class viewNowCursor : MonoBehaviour
         {
             schedules = ScheduleManager.daycount;
             yield return new WaitUntil(() => ScheduleManager.isActing == true);
-            Debug.Log(schedules + 1);
             switch (schedules + 1)
             {
 

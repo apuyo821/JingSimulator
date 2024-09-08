@@ -43,7 +43,7 @@ public class FinalSelect : MonoBehaviour, IDropHandler
         {
             if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
             {
-                if (actType== 8 || actType == 9)
+                if (actType == 8)
                 {
                     //actType = actNum;
                     ScheduleManager.schedules[2] = actType;

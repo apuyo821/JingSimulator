@@ -22,11 +22,11 @@ public class shopItem : MonoBehaviour
         switch (itemID)
         {
             case 1001:
-                tmpText.text = "체력을 6만큼 회복시킵니다.";
+                tmpText.text = "체력을 8만큼 회복시킵니다.";
                 break;
 
             case 1002:
-                tmpText.text = "정신력을 4만큼 회복시킵니다.";
+                tmpText.text = "정신력을 6만큼 회복시킵니다.";
                 break;
 
             case 1003:

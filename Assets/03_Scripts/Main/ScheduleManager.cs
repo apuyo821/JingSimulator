@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ScheduleManager : MonoBehaviour
 {
@@ -60,6 +61,14 @@ public class ScheduleManager : MonoBehaviour
         {
             buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
         }
+
+        for (int i = 0; i < SchedulePlace.Length; i++)
+        {
+            SchedulePlace[i].SetActive(false);
+        }
+        SchedulePlace[0].SetActive(true);
+        isHome = true;
+        jingAnimControl.jingAnim.animPosSet(0);
     }
 
     void OnEnable()
@@ -171,7 +180,6 @@ public class ScheduleManager : MonoBehaviour
     //n초의 시간 동안 행동 진행
     IEnumerator Process(int _actNum)
     {
-        Debug.Log(daycount);
         isHome = false;
         UIObjects[1].SetActive(false);
         SchedulePlace[0].SetActive(false);
@@ -215,7 +223,7 @@ public class ScheduleManager : MonoBehaviour
             case 4:
                 DataBase.DB.playerData.HP += 4;
                 DataBase.DB.playerData.MP += 3;
-                DataBase.DB.playerData.misukham--;
+                DataBase.DB.playerData.misukham++;
                 DataBase.DB.playerData.gameCOunt++;
                 break;
 
@@ -231,7 +239,7 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP += 2;
                 DataBase.DB.playerData.MP += 2;
                 DataBase.DB.playerData.deft += 4;
-                DataBase.DB.playerData.misukham--;
+                DataBase.DB.playerData.misukham++;
                 break;
 
             //Guitar
@@ -239,7 +247,7 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP++;
                 DataBase.DB.playerData.MP += 2;
                 DataBase.DB.playerData.deft += 2;
-                DataBase.DB.playerData.misukham--;
+                DataBase.DB.playerData.misukham++;
                 break;
 
             //Hamburger
@@ -248,17 +256,7 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP -= 5;
                 DataBase.DB.playerData.deft += 2;
                 DataBase.DB.playerData.money += 100;
-                DataBase.DB.playerData.misukham--;
-
-                break;
-
-            //Commission
-            case 9:
-                DataBase.DB.playerData.HP -= 2;
-                DataBase.DB.playerData.MP -= 2;
-                DataBase.DB.playerData.deft += 8;
-                DataBase.DB.playerData.money += 40;
-                DataBase.DB.playerData.misukham--;
+                DataBase.DB.playerData.misukham++;
                 break;
 
             default:
@@ -287,7 +285,7 @@ public class ScheduleManager : MonoBehaviour
         else
         {
             //datcount가 2 보다 크면 하루 스케쥴 종료 및 스탯, 날짜 정산
-            jingAnimControl.jingAnim.animPosSet(0);
+            //jingAnimControl.jingAnim.animPosSet(0);
             daycount = 0;
             DataBase.DB.playerData.dDay--;
 
@@ -387,7 +385,7 @@ public class ScheduleManager : MonoBehaviour
 
             //deft
             case 1:
-                if(_actNum == 8 || _actNum == 9)
+                if(_actNum == 8)
                 {
                     gacha = Random.Range(1, 101);
                     if (goal = (gacha <= data.playerData.deft))
@@ -439,13 +437,15 @@ public class ScheduleManager : MonoBehaviour
     IEnumerator IsZero()
     {
         SchedulePlace[0].SetActive(false);
-        SchedulePlace[10].SetActive(true);
+        SchedulePlace[9].SetActive(true);
         DataBase.DB.playerData.dDay--;
         DataBase.DB.playerData.HP += 25;
         DataBase.DB.playerData.MP += 13;
+        jingAnimControl.jingAnim.animPosSet(9);
         yield return new WaitForSeconds(4.0f);
-        SchedulePlace[10].SetActive(false);
+        SchedulePlace[9].SetActive(false);
         SchedulePlace[0].SetActive(true);
+        jingAnimControl.jingAnim.animPosSet(0);
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
         buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";

@@ -15,46 +15,86 @@ public class jingAnimControl : MonoBehaviour
     Animator anim;
     public Sprite[] sprites;
 
-    private void Start()
+    private void Awake()
     {
         jingAnim = this;
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         jingRigid = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        //jingAnim = this;
         ScheduleManager.isHome = true;
-        StartCoroutine(Moving());
-        StartCoroutine(veloControl());
+        //StartCoroutine(Moving());
+        //StartCoroutine(veloControl());
         transform.position = new Vector3(0f, -2.45f, 0);
+        spriteRenderer.sprite = sprites[2];
     }
 
     public void animPosSet(int scheduleIndex)
     {
         transform.parent = scheduleManager.SchedulePlace[scheduleIndex].transform;
+        spriteRenderer.flipX = false;
+
 
         switch (scheduleIndex)
         {
+            //Main Room
             case 0:
+                spriteRenderer.sprite = sprites[2];
                 transform.position = new Vector3(0f, -2.45f, 0);
                 StartCoroutine(Moving());
                 StartCoroutine(veloControl());
                 break;
 
-            case 2:
+            //Vocal Academy
+            case 1:
                 transform.position = new Vector3(2f, -2.45f, 0);
-                StartCoroutine(Moving());
-                StartCoroutine(veloControl());
+                StartCoroutine(Singing());
                 break;
 
+            //DanceAcademy
+            case 2:
+                transform.position = new Vector3(2f, -2.45f, 0);
+                break;
+
+            //Gaming
+            case 4:
+                transform.position = new Vector3(0f, -2.45f, 0);
+                StartCoroutine(Gaming());
+                break;
+
+            //Work Out
+            case 5:
+                transform.position = new Vector3(-4.45f, -1.4f, 0);
+                StartCoroutine(WorkingOut());
+                break;
+
+            //Drawing
+            case 6:
+                transform.position = new Vector3(-6.35f, -0.5f, 0);
+                StartCoroutine(Drawing());
+                break;
+
+            //Guitar
             case 7:
-                transform.position = new Vector3(8f, -2.45f, 0);
+                transform.position = new Vector3(-0.45f, -1.75f, 0);
                 StartCoroutine(Guitaring());
                 break;
 
+            //Hamburger
             case 8:
                 transform.position = new Vector3(-6f, -2.45f, 0);
                 spriteRenderer.sprite = sprites[0];
                 StartCoroutine(Hamburger());
+                break;
+
+            //Rest
+            case 9:
+                transform.position = new Vector3(-6f, -2.45f, 0);
+                spriteRenderer.sprite = sprites[2];
                 break;
 
             default:
@@ -82,6 +122,34 @@ public class jingAnimControl : MonoBehaviour
         anim.SetBool("isHamburger", true);
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
         anim.SetBool("isHamburger", false);
+    }
+
+    IEnumerator Singing()
+    {
+        anim.SetBool("isSinging", true);
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        anim.SetBool("isSinging", false);
+    }
+
+    IEnumerator Gaming()
+    {
+        anim.SetBool("isGaming", true);
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        anim.SetBool("isGaming", false);
+    }
+
+    IEnumerator WorkingOut()
+    {
+        anim.SetBool("isWorkingOut", true);
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        anim.SetBool("isWorkingOut", false);
+    }
+
+    IEnumerator Drawing()
+    {
+        anim.SetBool("isDrawing", true);
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        anim.SetBool("isDrawing", false);
     }
 
     IEnumerator Moving()
@@ -115,7 +183,7 @@ public class jingAnimControl : MonoBehaviour
         {
             coolTime = Random.Range(2, 4);
             yield return new WaitForSeconds(coolTime);
-            veloX = Random.Range(-2, 3) * 2;
+            veloX = Random.Range(-1, 2) * 2;
         }
     }
 }
