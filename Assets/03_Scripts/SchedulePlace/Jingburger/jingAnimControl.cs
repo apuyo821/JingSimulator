@@ -35,6 +35,7 @@ public class jingAnimControl : MonoBehaviour
 
     public void animPosSet(int scheduleIndex)
     {
+        anim.enabled = true;
         transform.parent = scheduleManager.SchedulePlace[scheduleIndex].transform;
         spriteRenderer.flipX = false;
 
@@ -134,8 +135,27 @@ public class jingAnimControl : MonoBehaviour
     IEnumerator Gaming()
     {
         anim.SetBool("isGaming", true);
-        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        yield return new WaitForSeconds((float)scheduleManager.actFlowTIme / 3 * 2);
+        
         anim.SetBool("isGaming", false);
+        anim.enabled = false;
+        int wL = Random.Range(0, 2);
+        switch (wL)
+        {
+            case 0:
+                spriteRenderer.sprite = sprites[3];
+                break;
+
+            case 1:
+                spriteRenderer.sprite = sprites[4];
+                break;
+
+            default:
+                break;
+        }
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        yield return null;
+        anim.enabled = true;
     }
 
     IEnumerator WorkingOut()

@@ -31,6 +31,7 @@ public class Timer : MonoBehaviour
     {
         
         StopCoroutine(timeProcessCoroutine);
+        isEventing = false;
         slider.value = 0;
     }
 

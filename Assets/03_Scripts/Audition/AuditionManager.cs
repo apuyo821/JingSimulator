@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class AuditionManager : MonoBehaviour
 {
+    [SerializeField] GameObject auditionJing;
+    [SerializeField] auditionJingAnimControl auditionJingAnimControl;
+
     public GameObject[] rythmGameSystem;
     public GameObject[] endingIllust;
 
     public EndingTransition endingTransition;
 
-    string ending;
+    //string ending;
     int endingType;
 
     private void Start()
@@ -23,10 +26,18 @@ public class AuditionManager : MonoBehaviour
         {
             case 0:
                 rythmGameSystem[0].SetActive(true);
+                auditionJing.transform.parent = rythmGameSystem[0].transform;
+                auditionJing.transform.localPosition = new Vector3(600, 0, 0);
+                auditionJing.transform.localScale = new Vector3(90, 90, 90);
+                auditionJingAnimControl.firstAuditionAC();
                 break;
 
             case 1:
                 rythmGameSystem[1].SetActive(true);
+                auditionJing.transform.parent = rythmGameSystem[1].transform;
+                auditionJing.transform.localPosition = new Vector3(0, -140, 0);
+                auditionJing.transform.localScale = new Vector3(40, 40, 40);
+                auditionJingAnimControl.secondAuditionAC();
                 break;
 
             case 3:
@@ -42,6 +53,7 @@ public class AuditionManager : MonoBehaviour
     {
         int score = DataBase.DB.playerData.rankScore;
         int first = DataBase.DB.playerData.firstPlace;
+        string ending = "";
         if (score <= 6 && first >= 1)
         {
             ending = "æ∆¿Ãµπ";

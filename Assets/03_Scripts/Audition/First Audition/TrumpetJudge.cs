@@ -33,6 +33,7 @@ public class TrumpetJudge : MonoBehaviour
 
     [SerializeField] GameObject auditionStepExplainPanel;
     [SerializeField] TMP_Text auditionStepExplainText;
+    public bool isAuditioning = false;
 
     private void Start()
     {
@@ -216,6 +217,7 @@ public class TrumpetJudge : MonoBehaviour
         }
         TimeCountPanel.SetActive(false);
         yield return null;
+        isAuditioning = true;
         noteVeloSet(noteVelo);
         removeObjs();
     }

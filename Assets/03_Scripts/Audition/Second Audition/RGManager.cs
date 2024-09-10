@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 
 public class RGManager : MonoBehaviour
 {
@@ -23,21 +25,61 @@ public class RGManager : MonoBehaviour
 
     public GameObject explainPanel;
 
+    [Header("audiitonGradeExplainPanel")]
+    [SerializeField] GameObject audiitonGradeExplainPanel;
+    [SerializeField] TMP_Text auditionGradeExplainText;
+
     private void Start()
     {
         mainCamera = Camera.main;
         mainCamera.orthographic = true;
         RGinstance = this;
         timerCS = Objs[3].GetComponent<Timer>();
-        explainPanel.SetActive(true);
         isStart = false;
+        showGradeExplainPanel();
+    }
+
+    void showGradeExplainPanel()
+    {
+        int _danceStat = DataBase.DB.playerData.dance + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz / 0.2f);
+        if (_danceStat >= 55)
+            noteAmount = 8;
+        else if (_danceStat < 55 && _danceStat >= 42)
+            noteAmount = 10;
+        else if (_danceStat < 42)
+            noteAmount = 16;
+
+        switch (noteAmount)
+        {
+            case 8:
+                auditionGradeExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
+                break;
+
+            case 10:
+                auditionGradeExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
+                break;
+
+            case 16:
+                auditionGradeExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
+                break;
+
+            default:
+                break;
+        }
+        audiitonGradeExplainPanel.SetActive(true);
+    }
+
+    public void showExplainPanel()
+    {
+        audiitonGradeExplainPanel.SetActive(false);
+        explainPanel.SetActive(true);
     }
 
     public void BeforeGameStart()
     {
         explainPanel.SetActive(false);
         StartCoroutine(TTO());
-        StartCoroutine(settingAndStart(DataBase.DB.playerData.dance + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz / 0.2f)));
+        StartCoroutine(settingAndStart());
     }
 
     public void winOrLose(int _or)
@@ -52,16 +94,10 @@ public class RGManager : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    IEnumerator settingAndStart(int _danceStat)
+    IEnumerator settingAndStart()
     {
         noteImageList = new List<Image>();
         noteCsList = new List<Notes>();
-        if (_danceStat >= 55)
-            noteAmount = 8;
-        else if (_danceStat < 55 && _danceStat >= 42)
-            noteAmount = 10;
-        else if (_danceStat < 42)
-            noteAmount = 16;
 
         for (int i = 0; i < noteAmount; i++)
         {

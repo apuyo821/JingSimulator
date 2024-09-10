@@ -8,7 +8,9 @@ public class TrumpetUI : MonoBehaviour
     public TrumpetJudge Judge;
 
     public Text comboTxt;
+    [SerializeField] Text comboTxtShadow;
     public Text rankTxt;
+    [SerializeField] Text rankTxtShadow;
     public Text resultTxt;
     public GameObject ResultPanel;
 
@@ -25,8 +27,11 @@ public class TrumpetUI : MonoBehaviour
         if(Judge.combo == 0)
         {
             comboTxt.gameObject.SetActive(false);
+            comboTxtShadow.gameObject.SetActive(false);
             rankTxt.gameObject.SetActive(true);
+            rankTxtShadow.gameObject.SetActive(true);
             rankTxt.text = Judge.rank.ToString();
+            rankTxtShadow.text = Judge.rank.ToString();
         }
         else if (isEnd)
         {
@@ -36,7 +41,9 @@ public class TrumpetUI : MonoBehaviour
         {
             setting_comboUI(true);
             rankTxt.text = Judge.rank.ToString();
+            rankTxtShadow.text = Judge.rank.ToString();
             comboTxt.text = Judge.combo.ToString() + "X";
+            comboTxtShadow.text = Judge.combo.ToString() + "X";
         }
     }
 
@@ -51,6 +58,8 @@ public class TrumpetUI : MonoBehaviour
     void setting_comboUI(bool p_flag)
     {
         comboTxt.gameObject.SetActive(p_flag);
+        comboTxtShadow.gameObject.SetActive(p_flag);
         rankTxt.gameObject.SetActive(p_flag);
+        rankTxtShadow.gameObject.SetActive(p_flag);
     }
 }

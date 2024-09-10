@@ -23,7 +23,7 @@ public class Notes : MonoBehaviour
     public void OnEnable()
     {
         noteList.Add(gameObject);
-        GameObject timerObj = GameObject.Find("Timer");
+        GameObject timerObj = GameObject.Find("secondAuditionTimer");
         timerCS = timerObj.GetComponent<Timer>();
     }
 

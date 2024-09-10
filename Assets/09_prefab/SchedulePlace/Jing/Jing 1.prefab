@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2193237875999693692}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 1
@@ -136,7 +136,7 @@ RectTransform:
   m_Father: {fileID: 8293204516401963257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.51199996, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
@@ -195,7 +195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8943310847468002020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8293204516401963257
 RectTransform:
   m_ObjectHideFlags: 0
@@ -526,7 +526,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -5.21, z: 0}
   m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5026019028851490992}
   m_Father: {fileID: 0}
@@ -549,6 +549,10 @@ MonoBehaviour:
   coolTime: 0
   sprites:
   - {fileID: 21300000, guid: 437be0870bea5ef4dae94d356fea3161, type: 3}
+  - {fileID: 21300000, guid: 54873c52e7d225245b39cd79ff650ddd, type: 3}
+  - {fileID: 21300000, guid: d5248d6e3bc919d4da34b3024b5f3592, type: 3}
+  - {fileID: 21300000, guid: fad399c9b23ca614e8090d0028e2cce9, type: 3}
+  - {fileID: 21300000, guid: 54873c52e7d225245b39cd79ff650ddd, type: 3}
 --- !u!114 &8807033141661382767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,7 +568,6 @@ MonoBehaviour:
   scheduleManager: {fileID: 0}
   slider: {fileID: 1747720277556596396}
   sliderObj: {fileID: 5047395912033828535}
-  sliderImages: []
 --- !u!212 &2293436883405089266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -606,7 +609,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: d5248d6e3bc919d4da34b3024b5f3592, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fad399c9b23ca614e8090d0028e2cce9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -689,7 +692,7 @@ Animator:
   m_GameObject: {fileID: 8070517339565754760}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9b2276c200459b243a5c8adc228914fa, type: 2}
+  m_Controller: {fileID: 9100000, guid: 78a340e2a75b9e447bbdf529546a96bc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
