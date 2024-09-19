@@ -23,7 +23,6 @@ public class DialogueParser : MonoBehaviour
             Dialogue dialogue = new Dialogue(); // 캐릭터 한 명의 대사들
 
             dialogue.name = row[1];
-            dialogue.imageDirection = int.Parse(row[4]);
             List<string> contextList = new List<string>();
             List<string> spriteList = new List<string>();
 

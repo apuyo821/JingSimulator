@@ -29,8 +29,8 @@ public class ProcessBar : MonoBehaviour
         slider.value = 0;
         while (slider.value != slider.maxValue)
         {
-            slider.value += 0.1f;
-            yield return new WaitForSeconds(0.1f);
+            slider.value += 0.025f;
+            yield return new WaitForSeconds(0.025f);
         }
         //yield return new WaitForSeconds(1f);
         slider.value = 0;

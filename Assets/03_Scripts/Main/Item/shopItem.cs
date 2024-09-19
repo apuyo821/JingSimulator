@@ -6,14 +6,25 @@ using UnityEngine.UI;
 
 public class shopItem : MonoBehaviour
 {
-    public int itemID;
-    public GameObject detailInfoPanel;
-    public TMP_Text tmpText;
-    
+    [SerializeField] ItemManager itemManager;
+    [SerializeField] GameObject buyButton;
+    [SerializeField] Image buttonImage;
+
+    [SerializeField] int itemID;
+    [SerializeField] GameObject detailInfoPanel;
+    [SerializeField] TMP_Text tmpText;
+
+    [SerializeField] AudioSource buyAudio;
+    int minusMoney = 0;
 
     private void Start()
     {
         detailInfoPanel.SetActive(false);
+    }
+
+    public void BuyItem()
+    {
+        CheckMoney(itemID);
     }
 
     public void showDetailInfo()
@@ -45,5 +56,57 @@ public class shopItem : MonoBehaviour
     public void pointerExit()
     {
         detailInfoPanel.SetActive(false);
+    }
+
+    void CheckMoney(int _itemID)
+    {
+        switch (_itemID)
+        {
+            case 1001:
+                minusMoney = 140;
+                break;
+
+            case 1002:
+                minusMoney = 80;
+                break;
+
+            case 1003:
+                minusMoney = 200;
+                break;
+
+            case 1004:
+                minusMoney = 300;
+                break;
+
+            default:
+                break;
+        }
+
+        if (DataBase.DB.playerData.money >= minusMoney)
+        {
+            DataBase.DB.playerData.money -= minusMoney;
+            itemManager.checkItem(_itemID);
+            buyAudio.Play();
+            minusMoney = 0;
+        }
+        else
+        {
+            StartCoroutine(sparkleButton());
+            minusMoney = 0;
+            AudioManager.audioManager.sfx[5].Play();
+        }
+
+        IEnumerator sparkleButton()
+        {
+            Button buyButtonButton = buyButton.GetComponent<Button>();
+            //buyButtonButton.interactable = false;
+            buyButtonButton.enabled = false;
+            Color previusColor = buttonImage.color;
+            Color newColor = new Color(255, 0, 0);
+            buttonImage.color = newColor;
+            yield return new WaitForSeconds(0.5f);
+            buttonImage.color = previusColor;
+            buyButtonButton.enabled = true;
+        }
     }
 }

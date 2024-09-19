@@ -23,10 +23,13 @@ public class FinalSelect : MonoBehaviour, IDropHandler
     {
         dragObj dragObj = eventData.pointerDrag.gameObject.GetComponent<dragObj>();
         
+        
         //행동 오브젝트의 행동 종류를 finalselect 각각의 actType에 저장
         WeekCheck(dragObj.actNum);
 
+        /*
         //행동 선택 시 알바 텍스트 비활성화
+        //원래는 금토일이되면은 알바를 해야한다고 알려주기 위해 알바 텍스트를 띄웠지만, 알바가 하나로 줄어들었음에 따라 그럴 필요가 없어짐
         if(ScheduleIndex == 2)
         {
             if(actType != 0)
@@ -34,6 +37,7 @@ public class FinalSelect : MonoBehaviour, IDropHandler
                 WorkText.gameObject.SetActive(false);
             }
         }
+        */
     }
 
     void WeekCheck(int _actNum)
@@ -43,14 +47,14 @@ public class FinalSelect : MonoBehaviour, IDropHandler
         {
             if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
             {
-                if (actType == 8)
+                if (actType != 8)
                 {
+                    actType = 8;
                     //actType = actNum;
                     ScheduleManager.schedules[2] = actType;
                 }
                 else
                 {
-                    actType = 0;
                     ScheduleManager.schedules[2] = actType;
                 }
             }
@@ -70,12 +74,15 @@ public class FinalSelect : MonoBehaviour, IDropHandler
     public void resetActType()
     {
         actType = 0;
+        image.sprite = selectImg[actType];
     }
 
     //선택한 행동을 보여주는 함수
     void Update()
     {
         image.sprite = selectImg[actType];
+        //원래는 금토일이되면은 알바를 해야한다고 알려주기 위해 알바 텍스트를 띄웠지만, 알바가 하나로 줄어들었음에 따라 알바 고정 시키기 용도
+        /*
         if (ScheduleIndex == 2)
         {
             if (DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
@@ -88,6 +95,16 @@ public class FinalSelect : MonoBehaviour, IDropHandler
                 {
                     WorkText.gameObject.SetActive(true);
                 }
+            }
+        }
+        */
+        if (ScheduleIndex == 2)
+        {
+            if (DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
+            {
+                if (ScheduleIndex == 2)
+                    actType = 8;
+                ScheduleManager.schedules[2] = 8;
             }
         }
     }

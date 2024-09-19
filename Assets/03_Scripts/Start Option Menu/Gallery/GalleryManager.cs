@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
 
 public class GalleryManager : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class GalleryManager : MonoBehaviour
 
     public static List<int> EndingTypeIndex = new List<int>();
     public static List<int> EventIndex = new List<int>();
-    //public List<int> savedInfo = new List<int>();
     List<int> dummyData;
     public SaveRefreshInfo saveRefresh = new SaveRefreshInfo();
 
@@ -40,10 +40,14 @@ public class GalleryManager : MonoBehaviour
     public string Serialize(List<int> _indexData)
     {
         serializeText = "";
-        if (_indexData.Count > 0)
+        if (_indexData.Count == 0)
+        {
+            return null;
+        }
+        else
         {
             serializeText += _indexData[0].ToString();
-            if(_indexData.Count > 1)
+            if (_indexData.Count > 1)
             {
                 do
                 {
@@ -55,8 +59,6 @@ public class GalleryManager : MonoBehaviour
             }
             return serializeText;
         }
-        else
-            return null;
     }
 
     public List<int> Deserialize(string data)
@@ -72,18 +74,21 @@ public class GalleryManager : MonoBehaviour
             return dummyData;
         }
         else
-            return null;
+        {
+            dummyData = new List<int>();
+            return dummyData;
+        }
     }
 
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         
         foreach (GameObject i in illustPanel)
         {
             i.SetActive(false);
         }
-
+        //PlayerPrefs.DeleteAll();
         setUp();
     }
 
@@ -91,6 +96,7 @@ public class GalleryManager : MonoBehaviour
     {
         LoadData(0);
         LoadData(1);
+
         for (int i = 1; i < 7; i++)
         {
             if (File.Exists(path + $"{i}"))
@@ -123,12 +129,42 @@ public class GalleryManager : MonoBehaviour
                         }
                     }
                 }
+
+                if(saveRefresh.EventIndex.Count > 0)
+                {
+                    for (int L = 0; L < saveRefresh.EventIndex.Count; L++)
+                    {
+                        bool isExist = false;
+
+                        if(EventIndex.Count > 0)
+                        {
+                            for (int m = 0; m < EventIndex.Count; m++)
+                            {
+                                if(saveRefresh.EventIndex[L] == EventIndex[m])
+                                {
+                                    isExist = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                        if (!isExist)
+                        {
+                            EventIndex.Add(saveRefresh.EventIndex[L]);
+                        }
+                    }
+                }
             }
         }
-        DataBase.DB.playerData.EndingIndex = EndingTypeIndex;
-        string endingSerializedData = Serialize(DataBase.DB.playerData.EndingIndex);
-        PlayerPrefs.DeleteAll();
+        DataBase.DB.temporaryEndingData = EndingTypeIndex;
+        DataBase.DB.temporaryEventData = EventIndex;
+        string endingSerializedData = Serialize(DataBase.DB.temporaryEndingData);
+        string eventSerializedData = Serialize(DataBase.DB.temporaryEventData);
         PlayerPrefs.SetString(EndingKey, endingSerializedData);
+        PlayerPrefs.SetString(EventKey, eventSerializedData);
         PlayerPrefs.Save();
     }
 
@@ -141,8 +177,10 @@ public class GalleryManager : MonoBehaviour
 
     public void SaveData()
     {
-        string endingSerializedData = Serialize(DataBase.DB.playerData.EndingIndex);
-        string eventSerializedData = Serialize(DataBase.DB.playerData.EventIndex);
+        DataBase.DB.playerData.EndingIndex = DataBase.DB.temporaryEndingData;
+        DataBase.DB.playerData.EventIndex = DataBase.DB.temporaryEventData;
+        string endingSerializedData = Serialize(DataBase.DB.temporaryEndingData);
+        string eventSerializedData = Serialize(DataBase.DB.temporaryEventData);
         PlayerPrefs.SetString(EndingKey, endingSerializedData);
         PlayerPrefs.SetString(EventKey, eventSerializedData);
         PlayerPrefs.Save();
@@ -163,7 +201,7 @@ public class GalleryManager : MonoBehaviour
                     break;
 
                 case 1:
-                    EventIndex = new List<int>();
+                    EventIndex = new List<int>() { };
                     LoadDataText = PlayerPrefs.GetString("EventNum");
                     EventIndex = Deserialize(LoadDataText);
                     break;
@@ -181,9 +219,9 @@ public class GalleryManager : MonoBehaviour
             case 0:
                 if(endingFirst == false)
                 {
-                    for (int i = 0; i < DataBase.DB.playerData.EndingIndex.Count; i++)
+                    for (int i = 0; i < DataBase.DB.temporaryEndingData.Count; i++)
                     {
-                        GalleryCards galleryCards = EndingCards[EndingTypeIndex[i]].GetComponent<GalleryCards>();
+                        GalleryCards galleryCards = EndingCards[DataBase.DB.temporaryEndingData[i]].GetComponent<GalleryCards>();
                         galleryCards.ImageChange(1);
                     }
                     endingFirst = true;
@@ -197,9 +235,9 @@ public class GalleryManager : MonoBehaviour
             case 1:
                 if (eventFirst == false)
                 {
-                    for (int i = 0; i < DataBase.DB.playerData.EventIndex.Count; i++)
+                    for (int i = 0; i < DataBase.DB.temporaryEventData.Count; i++)
                     {
-                        GalleryCards galleryCards = EventCards[EventIndex[i]].GetComponent<GalleryCards>();
+                        GalleryCards galleryCards = EventCards[DataBase.DB.temporaryEventData[i]].GetComponent<GalleryCards>();
                         galleryCards.ImageChange(1);
                     }
                     eventFirst = true;

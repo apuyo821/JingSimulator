@@ -54,6 +54,7 @@ public class TrumpetJudge : MonoBehaviour
 
     void showStepExplainPanel()
     {
+        int vocalStat = DataBase.DB.playerData.vocal + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f);
         if (DataBase.DB.playerData.vocal >= 35)
             noteVelo = 6;
         else if (DataBase.DB.playerData.vocal >= 28 && DataBase.DB.playerData.vocal < 35)
@@ -201,7 +202,7 @@ public class TrumpetJudge : MonoBehaviour
 
     public void GoMain()
     {
-        DataBase.DB.playerData.auditionIndex++;
+        DataBase.DB.isAuditionEnd = true;
         SceneManager.LoadScene("Main");
     }
 

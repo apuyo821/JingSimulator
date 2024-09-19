@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class EndingTransition : MonoBehaviour
 {
@@ -30,8 +31,15 @@ public class EndingTransition : MonoBehaviour
     bool isCamObjMoving = true;
     bool isBluring = true;
 
+    Camera mainCamera;
+
+    [SerializeField] GameObject goTitleButton;
+
     private void Start()
     {
+        mainCamera = Camera.main;
+        mainCamera.orthographic = false;
+
         //필요한 컴포넌트들 얻기
         volume = volumeObj.gameObject.GetComponent<Volume>();
         volume.profile.TryGet(out vignette);
@@ -202,10 +210,16 @@ public class EndingTransition : MonoBehaviour
     IEnumerator lastCameraMoving()
     {
         yield return new WaitForSeconds(2f);
-        while (cameraObject.transform.position.z <= targetPosition.z + 2)
+        while (cameraObject.transform.position.z <= targetPosition.z -2)
         {
             cameraObject.transform.position = Vector3.Lerp(cameraObject.transform.position, targetPosition, moveVelo);
             yield return null;
         }
+        goTitleButton.SetActive(true);
+    }
+
+    public void goTitle()
+    {
+        SceneManager.LoadScene("Title");
     }
 }

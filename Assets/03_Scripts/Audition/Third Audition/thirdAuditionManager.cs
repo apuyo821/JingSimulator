@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class thirdAuditionManager : MonoBehaviour
 {
@@ -19,5 +20,11 @@ public class thirdAuditionManager : MonoBehaviour
             rankText.text = "3µî";
         else if (DataBase.DB.playerData.rizz < 143)
             rankText.text = "4µî";
+    }
+
+    public void GoMain()
+    {
+        DataBase.DB.isAuditionEnd = true;
+        SceneManager.LoadScene("Main");
     }
 }

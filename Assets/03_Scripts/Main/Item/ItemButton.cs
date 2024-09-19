@@ -41,7 +41,6 @@ public class ItemButton : MonoBehaviour
                 itemOrder = i;
                 break;
             }
-
             compare = 0;
         }
 
@@ -52,10 +51,12 @@ public class ItemButton : MonoBehaviour
         {
             case 1001:
                 DataBase.DB.playerData.HP += 8;
+                AudioManager.audioManager.sfx[1].Play();
                 break;
 
             case 1002:
                 DataBase.DB.playerData.MP += 6;
+                AudioManager.audioManager.sfx[1].Play();
                 break;
 
             case 1003:

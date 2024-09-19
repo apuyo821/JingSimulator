@@ -38,6 +38,7 @@ public class auditionJingAnimControl : MonoBehaviour
     {
         GameObject trumpet = GameObject.Find("JudgeZone");
         trumpetJudgeCS = trumpet.GetComponent<TrumpetJudge>();
+        anim.SetBool("isFirstAudition", true);
         StartCoroutine(faac());
     }
 
@@ -45,6 +46,7 @@ public class auditionJingAnimControl : MonoBehaviour
     {
         GameObject timerObj = GameObject.Find("secondAuditionTimer");
         timerCS = timerObj.GetComponent<Timer>();
+        anim.SetBool("isFirstAudition", false);
         StartCoroutine(saac());
     }
 
@@ -104,9 +106,7 @@ public class auditionJingAnimControl : MonoBehaviour
 
     IEnumerator faac()
     {
-        Debug.Log("ww");
         yield return new WaitUntil(() => trumpetJudgeCS.isAuditioning == true);
-        Debug.Log(" dd");
         targetPosition = targetPosition01;
         transform.localPosition = new Vector3(600, 0, 0);
         while (true)

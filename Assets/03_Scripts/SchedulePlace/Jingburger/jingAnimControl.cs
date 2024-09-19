@@ -39,7 +39,6 @@ public class jingAnimControl : MonoBehaviour
         transform.parent = scheduleManager.SchedulePlace[scheduleIndex].transform;
         spriteRenderer.flipX = false;
 
-
         switch (scheduleIndex)
         {
             //Main Room
@@ -59,11 +58,18 @@ public class jingAnimControl : MonoBehaviour
             //DanceAcademy
             case 2:
                 transform.position = new Vector3(2f, -2.45f, 0);
+                StartCoroutine(Dancing());
+                break;
+
+            //BroadCast
+            case 3:
+                transform.position = new Vector3(0f, -2.45f, 0);
+                StartCoroutine(broadcasting());
                 break;
 
             //Gaming
             case 4:
-                transform.position = new Vector3(0f, -2.45f, 0);
+                transform.position = new Vector3(-6.5f, -1.5f, 0);
                 StartCoroutine(Gaming());
                 break;
 
@@ -75,7 +81,7 @@ public class jingAnimControl : MonoBehaviour
 
             //Drawing
             case 6:
-                transform.position = new Vector3(-6.35f, -0.5f, 0);
+                transform.position = new Vector3(-6.35f, -1.5f, 0);
                 StartCoroutine(Drawing());
                 break;
 
@@ -121,6 +127,14 @@ public class jingAnimControl : MonoBehaviour
     IEnumerator Hamburger()
     {
         anim.SetBool("isHamburger", true);
+        while (ScheduleManager.isActing)
+        {
+            yield return new WaitForSeconds(1f);
+            int random = Random.Range(0, 2);
+            if(random == 1)
+                anim.SetTrigger("hamburgerMisstake");
+        }
+
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
         anim.SetBool("isHamburger", false);
     }
@@ -132,10 +146,17 @@ public class jingAnimControl : MonoBehaviour
         anim.SetBool("isSinging", false);
     }
 
+    IEnumerator broadcasting()
+    {
+        anim.SetBool("isbroadCast", true);
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        anim.SetBool("isbroadCast", false);
+    }
+
     IEnumerator Gaming()
     {
         anim.SetBool("isGaming", true);
-        yield return new WaitForSeconds((float)scheduleManager.actFlowTIme / 3 * 2);
+        yield return new WaitForSeconds((float)scheduleManager.actFlowTIme / 4 * 3);
         
         anim.SetBool("isGaming", false);
         anim.enabled = false;
@@ -154,7 +175,6 @@ public class jingAnimControl : MonoBehaviour
                 break;
         }
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
-        yield return null;
         anim.enabled = true;
     }
 
@@ -170,6 +190,13 @@ public class jingAnimControl : MonoBehaviour
         anim.SetBool("isDrawing", true);
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
         anim.SetBool("isDrawing", false);
+    }
+
+    IEnumerator Dancing()
+    {
+        anim.SetBool("isDancing", true);
+        yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        anim.SetBool("isDancing", false);
     }
 
     IEnumerator Moving()

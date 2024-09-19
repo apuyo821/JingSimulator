@@ -28,20 +28,24 @@ public class ScheduleManager : MonoBehaviour
     public bool isGO = false;
     public static bool isActing;
     public static bool isHome;
-
+    [Header("대사 오브젝트")]
     [SerializeField] GameObject itrObj;
     [SerializeField] InteractionEvent itrCs;
     [SerializeField] DialogueManager dmCs;
-
+    [SerializeField] GameObject blurImage;
+    [Header("징버거 SD")]
     public GameObject[] jingObjs;
     public ProcessBar processBar;
 
     int hpChangeValue,hpPreviusValue;
 
+    [SerializeField] GameObject blackBG;
+
     //초기값 초기화
     void Awake()
     {
         schedules = new int[3];
+        AudioManager.audioManager.mainAudio.Play();
     }
 
     //버튼매니저 오브제와 스크립트 불러오기
@@ -52,10 +56,8 @@ public class ScheduleManager : MonoBehaviour
         itrCs = itrObj.GetComponent<InteractionEvent>();
         dmCs = FindObjectOfType<DialogueManager>();
 
-        if (isFirst)
-        {
-            eventCheck(DataBase.DB.playerData.dDay);
-        }
+        //게임 처음시작이거나 오디션이 끝났을 때 체크
+        eventCheck(DataBase.DB.playerData.dDay);
 
         if (DataBase.DB.playerData.HP < 1)
         {
@@ -69,7 +71,7 @@ public class ScheduleManager : MonoBehaviour
         SchedulePlace[0].SetActive(true);
         isHome = true;
         jingAnimControl.jingAnim.animPosSet(0);
-    }
+        AudioManager.audioManager.mainAudio.Play();    }
 
     void OnEnable()
     {
@@ -295,6 +297,32 @@ public class ScheduleManager : MonoBehaviour
             dDaySet(DataBase.DB.playerData.dDay);
             MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
 
+            //오디션 이벤트 발생
+            if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2 || DataBase.DB.playerData.dDay == 0)
+            {
+                switch (DataBase.DB.playerData.dDay)
+                {
+                    case 29:
+                        DataBase.DB.playerData.auditionIndex = 0;
+                        break;
+
+                    case 16:
+                        DataBase.DB.playerData.auditionIndex = 1;
+                        break;
+
+                    case 2:
+                        DataBase.DB.playerData.auditionIndex = 2;
+                        break;
+
+                    default:
+                        break;
+                }
+                DataBase.DB.isAuditionEnd = false;
+                //fist, second, third Audition
+                buttonManager.btn[0].interactable = false;
+                buttonManager.btn[4].gameObject.SetActive(true);
+            }
+
             //대사 이벤트 확인 및 진행
             eventCheck(DataBase.DB.playerData.dDay);
             yield return new WaitUntil(() => isGO == true);
@@ -308,20 +336,6 @@ public class ScheduleManager : MonoBehaviour
             }
             buttonManager.trueBtnItr();
 
-            //오디션 이벤트 발생
-            if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2)
-            {
-                //fist, second, third Audition
-                buttonManager.btn[0].interactable = false;
-                buttonManager.btn[4].gameObject.SetActive(true);
-            }
-            else if(DataBase.DB.playerData.dDay == 0)
-            {
-                //Final Audition
-                buttonManager.btn[0].interactable = false;
-                buttonManager.btn[4].gameObject.SetActive(true);
-                buttonManager.btn[5].gameObject.SetActive(true);
-            }
             //HP가 0일 때 휴식 이벤트
             if (DataBase.DB.playerData.HP < 1 || DataBase.DB.playerData.MP < 1)
             {
@@ -335,22 +349,62 @@ public class ScheduleManager : MonoBehaviour
         switch (_dday)
         {
             case 40:
-                isFirst = false;
-                isGO = false;
-                isEvent = true;
-                itrCs.dialogueEvent.line.x = 1;
-                itrCs.dialogueEvent.line.y = 3;
-                dialoguLength = 3;
-                itrCs.dialogueEvent.name = "튜토리얼";
+                if (isFirst)
+                {
+                    isGO = false;
+                    isEvent = true;
+                    itrCs.dialogueEvent.line.x = 1;
+                    itrCs.dialogueEvent.line.y = 3;
+                    dialoguLength = 3;
+                    itrCs.dialogueEvent.name = "스토리 설명 1";
+                    blackBG.SetActive(true);
+                    StartCoroutine(afterFirstStory());
+                }
                 break;
 
             case 38:
                 isGO = false;
                 isEvent = true;
-                itrCs.dialogueEvent.line.x = 4;
-                itrCs.dialogueEvent.line.y = 6;
-                dialoguLength = 3;
-                itrCs.dialogueEvent.name = "뢴트와 왁의 대화";
+                itrCs.dialogueEvent.line.x = 13;
+                itrCs.dialogueEvent.line.y = 17;
+                dialoguLength = 5;
+                itrCs.dialogueEvent.name = "알바 설명";
+                break;
+
+            case 29:
+                if (DataBase.DB.isAuditionEnd)
+                {
+                    isGO = false;
+                    isEvent = true;
+                    itrCs.dialogueEvent.line.x = 18;
+                    itrCs.dialogueEvent.line.y = 22;
+                    dialoguLength = 5;
+                    itrCs.dialogueEvent.name = "1차 오디션 끝난 후의 대화";
+                }
+                break;
+
+            case 16:
+                if (DataBase.DB.isAuditionEnd)
+                {
+                    isGO = false;
+                    isEvent = true;
+                    itrCs.dialogueEvent.line.x = 23;
+                    itrCs.dialogueEvent.line.y = 29;
+                    dialoguLength = 7;
+                    itrCs.dialogueEvent.name = "2차 오디션 끝난 후의 대화";
+                }
+                break;
+
+            case 2:
+                if (DataBase.DB.isAuditionEnd)
+                {
+                    isGO = false;
+                    isEvent = true;
+                    itrCs.dialogueEvent.line.x = 30;
+                    itrCs.dialogueEvent.line.y = 36;
+                    dialoguLength = 7;
+                    itrCs.dialogueEvent.name = "3차 오디션 끝난 후의 대화";
+                }
                 break;
 
             default:
@@ -365,6 +419,79 @@ public class ScheduleManager : MonoBehaviour
         }
 
         return isGO;
+    }
+
+    IEnumerator afterFirstStory()
+    {
+        yield return new WaitUntil(() => isEvent == false);
+        blackBG.SetActive(false);
+        isFirst = false;
+        isGO = false;
+        isEvent = true;
+        itrCs.dialogueEvent.line.x = 4;
+        itrCs.dialogueEvent.line.y = 11;
+        dialoguLength = 8;
+        itrCs.dialogueEvent.name = "스토리 설명 2";
+
+        if (isEvent)
+        {
+            buttonManager.falseBtnItr();
+            itrCs.dialogueEvent.dialogues = new Dialogue[dialoguLength];
+            dmCs.ShowDialogue(itrCs.GetDialogue());
+        }
+
+        yield return new WaitUntil(() => isEvent == false);
+        StartCoroutine(tutorial());
+        yield return new WaitForSeconds(1f);
+    }
+
+    IEnumerator tutorial()
+    {
+        //혹시 첫 번째 오디션은 뭘 준비해야 하나요?
+        //위의 대사 다음 스케쥴 패널을 띄우고 설명하는 장면
+        blackBG.SetActive(false);
+        isFirst = false;
+        isGO = false;
+        isEvent = true;
+        itrCs.dialogueEvent.line.x = 12;
+        itrCs.dialogueEvent.line.y = 12;
+        dialoguLength = 1;
+        itrCs.dialogueEvent.name = "튜토리얼";
+
+        if (isEvent)
+        {
+            buttonManager.falseBtnItr();
+            itrCs.dialogueEvent.dialogues = new Dialogue[dialoguLength];
+            dmCs.ShowDialogue(itrCs.GetDialogue());
+        }
+        bool first = true, second = false;
+        Color changeColor = new Color(255, 255, 255, 0.5f);
+        GameObject dialoguePanel = GameObject.Find("dialoguePanel");
+        Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
+        while (isEvent)
+        {
+            if (Input.anyKeyDown)
+            {
+                if (first)
+                {
+                    first = false;
+                    blurImage.SetActive(false);
+                    second = true;
+                }
+                else if (second)
+                {
+                    UIObjects[0].SetActive(true);
+                    dialoguePanelImage.color = changeColor;
+                    second = false;
+                }
+            }
+            yield return null;
+        }
+        changeColor = new Color(255, 255, 255, 1f);
+        dialoguePanelImage.color = changeColor;
+        blurImage.SetActive(true);
+        UIObjects[0].SetActive(false);
+        yield return new WaitForSeconds(1f);
     }
 
     void statusCheck(DataBase data, int _changeValue, int _actNum)
@@ -396,7 +523,7 @@ public class ScheduleManager : MonoBehaviour
             //misukham
             case 2:
                 gacha = Random.Range(1, 101);
-                if (goal = (gacha <= Mathf.Abs(data.playerData.misukham)))
+                if (goal = (gacha * 2 <= Mathf.Abs(data.playerData.misukham)))
                     data.playerData.MP -= 4;
                 break;
 

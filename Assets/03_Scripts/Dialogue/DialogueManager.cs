@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] GameObject dialoguePanel;
+    [SerializeField] Image dialoguePanelImage;
     [SerializeField] GameObject StandingImage;
     [SerializeField] GameObject dialogueObj;
 
@@ -74,7 +75,7 @@ public class DialogueManager : MonoBehaviour
         // 캐릭터가 대사를 할 때, spriteName이 공백이 아니면 이미지 변경
         if (dialogues[dialogueCnt].spriteName[contextCnt] != "")
         {
-            sm.SpriteChangeCoroutine(dialogues[dialogueCnt].tf_standing, dialogues[dialogueCnt].spriteName[contextCnt], dialogues[dialogueCnt].imageDirection);
+            sm.SpriteChangeCoroutine(dialogues[dialogueCnt].tf_standing, dialogues[dialogueCnt].spriteName[contextCnt]);
         }
     }
 
@@ -105,16 +106,13 @@ public class DialogueManager : MonoBehaviour
         dialogueCnt = 0;
         dialogues = null;
         isNext = false;
+        dialoguePanelImage.color = new Color(255, 255, 255, 1f);
         dialogueObj.SetActive(false);
         if(transform.tag == "room")
         {
             scheduleManager.isGO = true;
             scheduleManager.isEvent = false;
             buttonManager.trueBtnItr();
-        }
-        if(transform.tag == "eventScene")
-        {
-            gameEventManager.isEnd = true;
         }
     }
 
@@ -124,7 +122,7 @@ public class DialogueManager : MonoBehaviour
         ChangeSprite();		// 스탠딩 이미지를 변경한다.
 
         string t_ReplaceText = dialogues[dialogueCnt].contexts[contextCnt];   // 특수문자를 ,로 치환
-        t_ReplaceText = t_ReplaceText.Replace("'", ",");    // backtick을 comma로 변환
+        t_ReplaceText = t_ReplaceText.Replace("`", ",");    // `을 comma로 변환
         t_ReplaceText = t_ReplaceText.Replace("\\n", "\n"); // 엑셀의 \n은 텍스트이기 때문에, 앞에 \를 한 번 더 입력
 
         txt_name.text = dialogues[dialogueCnt].name;

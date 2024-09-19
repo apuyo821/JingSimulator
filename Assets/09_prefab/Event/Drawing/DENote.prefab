@@ -89,7 +89,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 9592b920f42c6834ba3cafc3508b269c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4764151, g: 1, b: 0.49615583, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 0
   velo: 0.01
-  minusTime: 0.02
+  minusTime: 0.015
 --- !u!60 &1086564967632901395
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -977,10 +977,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   land: {fileID: 0}
   DENotes:
-  - {fileID: 0}
+  - {fileID: 6953661670422721816}
   - {fileID: 0}
   - {fileID: 0}
   isMouseOnNote: 0
+  deManager: {fileID: 0}
 --- !u!212 &3029467320467646206
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1023,7 +1024,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 00c5fdd37c5560542aa531dbb2fb9f44, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7419315, g: 1, b: 0.7028302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

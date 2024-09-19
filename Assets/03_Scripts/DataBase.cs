@@ -53,8 +53,12 @@ public class DataBase : MonoBehaviour
 
     public string path;
 
-    private static List<string> dontDestroyObjects = new List<string>();
+    public static List<string> dontDestroyObjects = new List<string>();
     public PlayerData playerData;
+    public List<int> temporaryEndingData = new List<int>();
+    public List<int> temporaryEventData = new List<int>();
+
+    public bool isAuditionEnd = false;
 
     private void Awake()
     {
@@ -72,6 +76,8 @@ public class DataBase : MonoBehaviour
         path = Application.persistentDataPath + "/jingsave";
         playerData = new PlayerData();
         playerData.itemDatas = new List<ItemData>();
+
+        isAuditionEnd = false;
     }
 
     public void SaveData(int slotIndex)
@@ -89,14 +95,23 @@ public class DataBase : MonoBehaviour
 
     public void DataClear()
     {
+        isAuditionEnd = false;
         playerData = new PlayerData();
     }
 
     private void Update()
     {
-        if(playerData.deft < 0 || playerData.strength < 0 || playerData.vocal < 0 || playerData.rizz < 0 || playerData.dance < 0 || playerData.misukham < 0)
-        {
-
-        }
+        if (playerData.deft < 0)
+            playerData.deft = 0;
+        else if (playerData.strength < 0)
+            playerData.strength = 0;
+        else if (playerData.vocal < 0)
+            playerData.vocal = 0;
+        else if (playerData.rizz < 0)
+            playerData.rizz = 0;
+        else if (playerData.dance < 0)
+            playerData.dance = 0;
+        else if (playerData.misukham < 0)
+            playerData.misukham = 0;
     }
 }

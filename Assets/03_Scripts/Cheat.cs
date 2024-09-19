@@ -10,12 +10,18 @@ public class Cheat : MonoBehaviour
 
     int InputInt;
     ScheduleManager schedule;
+    [SerializeField] buttonManager buttonManagerCs;
+    [SerializeField] Text[] countText;
+    [SerializeField] GameObject[] panels;
 
     private void Start()
     {
         GameObject other = GameObject.Find("ScheduleManager");
         schedule = other.gameObject.GetComponent<ScheduleManager>();
+        panels[0].SetActive(false);
+        panels[1].SetActive(false);
     }
+
 
     public void ChangeDday()
     {
@@ -39,8 +45,76 @@ public class Cheat : MonoBehaviour
         else if(DataBase.DB.playerData.Day % 7 == 4 || DataBase.DB.playerData.Day % 7 == 5 || DataBase.DB.playerData.Day % 7 == 6)
             DataBase.DB.playerData.week = (DataBase.DB.playerData.Day % 7) - 4;
         schedule.MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
+        
+        if(DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2 || DataBase.DB.playerData.dDay == 0)
+            buttonManagerCs.btn[4].gameObject.SetActive(true);
+        switch (DataBase.DB.playerData.dDay)
+        {
+            case 29:
+                DataBase.DB.playerData.auditionIndex = 0;
+                break;
+
+            case 16:
+                DataBase.DB.playerData.auditionIndex = 1;
+                break;
+
+            case 2:
+                DataBase.DB.playerData.auditionIndex = 2;
+                break;
+
+            case 0:
+                DataBase.DB.playerData.auditionIndex = 3;
+                break;
+
+            default:
+                break;
+        }
     }
     
+    public void setStatusCount()
+    {
+        for (int i = 0; i < countText.Length; i++)
+        {
+            countNumSet(i);
+        }
+    }
+    void countNumSet(int _num)
+    {
+        switch (_num)
+        {
+            case 0:
+                countText[_num].text = "보컬 : " + DataBase.DB.playerData.vocalCount.ToString();
+                break;
+
+            case 1:
+                countText[_num].text = "댄스 : " + DataBase.DB.playerData.danceCount.ToString();
+                break;
+
+            case 2:
+                countText[_num].text = "방송 : " + DataBase.DB.playerData.broadcastCount.ToString();
+                break;
+
+            case 3:
+                countText[_num].text = "게임 : " + DataBase.DB.playerData.gameCOunt.ToString();
+                break;
+
+            case 4:
+                countText[_num].text = "운동 : " + DataBase.DB.playerData.GYMCount.ToString();
+                break;
+
+            case 5:
+                countText[_num].text = "그림 : " + DataBase.DB.playerData.drawingCount.ToString();
+                break;
+
+            case 6:
+                countText[_num].text = "기타 : " + DataBase.DB.playerData.guitarCount.ToString();
+                break;
+
+            default:
+                break;
+        }
+    }
+
     public void HpZero()
     {
         DataBase.DB.playerData.HP = 0;

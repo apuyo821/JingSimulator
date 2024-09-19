@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8885593202460458167}
   - component: {fileID: 2057902528351509191}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: dialoguePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -407,10 +407,8 @@ MonoBehaviour:
       name: 
       contexts: []
       spriteName: []
-      imageDirection: 0
   dummy_dialogue:
     tf_standing: {fileID: 0}
     name: 
     contexts: []
     spriteName: []
-    imageDirection: 0

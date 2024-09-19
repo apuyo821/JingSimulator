@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 1765014570280565890}
   - component: {fileID: 3179012121418085763}
   - component: {fileID: -3205520455299107423}
+  - component: {fileID: 4255625873971049813}
   m_Layer: 5
   m_Name: FinalChoice
   m_TagString: Untagged
@@ -250,14 +251,14 @@ MonoBehaviour:
   image: {fileID: 1765014570280565890}
   selectImg:
   - {fileID: 21300000, guid: 28ee27546bd37a04d9bf928a064a117d, type: 3}
-  - {fileID: 21300000, guid: 37e0d5155706dc14db0299097d19af84, type: 3}
-  - {fileID: 21300000, guid: afaab1d98d1e385408d286aafcaeea61, type: 3}
-  - {fileID: 21300000, guid: c7cc19aec9545b647997ecb51d4e13c0, type: 3}
-  - {fileID: 21300000, guid: 549b906a9afa87a44ab238ee054bd8f4, type: 3}
-  - {fileID: 21300000, guid: 9819c4b88260b5f42b67f2da522f0201, type: 3}
-  - {fileID: 21300000, guid: 7cee6d7cfb777d54082757a24a957b69, type: 3}
-  - {fileID: 21300000, guid: 233efb17126a83447b643330101a661b, type: 3}
-  - {fileID: 21300000, guid: 641b3393f5927d4478afa7c5af92829a, type: 3}
+  - {fileID: 21300000, guid: 5df1f424f0e2d354ca00d4dff7678f25, type: 3}
+  - {fileID: 21300000, guid: ff0108b2a54cc8e4da503a3cc4758955, type: 3}
+  - {fileID: 21300000, guid: 84732fa17b285b54a80054c26659f859, type: 3}
+  - {fileID: 21300000, guid: b200e5d270da3634aae781c4bc0542f7, type: 3}
+  - {fileID: 21300000, guid: aae5662004ec2604fa99c4d9c20e0e84, type: 3}
+  - {fileID: 21300000, guid: 43648b04a44cdfe458b7511c9feb6c37, type: 3}
+  - {fileID: 21300000, guid: 1d753b51a140c5d4c9639a3653ccaaa3, type: 3}
+  - {fileID: 21300000, guid: 789e73b7a78f73348b0a70ab1380a4bd, type: 3}
   - {fileID: 21300000, guid: 67257cb9c94384748954c8e5dee4cc13, type: 3}
   sprNum: 0
   WorkText: {fileID: 2536979434048462471}
@@ -317,3 +318,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4255625873971049813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6780338877293940436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 6
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+          m_MethodName: Play
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

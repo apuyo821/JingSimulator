@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class viewNowCursor : MonoBehaviour
 {
     [SerializeField] RectTransform cursorRect;
-    [SerializeField] GameObject scheduleManagerObj;
-    [SerializeField] ScheduleManager scheduleManagerCs;
     [SerializeField] Image image;
 
     int schedules = 0;
@@ -16,11 +14,14 @@ public class viewNowCursor : MonoBehaviour
     void Start()
     {
         cursorRect = GetComponent<RectTransform>();
-        scheduleManagerCs = scheduleManagerObj.GetComponent<ScheduleManager>();
         image = GetComponent<Image>();
         image.enabled = false;
         StartCoroutine(imgPositioning());
-        
+    }
+
+    private void Update()
+    {
+        schedules = ScheduleManager.daycount;
     }
 
     //ScheduleManager의 daycount에 따라서 지금 하는 행동을 가리키는 커서의 위치 변경
@@ -56,7 +57,6 @@ public class viewNowCursor : MonoBehaviour
     {
         while (true)
         {
-            schedules = ScheduleManager.daycount;
             yield return new WaitUntil(() => ScheduleManager.isActing == true);
             switch (schedules + 1)
             {

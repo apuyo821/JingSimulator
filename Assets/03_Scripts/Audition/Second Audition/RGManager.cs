@@ -41,12 +41,13 @@ public class RGManager : MonoBehaviour
 
     void showGradeExplainPanel()
     {
-        int _danceStat = DataBase.DB.playerData.dance + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz / 0.2f);
-        if (_danceStat >= 55)
+        int _danceStat = DataBase.DB.playerData.dance + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f);
+        Debug.Log(Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f));
+        if (_danceStat > 40)
             noteAmount = 8;
-        else if (_danceStat < 55 && _danceStat >= 42)
+        else if (_danceStat <= 40 && _danceStat >= 30)
             noteAmount = 10;
-        else if (_danceStat < 42)
+        else if (_danceStat < 30)
             noteAmount = 16;
 
         switch (noteAmount)
@@ -90,7 +91,7 @@ public class RGManager : MonoBehaviour
 
     public void GoMain()
     {
-        DataBase.DB.playerData.auditionIndex++;
+        DataBase.DB.isAuditionEnd = true;
         SceneManager.LoadScene("Main");
     }
 

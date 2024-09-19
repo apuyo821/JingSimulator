@@ -17,6 +17,12 @@ public class buttonManager : MonoBehaviour
 
     public GameObject[] UIs;
 
+    private void Update()
+    {
+        if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2 || DataBase.DB.playerData.dDay == 0)
+            btn[4].gameObject.SetActive(true);
+    }
+
     public void falseBtnItr()
     {
         for (int i = 0; i < btn.Length; i++)
@@ -65,18 +71,6 @@ public class buttonManager : MonoBehaviour
     public void SchBtnIntrFalse()
     {
         btn[0].interactable = false;
-    }
-
-    public void ShowWorkText()
-    {
-        if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
-        {
-            Texts[6].gameObject.SetActive(true);
-        }
-        else
-        {
-            Texts[6].gameObject.SetActive(false);
-        }
     }
 
     public void setInvenExplainObj(bool p_flag)

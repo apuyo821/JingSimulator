@@ -23,6 +23,7 @@ TagManager:
   - gagu
   - eventScene
   - room
+  - Title
   layers:
   - Default
   - TransparentFX

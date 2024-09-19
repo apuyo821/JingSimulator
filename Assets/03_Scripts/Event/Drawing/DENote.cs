@@ -13,6 +13,7 @@ public class DENote : MonoBehaviour
     public bool isMouseOnNote = false;
 
     DERing dERing;
+    [SerializeField] DEManager deManager;
 
     private void Start()
     {
@@ -43,6 +44,7 @@ public class DENote : MonoBehaviour
                     if(deNoteIndex != 3)
                         DENotes[deNoteIndex].SetActive(true);
                     isClicked = false;
+                    deManager.animSet();
                 }
                 else
                 {
