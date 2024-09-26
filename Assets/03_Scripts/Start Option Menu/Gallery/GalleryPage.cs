@@ -6,12 +6,16 @@ using TMPro;
 
 public class GalleryPage : MonoBehaviour
 {
-    [SerializeField] GameObject[] pageObj;
+    [Header("엔딩")]
+    [SerializeField] GameObject[] endingPageObj;
+    [Space(10)]
+    [Header("이벤트")]
+    [SerializeField] GameObject[] eventPageObj;
 
     [Space(10f)]
     [SerializeField] Button[] pageButtons;    //0:Left, 1:Right
     [SerializeField] int pageNum = 0;
-    [SerializeField] TMP_Text pageNumTxt;
+
 
     private void OnDisable()
     {
@@ -21,60 +25,116 @@ public class GalleryPage : MonoBehaviour
     private void OnEnable()
     {
         pageNum = 0;
-        for (int i = 0; i < pageObj.Length; i++)
+        if (transform.gameObject.name == "Ending Illust Panel")
         {
-            pageObj[i].SetActive(false);
+            for (int i = 0; i < endingPageObj.Length; i++)
+            {
+                endingPageObj[i].SetActive(false);
+            }
+            EndingPageCheck();
         }
-        pageCheck();
+        else if(transform.gameObject.name == "Event Illust  Panel")
+        {
+            for (int i = 0; i < endingPageObj.Length; i++)
+            {
+                endingPageObj[i].SetActive(false);
+            }
+            EventPageCheck();
+        }
+        
     }
 
     private void Update()
     {
-        pageCheck();
-        pageNumTxt.text = (pageNum + 1).ToString();
+        if (transform.gameObject.name == "Ending Illust Panel")
+            EndingPageCheck();
+        else if (transform.gameObject.name == "Event Illust  Panel")
+            EventPageCheck();
     }
 
-    public void LeftPage()
+    public void EndingLeftPage()
     {
         pageNum--;
-        pageCheck();
+        EndingPageCheck();
     }
 
-    public void RightPage()
+    public void EndingRightPage()
     {
         pageNum++;
-        pageCheck();
+        EndingPageCheck();
     }
 
-    void pageCheck()
+    public void EventLeftPage()
     {
-        for (int i = 0; i < pageObj.Length; i++)
+        pageNum--;
+        EventPageCheck();
+    }
+
+    public void EventRightPage()
+    {
+        pageNum++;
+        EventPageCheck();
+    }
+
+    void EndingPageCheck()
+    {
+        for (int i = 0; i < endingPageObj.Length; i++)
         {
-            pageObj[i].SetActive(false);
+            endingPageObj[i].SetActive(false);
         }
         switch (pageNum)
         {
             case 0:
                 pageButtons[0].interactable = false;
-                pageObj[pageNum].SetActive(true);
+                endingPageObj[pageNum].SetActive(true);
                 break;
 
             case 1:
                 pageButtons[0].interactable = true;
                 pageButtons[1].interactable = true;
-                pageObj[pageNum].SetActive(true);
+                endingPageObj[pageNum].SetActive(true);
+                break;
+
+            case 2:
+                pageButtons[0].interactable = true;
+                pageButtons[1].interactable = false;
+                endingPageObj[pageNum].SetActive(true);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    void EventPageCheck()
+    {
+        for (int i = 0; i < eventPageObj.Length; i++)
+        {
+            eventPageObj[i].SetActive(false);
+        }
+        switch (pageNum)
+        {
+            case 0:
+                pageButtons[0].interactable = false;
+                eventPageObj[pageNum].SetActive(true);
+                break;
+
+            case 1:
+                pageButtons[0].interactable = true;
+                pageButtons[1].interactable = true;
+                eventPageObj[pageNum].SetActive(true);
                 break;
 
             case 2:
                 pageButtons[0].interactable = true;
                 pageButtons[1].interactable = true;
-                pageObj[pageNum].SetActive(true);
+                eventPageObj[pageNum].SetActive(true);
                 break;
 
             case 3:
                 pageButtons[0].interactable = true;
                 pageButtons[1].interactable = false;
-                pageObj[pageNum].SetActive(true);
+                eventPageObj[pageNum].SetActive(true);
                 break;
 
             default:

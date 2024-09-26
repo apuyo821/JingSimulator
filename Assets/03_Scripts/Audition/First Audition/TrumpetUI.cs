@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TrumpetUI : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class TrumpetUI : MonoBehaviour
     public Text rankTxt;
     [SerializeField] Text rankTxtShadow;
     public Text resultTxt;
+    [SerializeField] TMP_Text bonusStatText;
     public GameObject ResultPanel;
 
     bool isEnd;
@@ -19,6 +21,7 @@ public class TrumpetUI : MonoBehaviour
     private void Awake()
     {
         setting_comboUI(false);
+        ResultPanel.SetActive(false);
     }
 
     private void Update()
@@ -47,12 +50,13 @@ public class TrumpetUI : MonoBehaviour
         }
     }
 
-    public void showResultPanel(string _resultRank)
+    public void showResultPanel(string _resultRank, string _bonusStat)
     {
         isEnd = true;
         setting_comboUI(false);
         ResultPanel.SetActive(true);
         resultTxt.text = _resultRank;
+        bonusStatText.text = _bonusStat;
     }
 
     void setting_comboUI(bool p_flag)

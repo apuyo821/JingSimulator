@@ -25,6 +25,7 @@ public class Timer : MonoBehaviour
     public void timerStart()
     {
         StartCoroutine(timeProcessCoroutine);
+        isEventing = true;
     }
 
     public void timeStop()
@@ -37,22 +38,19 @@ public class Timer : MonoBehaviour
 
     IEnumerator timerProcess()
     {
-        isEventing = true;
-        while (isEventing)
+        while (slider.value != time)
         {
             slider.value++;
-            if (slider.value == time)
-            {
-                break;
-            }
             yield return new WaitForSeconds(1f);
         }
-        noteObj = GameObject.FindGameObjectWithTag("Note");
-        noteCS = noteObj.GetComponent<Notes>();
-        noteCS.RemoveProcess();
-        RGManager.RGinstance.winOrLose(1);  //fail
-        yield return null;
-        isEventing = false;
-        slider.value = 0;
+        if(slider.value == time)
+        {
+            noteObj = GameObject.FindGameObjectWithTag("Note");
+            noteCS = noteObj.GetComponent<Notes>();
+            noteCS.RemoveProcess();
+            RGManager.RGinstance.winOrLose(1);  //fail
+            yield return null;
+            slider.value = 0;
+        }
     }
 }

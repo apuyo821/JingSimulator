@@ -31,20 +31,20 @@ public class PlayerData
     public int dance = 0;        //5, ´í½º
     public int misukham = 0;      //6, ¹Ì¼÷ÇÔ
 
-    public int firstPlace = 0;
-    public int rankScore = 0;
-
     public int danceCount = 0;
     public int vocalCount = 0;
     public int broadcastCount = 0;
     public int GYMCount = 0;
     public int gameCOunt = 0;
     public int drawingCount = 0;
-    public int guitarCount = 0;
 
     public List<ItemData> itemDatas;
     public List<int> EndingIndex = new List<int>();
     public List<int> EventIndex = new List<int>();
+
+    public bool isGYMEvent = false;
+    public bool isGameEvent = false;
+    public bool isDrawingEvent = false;
 }
 
 public class DataBase : MonoBehaviour
@@ -59,6 +59,8 @@ public class DataBase : MonoBehaviour
     public List<int> temporaryEventData = new List<int>();
 
     public bool isAuditionEnd = false;
+
+    public bool thirdAudition = false;  //true == ÇÕ°Ý, false == ºÒÇÕ°Ý
 
     private void Awake()
     {
@@ -97,6 +99,7 @@ public class DataBase : MonoBehaviour
     {
         isAuditionEnd = false;
         playerData = new PlayerData();
+        playerData.itemDatas = new List<ItemData>();
     }
 
     private void Update()
@@ -115,3 +118,4 @@ public class DataBase : MonoBehaviour
             playerData.misukham = 0;
     }
 }
+

@@ -75,7 +75,7 @@ public class Item : MonoBehaviour
     {
         if(transform.tag == "Item")
         {
-            GameObject explainPanel = GameObject.Find("panel_Explain_decide");
+            GameObject explainPanel = GameObject.Find("ExplainDecidePack");
             //0 = Item Icon  1 = explain Text    2 = use Button
             for (int i = 0; i < 3; i++)
             {

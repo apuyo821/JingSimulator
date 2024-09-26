@@ -133,6 +133,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5d5f8c0fcc1f6b44586fdb311cdfe67e, type: 3}
   - {fileID: 21300000, guid: 58466f24c3d1ffc42ae6c0e6b0ecaf8b, type: 3}
   hintText: {fileID: 6697761879492629124}
+  illust: {fileID: 4705771261703284632}
 --- !u!222 &2793220999702407265
 CanvasRenderer:
   m_ObjectHideFlags: 0

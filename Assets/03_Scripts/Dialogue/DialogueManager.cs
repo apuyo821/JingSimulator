@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] GameObject dialoguePanel;
     [SerializeField] Image dialoguePanelImage;
     [SerializeField] GameObject StandingImage;
     [SerializeField] GameObject dialogueObj;
+    [SerializeField] InteractionEvent dialogueCS;
 
     [SerializeField] Text txt_dialogue;
     [SerializeField] Text txt_name;
@@ -23,6 +24,11 @@ public class DialogueManager : MonoBehaviour
     public int contextCnt = 0; 	// 대사 카운트. 한 캐릭터가 여러 대사를 할 수 있다.
 
     bool isDialogue = false;
+
+    [SerializeField] GameObject skipButton;
+
+    [Header("텍스트 출력 딜레이")]
+    [SerializeField] float textDelay;
 
     private void Start()
     {
@@ -47,7 +53,7 @@ public class DialogueManager : MonoBehaviour
                     // 현재 캐릭터의 다음 대사 출력
                     if (++contextCnt < dialogues[dialogueCnt].contexts.Length)
                     {
-                        TypeWriter();
+                        StartCoroutine(TypeWriter());
                     }
 
                     // 다음 캐릭터의 대사 출력
@@ -57,7 +63,7 @@ public class DialogueManager : MonoBehaviour
 
                         if (++dialogueCnt < dialogues.Length)
                         {
-                            TypeWriter();
+                            StartCoroutine(TypeWriter());
                         }
                         // 다음 캐릭터가 없으면 (대화가 끝났으면)
                         else
@@ -82,7 +88,7 @@ public class DialogueManager : MonoBehaviour
     public void ShowDialogue(Dialogue[] p_dialogues)
     {
         isDialogue = true;
-
+        skipButton.SetActive(true);
         txt_dialogue.text = "";
         txt_name.text = "";
 
@@ -90,7 +96,7 @@ public class DialogueManager : MonoBehaviour
         //SettingUI(true);
         dialogues = p_dialogues;
 
-        TypeWriter();
+        StartCoroutine(TypeWriter());
     }
 
     void SettingUI(bool p_flag)
@@ -99,24 +105,31 @@ public class DialogueManager : MonoBehaviour
         StandingImage.SetActive(p_flag);
     }
 
-    void EndDialogue()
+    public void EndDialogue()
     {
         isDialogue = false;
         contextCnt = 0;
         dialogueCnt = 0;
         dialogues = null;
+        dialogueCS.dialogueEvent = new DialogueEvent();
         isNext = false;
         dialoguePanelImage.color = new Color(255, 255, 255, 1f);
         dialogueObj.SetActive(false);
-        if(transform.tag == "room")
+        skipButton.SetActive(false);
+        Scene scene = SceneManager.GetActiveScene();
+        if (transform.tag == "room")
         {
             scheduleManager.isGO = true;
             scheduleManager.isEvent = false;
             buttonManager.trueBtnItr();
         }
+        else if(scene.name == "Audition")
+        {
+            AuditionManager.isEndingMenting = false;
+        }
     }
 
-    void TypeWriter()
+    IEnumerator TypeWriter()
     {
         dialogueObj.SetActive(true);    // 대사창 이미지를 띄운다.
         ChangeSprite();		// 스탠딩 이미지를 변경한다.
@@ -126,7 +139,13 @@ public class DialogueManager : MonoBehaviour
         t_ReplaceText = t_ReplaceText.Replace("\\n", "\n"); // 엑셀의 \n은 텍스트이기 때문에, 앞에 \를 한 번 더 입력
 
         txt_name.text = dialogues[dialogueCnt].name;
-        txt_dialogue.text = t_ReplaceText;
+
+        for (int i = 0; i < t_ReplaceText.Length; i++)
+        {
+            txt_dialogue.text += t_ReplaceText[i];
+            yield return new WaitForSeconds(textDelay);
+        }
+
         isNext = true;
     }    
 }

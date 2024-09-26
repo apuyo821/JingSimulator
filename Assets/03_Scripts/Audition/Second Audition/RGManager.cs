@@ -17,8 +17,9 @@ public class RGManager : MonoBehaviour
     public Timer timerCS;
 
     public Text[] texts;
+    public TMP_Text bonusStatText;
 
-    public int miss = 0;
+    public int miss = 0, processIndex = 0;
     public bool clear = false, isStart = false;
     int noteAmount;
     int timeAmount = 3;
@@ -29,6 +30,11 @@ public class RGManager : MonoBehaviour
     [SerializeField] GameObject audiitonGradeExplainPanel;
     [SerializeField] TMP_Text auditionGradeExplainText;
 
+    [SerializeField] GameObject resultPanel;
+    [Header("stage Object")]
+    [SerializeField] GameObject showStagePanel;
+    [SerializeField] TMP_Text showStageText;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -37,6 +43,8 @@ public class RGManager : MonoBehaviour
         timerCS = Objs[3].GetComponent<Timer>();
         isStart = false;
         showGradeExplainPanel();
+        resultPanel.SetActive(false);
+        showStagePanel.SetActive(false);
     }
 
     void showGradeExplainPanel()
@@ -60,8 +68,10 @@ public class RGManager : MonoBehaviour
                 auditionGradeExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
                 break;
 
-            case 16:
+            case 14:
                 auditionGradeExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
+                timerCS.time = 10;
+                timerCS.slider.maxValue = 10;
                 break;
 
             default:
@@ -79,8 +89,7 @@ public class RGManager : MonoBehaviour
     public void BeforeGameStart()
     {
         explainPanel.SetActive(false);
-        StartCoroutine(TTO());
-        StartCoroutine(settingAndStart());
+        StartCoroutine(SecondAuditionProcess());
     }
 
     public void winOrLose(int _or)
@@ -114,14 +123,18 @@ public class RGManager : MonoBehaviour
             switch (noteAmount)
             {
                 case 8:
+                case 10:
+                case 12:
                     notesCS.typeNum = Random.Range(0, 4);
                     break;
 
-                case 10:
+                case 9:
+                case 11:
+                case 13:
                     notesCS.typeNum = Random.Range(0, 6);
                     break;
 
-                case 16:
+                case 7:
                     notesCS.typeNum = Random.Range(0, 10);
                     break;
 
@@ -142,7 +155,10 @@ public class RGManager : MonoBehaviour
 
     IEnumerator TTO()
     {
+        Debug.Log("d");
         Objs[2].SetActive(true);
+        isStart = false;
+        timeAmount = 3;
         while (timeAmount != 0)
         {
             texts[2].text = timeAmount.ToString();
@@ -161,5 +177,52 @@ public class RGManager : MonoBehaviour
         texts[_or].gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         texts[_or].gameObject.SetActive(false);
+    }
+
+    IEnumerator SecondAuditionProcess()
+    {
+        yield return null;
+        processIndex = 1;
+        showStagePanel.SetActive(true);
+        showStageText.text = processIndex.ToString() + " 스테이지";
+        yield return new WaitForSeconds(1f);
+        showStagePanel.SetActive(false);
+
+        //first Stage, index = 0
+        StartCoroutine(TTO());
+        StartCoroutine(settingAndStart());
+
+        yield return new WaitUntil(() => clear == true);
+        processIndex++;
+        showStagePanel.SetActive(true);
+        showStageText.text = processIndex.ToString() + " 스테이지";
+        timerCS.timeStop();
+        noteAmount += 2;
+        clear = false;
+            
+        yield return new WaitForSeconds(1f);
+        showStagePanel.SetActive(false);
+
+        //Second Stage, index = 1
+        StartCoroutine(TTO());
+        StartCoroutine(settingAndStart());
+
+        yield return new WaitUntil(() => clear == true);
+        processIndex++;
+        showStagePanel.SetActive(true);
+        timerCS.timeStop();
+        showStageText.text = processIndex.ToString() + " 스테이지";
+        noteAmount += 2;
+        clear = false;
+
+        yield return new WaitForSeconds(1f);
+        showStagePanel.SetActive(false);
+
+        //Last Stage, index = 2
+        StartCoroutine(TTO());
+        StartCoroutine(settingAndStart());
+
+        yield return new WaitUntil(() => clear == true);
+        timerCS.timeStop();
     }
 }

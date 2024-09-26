@@ -73,7 +73,7 @@ public class ItemButton : MonoBehaviour
                         break;
 
                     case 1:
-                        statusName = "가창력";
+                        statusName = "노래 및 발성";
                         DataBase.DB.playerData.vocal += plusminus;
                         if (DataBase.DB.playerData.vocal < 0)
                             DataBase.DB.playerData.vocal = 0;

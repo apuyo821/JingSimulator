@@ -148,7 +148,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 980
-        y: 603
+        y: 604
         width: 650
         height: 208
       alignment: 0
@@ -189,8 +189,8 @@ TextureImporter:
       name: ui buttons_3
       rect:
         serializedVersion: 2
-        x: 959
-        y: 394
+        x: 980
+        y: 393
         width: 650
         height: 205
       alignment: 0

@@ -37,7 +37,7 @@ public class ItemManager : MonoBehaviour
 
     private void Update()
     {
-        moneyTxt.text = "\\ " + DataBase.DB.playerData.money.ToString();
+        moneyTxt.text = DataBase.DB.playerData.money.ToString();
     }
 
     public void checkItem(int _itemID)

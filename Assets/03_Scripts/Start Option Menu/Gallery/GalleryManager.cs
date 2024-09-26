@@ -23,9 +23,6 @@ public class GalleryManager : MonoBehaviour
     List<int> dummyData;
     public SaveRefreshInfo saveRefresh = new SaveRefreshInfo();
 
-    bool endingFirst = false;
-    bool eventFirst = false;
-
     int j = 1;
 
     string path;
@@ -90,6 +87,14 @@ public class GalleryManager : MonoBehaviour
         }
         //PlayerPrefs.DeleteAll();
         setUp();
+    }
+
+    public void panelHide()
+    {
+        foreach (GameObject i in illustPanel)
+        {
+            i.SetActive(false);
+        }
     }
 
     public void setUp()
@@ -217,34 +222,18 @@ public class GalleryManager : MonoBehaviour
         switch (_index)
         {
             case 0:
-                if(endingFirst == false)
+                for (int i = 0; i < DataBase.DB.temporaryEndingData.Count; i++)
                 {
-                    for (int i = 0; i < DataBase.DB.temporaryEndingData.Count; i++)
-                    {
-                        GalleryCards galleryCards = EndingCards[DataBase.DB.temporaryEndingData[i]].GetComponent<GalleryCards>();
-                        galleryCards.ImageChange(1);
-                    }
-                    endingFirst = true;
-                }
-                else
-                {
-
+                    GalleryCards galleryCards = EndingCards[DataBase.DB.temporaryEndingData[i]].GetComponent<GalleryCards>();
+                    galleryCards.ImageChange();
                 }
                 break;
 
             case 1:
-                if (eventFirst == false)
+                for (int i = 0; i < DataBase.DB.temporaryEventData.Count; i++)
                 {
-                    for (int i = 0; i < DataBase.DB.temporaryEventData.Count; i++)
-                    {
-                        GalleryCards galleryCards = EventCards[DataBase.DB.temporaryEventData[i]].GetComponent<GalleryCards>();
-                        galleryCards.ImageChange(1);
-                    }
-                    eventFirst = true;
-                }
-                else
-                {
-
+                    GalleryCards galleryCards = EventCards[DataBase.DB.temporaryEventData[i]].GetComponent<GalleryCards>();
+                    galleryCards.ImageChange();
                 }
                 break;
 

@@ -12,7 +12,7 @@ public class InteractionEvent : MonoBehaviour
     // DatabaseManager에 저장된 실제 대사 데이터를 꺼내온다.
     public Dialogue[] GetDialogue()
     {
-        dummy_dialogue.tf_standing = transform.GetChild(2).GetComponent<Transform>();
+        dummy_dialogue.tf_standing = transform.GetChild(1).GetChild(0).GetComponent<Transform>();
         //새로 만들어져서 아무것도 없는 dialogueEvent.dialogues에 더미의 tranform만 전달
         for (int j = 0; j < dialogueEvent.dialogues.Length; j++)
         {

@@ -9,22 +9,27 @@ public class thirdAuditionManager : MonoBehaviour
     public Text rankText;
     public GameObject rankPanel;
 
+    [SerializeField] AuditionManager auditionManager;
+
     private void OnEnable()
     {
         rankPanel.SetActive(true);
-        if (DataBase.DB.playerData.rizz >= 251)
-            rankText.text = "1등";
-        else if (DataBase.DB.playerData.rizz < 251 && DataBase.DB.playerData.rizz >= 179)
-            rankText.text = "2등";
-        else if (DataBase.DB.playerData.rizz < 179 && DataBase.DB.playerData.rizz >= 143)
-            rankText.text = "3등";
-        else if (DataBase.DB.playerData.rizz < 143)
-            rankText.text = "4등";
+        if (DataBase.DB.playerData.rizz + DataBase.DB.playerData.dance + DataBase.DB.playerData.vocal >= 250)
+        {
+            rankText.text = "합격!";
+            DataBase.DB.thirdAudition = true;
+        }
+        else
+        {
+            rankText.text = "불합격";
+            DataBase.DB.thirdAudition = false;
+        }
     }
 
     public void GoMain()
     {
         DataBase.DB.isAuditionEnd = true;
-        SceneManager.LoadScene("Main");
+        //DataBase.DB.playerData.auditionIndex++;
+        auditionManager.LastAudition();
     }
 }

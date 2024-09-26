@@ -40,7 +40,7 @@ public class buttonManager : MonoBehaviour
     public void showStats()
     {
         Texts[0].text = "손재주 : " + DataBase.DB.playerData.deft.ToString();
-        Texts[1].text = "보컬 : " + DataBase.DB.playerData.vocal.ToString();
+        Texts[1].text = "노래 및 발성 : " + DataBase.DB.playerData.vocal.ToString();
         Texts[2].text = "근력 : " + DataBase.DB.playerData.strength.ToString();
         Texts[3].text = "매력 : " + DataBase.DB.playerData.rizz.ToString();
         Texts[4].text = "댄스 : " + DataBase.DB.playerData.dance.ToString();

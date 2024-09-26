@@ -9,11 +9,11 @@ public class GalleryCards : MonoBehaviour
     Image Image;
     public Sprite[] sprites;
     [SerializeField] GameObject hintText;
+    [SerializeField] GameObject illust;
 
-    public void ImageChange(int _index)
+    public void ImageChange()
     {
-        Image = GetComponent<Image>();
-        Image.sprite = sprites[_index];
+        illust.SetActive(true);
     }
 
     public void showHint()

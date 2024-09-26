@@ -16,6 +16,7 @@ public class ScheduleManager : MonoBehaviour
     public static int[] schedules;
     public GameObject[] SchedulePlace;
 
+    [SerializeField] GameManager gameManager;
     buttonManager buttonManager;
     public GameObject[] UIObjects;  //0 : panel_select_task, 1 : panel_select
     public Text dDayTxT;
@@ -45,8 +46,8 @@ public class ScheduleManager : MonoBehaviour
     void Awake()
     {
         schedules = new int[3];
-        AudioManager.audioManager.mainAudio.Play();
     }
+
 
     //버튼매니저 오브제와 스크립트 불러오기
     private void Start()
@@ -56,6 +57,7 @@ public class ScheduleManager : MonoBehaviour
         itrCs = itrObj.GetComponent<InteractionEvent>();
         dmCs = FindObjectOfType<DialogueManager>();
 
+        UIObjects[2].SetActive(false);
         //게임 처음시작이거나 오디션이 끝났을 때 체크
         eventCheck(DataBase.DB.playerData.dDay);
 
@@ -71,7 +73,8 @@ public class ScheduleManager : MonoBehaviour
         SchedulePlace[0].SetActive(true);
         isHome = true;
         jingAnimControl.jingAnim.animPosSet(0);
-        AudioManager.audioManager.mainAudio.Play();    }
+        daycount = 0;
+    }
 
     void OnEnable()
     {
@@ -234,6 +237,7 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.HP += 3;
                 DataBase.DB.playerData.MP += 1;
                 DataBase.DB.playerData.strength += 2;
+                DataBase.DB.playerData.GYMCount++;
                 break;
 
             //Drawing
@@ -242,18 +246,11 @@ public class ScheduleManager : MonoBehaviour
                 DataBase.DB.playerData.MP += 2;
                 DataBase.DB.playerData.deft += 4;
                 DataBase.DB.playerData.misukham++;
-                break;
-
-            //Guitar
-            case 7:
-                DataBase.DB.playerData.HP++;
-                DataBase.DB.playerData.MP += 2;
-                DataBase.DB.playerData.deft += 2;
-                DataBase.DB.playerData.misukham++;
+                DataBase.DB.playerData.drawingCount++;
                 break;
 
             //Hamburger
-            case 8:
+            case 7:
                 DataBase.DB.playerData.HP -= 7;
                 DataBase.DB.playerData.MP -= 5;
                 DataBase.DB.playerData.deft += 2;
@@ -277,9 +274,13 @@ public class ScheduleManager : MonoBehaviour
         SchedulePlace[0].SetActive(true);
         isHome = true;
         jingAnimControl.jingAnim.animPosSet(0);
+        for (int i = 0; i < HamPlace.consumerList.Count; i++)
+        {
+            Destroy(HamPlace.consumerList[i]);
+        }
         yield return new WaitForSeconds(actChgTime); //배경 전환 시간, 집으로 카메라 바뀌었다가 행동 배경으로 전환
-        
-        if(daycount < 3)
+
+        if (daycount < 3)
         {
             //daycount가 2 보다 작으면, 남은 행동 진행
             StartCoroutine(Process(schedules[daycount]));
@@ -298,7 +299,7 @@ public class ScheduleManager : MonoBehaviour
             MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
 
             //오디션 이벤트 발생
-            if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2 || DataBase.DB.playerData.dDay == 0)
+            if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 0)
             {
                 switch (DataBase.DB.playerData.dDay)
                 {
@@ -310,7 +311,7 @@ public class ScheduleManager : MonoBehaviour
                         DataBase.DB.playerData.auditionIndex = 1;
                         break;
 
-                    case 2:
+                    case 0:
                         DataBase.DB.playerData.auditionIndex = 2;
                         break;
 
@@ -336,12 +337,28 @@ public class ScheduleManager : MonoBehaviour
             }
             buttonManager.trueBtnItr();
 
+            /*
             //HP가 0일 때 휴식 이벤트
             if (DataBase.DB.playerData.HP < 1 || DataBase.DB.playerData.MP < 1)
             {
                 buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
-            }
+            }*/
+
+            DataBase.DB.playerData.HP += 4;
+            DataBase.DB.playerData.MP += 2;
+
+            subActEventCheck();
         }
+    }
+
+    public void subActEventCheck()
+    {
+        if (DataBase.DB.playerData.GYMCount >= 10 && DataBase.DB.playerData.isGYMEvent == false)
+            SceneManager.LoadScene("Event");
+        else if (DataBase.DB.playerData.gameCOunt >= 10 && DataBase.DB.playerData.isGameEvent == false)
+            SceneManager.LoadScene("Event");
+        else if (DataBase.DB.playerData.drawingCount >= 10 && DataBase.DB.playerData.isDrawingEvent == false)
+            SceneManager.LoadScene("Event");
     }
 
     public bool eventCheck(int _dday)
@@ -371,7 +388,7 @@ public class ScheduleManager : MonoBehaviour
                 itrCs.dialogueEvent.name = "알바 설명";
                 break;
 
-            case 29:
+            case 28:
                 if (DataBase.DB.isAuditionEnd)
                 {
                     isGO = false;
@@ -413,6 +430,7 @@ public class ScheduleManager : MonoBehaviour
         }
         if (isEvent)
         {
+            UIObjects[2].SetActive(true);
             buttonManager.falseBtnItr();
             itrCs.dialogueEvent.dialogues = new Dialogue[dialoguLength];
             dmCs.ShowDialogue(itrCs.GetDialogue());
@@ -424,6 +442,7 @@ public class ScheduleManager : MonoBehaviour
     IEnumerator afterFirstStory()
     {
         yield return new WaitUntil(() => isEvent == false);
+        UIObjects[2].SetActive(true);
         blackBG.SetActive(false);
         isFirst = false;
         isGO = false;
@@ -450,6 +469,7 @@ public class ScheduleManager : MonoBehaviour
         //혹시 첫 번째 오디션은 뭘 준비해야 하나요?
         //위의 대사 다음 스케쥴 패널을 띄우고 설명하는 장면
         blackBG.SetActive(false);
+        UIObjects[2].SetActive(true);
         isFirst = false;
         isGO = false;
         isEvent = true;
@@ -564,17 +584,17 @@ public class ScheduleManager : MonoBehaviour
     IEnumerator IsZero()
     {
         SchedulePlace[0].SetActive(false);
-        SchedulePlace[9].SetActive(true);
+        SchedulePlace[8].SetActive(true);
         DataBase.DB.playerData.dDay--;
-        DataBase.DB.playerData.HP += 25;
-        DataBase.DB.playerData.MP += 13;
-        jingAnimControl.jingAnim.animPosSet(9);
-        yield return new WaitForSeconds(4.0f);
-        SchedulePlace[9].SetActive(false);
+        DataBase.DB.playerData.HP += 13;
+        DataBase.DB.playerData.MP += 6;
+        jingAnimControl.jingAnim.animPosSet(8);
+        yield return new WaitForSeconds(3.0f);
+        SchedulePlace[8].SetActive(false);
         SchedulePlace[0].SetActive(true);
         jingAnimControl.jingAnim.animPosSet(0);
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
-        buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";
+        //buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";
     }
 }

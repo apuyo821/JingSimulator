@@ -13,4 +13,16 @@ public class UIControl : MonoBehaviour
             uiOBjs[i].SetActive(false);
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            AudioManager.audioManager.sfx[6].Play();
+            for (int i = 0; i < uiOBjs.Length; i++)
+            {
+                uiOBjs[i].SetActive(false);
+            }
+        }
+    }
 }

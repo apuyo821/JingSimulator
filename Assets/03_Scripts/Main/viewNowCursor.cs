@@ -25,34 +25,6 @@ public class viewNowCursor : MonoBehaviour
     }
 
     //ScheduleManager의 daycount에 따라서 지금 하는 행동을 가리키는 커서의 위치 변경
-    void viweImgPosition()
-    {
-        schedules = ScheduleManager.daycount;
-        switch (schedules+1)
-        {
-            case 0:
-                image.enabled = false;
-                break;
-
-            case 1:
-                image.enabled = true;
-                cursorRect.anchoredPosition = new Vector2(115, -318);
-                break;
-
-            case 2:
-                cursorRect.anchoredPosition = new Vector2(185, -318);
-                break;
-
-            case 3:
-                cursorRect.anchoredPosition = new Vector2(255, -318);
-                break;
-
-            default:
-                break;
-
-        }
-    }
-
     IEnumerator imgPositioning()
     {
         while (true)
@@ -63,15 +35,15 @@ public class viewNowCursor : MonoBehaviour
 
                 case 1:
                     image.enabled = true;
-                    cursorRect.anchoredPosition = new Vector2(115, -318);
+                    cursorRect.anchoredPosition = new Vector2(-88, -100);
                     break;
 
                 case 2:
-                    cursorRect.anchoredPosition = new Vector2(185, -318);
+                    cursorRect.anchoredPosition = new Vector2(0, -100);
                     break;
 
                 case 3:
-                    cursorRect.anchoredPosition = new Vector2(255, -318);
+                    cursorRect.anchoredPosition = new Vector2(88, -100);
                     break;
 
                 default:

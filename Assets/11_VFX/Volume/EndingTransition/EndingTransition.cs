@@ -56,10 +56,14 @@ public class EndingTransition : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = spritesObjs[2].GetComponent<SpriteRenderer>();  //엔딩 일러스트
         spriteRenderer.sprite = sprites[_endingType];
+        spriteRenderer = spritesObjs[3].GetComponent<SpriteRenderer>();  //엔딩 일러스트
+        spriteRenderer.sprite = sprites[_endingType];
         for (int i = 0; i < spritesObjs.Length; i++)
         {
             spritesObjs[i].SetActive(true);
         }
+        spritesObjs[2].SetActive(false);
+        spritesObjs[4].SetActive(false);
         cameraObject.SetActive(true);
         volumeObj.SetActive(true);
         StartCoroutine(Process());
@@ -72,7 +76,7 @@ public class EndingTransition : MonoBehaviour
         {
             //오른쪽 아래
             case 0:
-                cameraObject.transform.position = new Vector3(365, -325, 275);
+                cameraObject.transform.position = new Vector3(260, -325, 275);
                 targetPosition = new Vector3(590, -325, 275);
                 break;
 
@@ -84,7 +88,7 @@ public class EndingTransition : MonoBehaviour
 
             //풀 샷
             case 2:
-                cameraObject.transform.position = new Vector3(0, 0, 150);
+                cameraObject.transform.position = new Vector3(0, 0, 350);
                 targetPosition = new Vector3(0, 0, 0);
                 break;
 
@@ -97,9 +101,11 @@ public class EndingTransition : MonoBehaviour
     {
         //First Moving
 
+        spritesObjs[5].SetActive(true);
         checkIndex(movingIndex);
         StartCoroutine(flash());
-        yield return new WaitUntil(() => isBluring == false);
+        //yield return new WaitUntil(() => isBluring == false);
+        yield return new WaitForSeconds(2.7f);
         StartCoroutine(CameraMoving());
 
         yield return new WaitUntil(() => isMoving == false);
@@ -115,6 +121,11 @@ public class EndingTransition : MonoBehaviour
         //Last Moving
         checkIndex(movingIndex);
         StartCoroutine(flash());
+        spritesObjs[3].SetActive(false);
+        spritesObjs[2].SetActive(true);
+        spritesObjs[4].SetActive(true);
+        depth.active = true;
+        depth.focusDistance.value = 0.1f;
         yield return new WaitForSeconds(2f);
         yield return new WaitUntil(() => isBluring == false);
         StartCoroutine(CameraMoving());
@@ -126,6 +137,7 @@ public class EndingTransition : MonoBehaviour
     //Flash Light Effect
     IEnumerator flash()
     {
+        isFirstFlash = true;
         spritesObjs[0].SetActive(true);
         spritesObjs[1].SetActive(true);
         if (movingIndex == 0)
@@ -209,6 +221,10 @@ public class EndingTransition : MonoBehaviour
     //마지막 카메라 무빙
     IEnumerator lastCameraMoving()
     {
+        spritesObjs[3].SetActive(false);
+        spritesObjs[2].SetActive(true);
+        spritesObjs[4].SetActive(true);
+        moveVelo = 0.0001f;
         yield return new WaitForSeconds(2f);
         while (cameraObject.transform.position.z <= targetPosition.z -2)
         {

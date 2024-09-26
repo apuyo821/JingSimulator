@@ -21,6 +21,7 @@ public class TrumpetJudge : MonoBehaviour
     [SerializeField] int noteIndex;
     [SerializeField] int score;
     [SerializeField] string resultRank;
+    [SerializeField] string bonusStat;
 
     [SerializeField] GameObject TimeCountPanel;
     [SerializeField] Text timeCountTxt;
@@ -56,23 +57,23 @@ public class TrumpetJudge : MonoBehaviour
     {
         int vocalStat = DataBase.DB.playerData.vocal + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f);
         if (DataBase.DB.playerData.vocal >= 35)
-            noteVelo = 6;
+            noteVelo = 3;
         else if (DataBase.DB.playerData.vocal >= 28 && DataBase.DB.playerData.vocal < 35)
-            noteVelo = 10;
+            noteVelo = 6;
         else if (DataBase.DB.playerData.vocal < 28)
-            noteVelo = 16;
+            noteVelo = 10;
 
         switch (noteVelo)
         {
-            case 6:
+            case 3:
                 auditionStepExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
                 break;
 
-            case 10:
+            case 6:
                 auditionStepExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
                 break;
 
-            case 16:
+            case 10:
                 auditionStepExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
                 break;
 
@@ -124,6 +125,8 @@ public class TrumpetJudge : MonoBehaviour
         }
     }
 
+
+    //노트 14개
     void scoreJudge()
     {
         if(noteCs.headHit == true && noteCs.noteTime > 2 && noteCs.footHit == true)
@@ -151,38 +154,44 @@ public class TrumpetJudge : MonoBehaviour
             rank = "Miss";
         }
 
-        if(noteIndex == 5)
+        if(noteIndex == 14)
         {
             scoreCalculate();
-            trumpetUI.showResultPanel(resultRank);
+            //trumpetUI.showResultPanel(resultRank, bonusStat);
             resultButton.SetActive(true);
         }
     }
 
+    public void showResult()
+    {
+        trumpetUI.showResultPanel(resultRank, bonusStat);
+    }
+
     void scoreCalculate()
     {
-        if (score >= 2000)
+        if (score >= 6000)
         {
-            resultRank = "1등";
-            DataBase.DB.playerData.firstPlace++;
-            DataBase.DB.playerData.rankScore += 1;
+            resultRank = "1등\n";
+            bonusStat = "보너스 스탯 +8";
+            DataBase.DB.playerData.vocal += 8;
         }
-        else if (score < 2000 && score >= 1500)
+        else if (score < 6000 && score >= 4000)
         {
             resultRank = "2등";
-            DataBase.DB.playerData.rankScore += 2;
+            bonusStat = "보너스 스탯 +4";
+            DataBase.DB.playerData.vocal += 4;
         }
-        else if (score < 1500 && score >= 500)
+        else if (score < 3000 && score >= 1000)
         {
             resultRank = "3등";
-            DataBase.DB.playerData.rankScore += 3;
+            bonusStat = "보너스 스탯 +2";
+            DataBase.DB.playerData.vocal += 2;
         }
-        else if (score < 500 && score >= 0)
+        else if (score < 1000 && score >= 0)
         {
             resultRank = "4등";
-            DataBase.DB.playerData.rankScore += 4;
         }
-        else if (score <= 0)
+        else
             resultRank = "탈락";
     }
 

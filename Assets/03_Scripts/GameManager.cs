@@ -75,7 +75,6 @@ public class GameManager : MonoBehaviour
     {
         SetMaxHPMental(DataBase.DB.playerData.MaxHP, DataBase.DB.playerData.MaxMP);
         daySet(DataBase.DB.playerData.dDay);
-
     }
 
     private void Update()

@@ -14,13 +14,26 @@ public class AuditionManager : MonoBehaviour
     public EndingTransition endingTransition;
 
     int endingType;
+    [Space(5)]
+    [Header("엔딩 멘트 관련")]
+    [SerializeField] GameObject itrObj;
+    [SerializeField] InteractionEvent itrCs;
+    [SerializeField] DialogueManager dmCs;
+    public static bool isEndingMenting = false;
+    int dialoguLength;
+    [SerializeField] GameObject[] endingMentObjs;
+
 
     private void Start()
     {
-        AudioManager.audioManager.mainAudio.Stop();
         for (int i = 0; i < rythmGameSystem.Length; i++)
         {
             rythmGameSystem[i].SetActive(false);
+        }
+
+        for (int i = 0; i < endingMentObjs.Length; i++)
+        {
+            endingMentObjs[i].SetActive(false);
         }
         
         switch (DataBase.DB.playerData.auditionIndex)
@@ -55,13 +68,19 @@ public class AuditionManager : MonoBehaviour
             default:
                 break;
         }
+
+        DataBase.DB.playerData.dDay--;
+    }
+
+    public void LastAudition()
+    {
+        auditionJing.SetActive(false);
+        AuditionResultCalculate(DataBase.DB);
     }
 
     public void AuditionResultCalculate(DataBase dataBase)
     {
-        int score = DataBase.DB.playerData.rankScore;
-        int first = DataBase.DB.playerData.firstPlace;
-        if (score <= 6 && first >= 1)
+        if (dataBase.thirdAudition == true)
         {
             //"아이돌";
             endingType = 1;
@@ -83,64 +102,57 @@ public class AuditionManager : MonoBehaviour
                 endingType = 4;
                 //"버튜버";
             }
-            else if (dataBase.playerData.danceCount >= 20 && dataBase.playerData.GYMCount >= 20)
+            else if (dataBase.playerData.danceCount >= 20 && dataBase.playerData.GYMCount >= 10)
             {
                 endingType = 5;
                 //"에어로빅 강사";
             }
-            else if (dataBase.playerData.danceCount >= 20 && dataBase.playerData.gameCOunt >= 20)
+            else if (dataBase.playerData.danceCount >= 20 && dataBase.playerData.gameCOunt >= 10)
             {
                 endingType = 6;
                 //"모션캡쳐";
             }
-            else if (dataBase.playerData.danceCount >= 20 && dataBase.playerData.drawingCount >= 20)
+            else if (dataBase.playerData.danceCount >= 20 && dataBase.playerData.drawingCount >= 10)
             {
                 endingType = 7;
                 //"발레";
             }
-            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.GYMCount >= 20)
+            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.GYMCount >= 10)
             {
                 endingType = 8;
                 //"보컬 트레이너";
             }
-            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.drawingCount >= 20)
+            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.drawingCount >= 10)
             {
                 endingType = 9;
                 //"미술관 큐레이터";
             }
-            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.gameCOunt >= 20)
+            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.gameCOunt >= 10)
             {
                 endingType = 10;
                 //"성우";
             }
-            else if (dataBase.playerData.vocalCount >= 20 && dataBase.playerData.guitarCount >= 20)
+            else if (dataBase.playerData.broadcastCount >= 20 && dataBase.playerData.GYMCount >= 10)
             {
                 endingType = 11;
-                //"밴드";
-            }
-            else if (dataBase.playerData.broadcastCount >= 20 && dataBase.playerData.GYMCount >= 20)
-            {
-                endingType = 12;
                 //"헬스 유튜버";
             }
-            else if (dataBase.playerData.broadcastCount >= 20 && dataBase.playerData.drawingCount >= 20)
+            else if (dataBase.playerData.broadcastCount >= 20 && dataBase.playerData.drawingCount >= 10)
             {
-                endingType = 13;
+                endingType = 12;
                 //"밥버거";
-            }
-            else if (dataBase.playerData.broadcastCount >= 20 && dataBase.playerData.guitarCount >= 20)
-            {
-                endingType = 14;
-                //"기타 유튜버";
             }
             else
             {
 
             }
         }
-        endingType = 13;
-        endingTransition.ProcessStart(endingType);
-        compareEndingAndSave();
+        Debug.Log(endingType);
+        if(endingType != 0)
+        {
+            StartCoroutine(endingMent(endingType));
+            compareEndingAndSave();
+        }
     }
 
     void compareEndingAndSave()
@@ -165,5 +177,112 @@ public class AuditionManager : MonoBehaviour
         }
 
         galleryManager.SaveData();
+    }
+
+    IEnumerator endingMent(int _endingType)
+    {
+        float lineX = 0, lineY = 0, _dialoguLength = 0;
+        string dialogueName = "";
+
+        switch (_endingType)
+        {
+            case 1:
+                lineX = 37;
+                lineY = 37;
+                _dialoguLength = 1;
+                dialogueName = "아이돌 엔딩";
+                break;
+
+            case 2:
+                lineX = 45;
+                lineY = 46;
+                _dialoguLength = 2;
+                dialogueName = "댄서 엔딩";
+                break;
+
+            case 3:
+                lineX = 39;
+                lineY = 40;
+                _dialoguLength = 2;
+                dialogueName = "가수 엔딩";
+                break;
+
+            case 4:
+                lineX = 53;
+                lineY = 54;
+                _dialoguLength = 2;
+                dialogueName = "버튜버 엔딩";
+                break;
+
+            case 5:
+                lineX = 47;
+                lineY = 48;
+                _dialoguLength = 2;
+                dialogueName = "에어로빅 강사 엔딩";
+                break;
+
+            case 6:
+                lineX = 51;
+                lineY = 52;
+                _dialoguLength = 2;
+                dialogueName = "모션캡쳐 엔딩";
+                break;
+
+            case 7:
+                lineX = 49;
+                lineY = 50;
+                _dialoguLength = 2;
+                dialogueName = "발레 엔딩";
+                break;
+
+            case 8:
+                lineX = 41;
+                lineY = 42;
+                _dialoguLength = 2;
+                dialogueName = "보컬 트레이너 엔딩";
+                break;
+
+            case 9:
+                lineX = 43;
+                lineY = 44;
+                _dialoguLength = 2;
+                dialogueName = "미술관 큐레이터 엔딩";
+                break;
+
+            case 10:
+                lineX = 59;
+                lineY = 60;
+                _dialoguLength = 2;
+                dialogueName = "성우 엔딩";
+                break;
+
+            case 11:
+                lineX = 55;
+                lineY = 56;
+                _dialoguLength = 2;
+                dialogueName = "헬스 유튜버 엔딩";
+                break;
+
+            case 12:
+                lineX = 57;
+                lineY = 58;
+                _dialoguLength = 2;
+                dialogueName = "밥버거 엔딩";
+                break;
+
+            default:
+                break;
+        }
+
+        isEndingMenting = true;
+        itrCs.dialogueEvent.line.x = lineX;
+        itrCs.dialogueEvent.line.y = lineY;
+        dialoguLength = (int)_dialoguLength;
+        itrCs.dialogueEvent.name = dialogueName;
+        itrCs.dialogueEvent.dialogues = new Dialogue[dialoguLength];
+        dmCs.ShowDialogue(itrCs.GetDialogue());
+
+        yield return new WaitUntil(() => isEndingMenting == false);
+        endingTransition.ProcessStart(_endingType);
     }
 }

@@ -11,13 +11,16 @@ public class OptionManager : MonoBehaviour
 
     private void Start()
     {
-        volumeSlider[0].value = 70;
-        volumeSlider[1].value = 70;
+        volumeSlider[0].value = AudioManager.mainAudioVolume;
+        volumeSlider[1].value = AudioManager.sfxAudioVolume;
     }
 
     private void Update()
     {
+        AudioManager.mainAudioVolume = volumeSlider[0].value;
+        AudioManager.sfxAudioVolume = volumeSlider[1].value;
         AudioManager.audioManager.mainAudio.volume = volumeSlider[0].value / 100;
+        AudioManager.audioManager.TitleBgm.volume = volumeSlider[0].value / 100;
         volumeValueText[0].text = volumeSlider[0].value.ToString();
 
         for (int i = 0; i < AudioManager.audioManager.sfx.Length; i++)

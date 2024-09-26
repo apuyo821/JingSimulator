@@ -13,6 +13,7 @@ public class Cheat : MonoBehaviour
     [SerializeField] buttonManager buttonManagerCs;
     [SerializeField] Text[] countText;
     [SerializeField] GameObject[] panels;
+    [SerializeField] ScheduleManager scheduleManager;
 
     private void Start()
     {
@@ -58,12 +59,8 @@ public class Cheat : MonoBehaviour
                 DataBase.DB.playerData.auditionIndex = 1;
                 break;
 
-            case 2:
-                DataBase.DB.playerData.auditionIndex = 2;
-                break;
-
             case 0:
-                DataBase.DB.playerData.auditionIndex = 3;
+                DataBase.DB.playerData.auditionIndex = 2;
                 break;
 
             default:
@@ -106,10 +103,6 @@ public class Cheat : MonoBehaviour
                 countText[_num].text = "그림 : " + DataBase.DB.playerData.drawingCount.ToString();
                 break;
 
-            case 6:
-                countText[_num].text = "기타 : " + DataBase.DB.playerData.guitarCount.ToString();
-                break;
-
             default:
                 break;
         }
@@ -142,5 +135,15 @@ public class Cheat : MonoBehaviour
     public void misukhmaUp()
     {
         DataBase.DB.playerData.misukham += 100;
+    }
+
+    public void actFlowTImeChange()
+    {
+        scheduleManager.actFlowTIme = 1f;
+    }
+
+    public void actChgTimeChange()
+    {
+        scheduleManager.actChgTime = 1f;
     }
 }

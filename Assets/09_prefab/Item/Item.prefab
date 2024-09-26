@@ -55,10 +55,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CountTxt: {fileID: 5409633004634984692}
   itemSprite:
-  - {fileID: 21300000, guid: bba83a89dd4646d40b7766174ceb124f, type: 3}
-  - {fileID: 21300000, guid: bf1a5780851efeb46b755cf9bf5c6863, type: 3}
-  - {fileID: 21300000, guid: 78488cb0f7615f546a8188b21626368a, type: 3}
-  - {fileID: 21300000, guid: 201b8ab909a501b44893d81547e4e366, type: 3}
+  - {fileID: 21300000, guid: a32b3c7650552f8468e1d8455df2879e, type: 3}
+  - {fileID: 21300000, guid: 64d39a76933e6e646984b03cae8de273, type: 3}
+  - {fileID: 21300000, guid: 9874dfbc955536f4e976c96f340373d0, type: 3}
+  - {fileID: 21300000, guid: 5022507db08b63b4987e9c925d53e875, type: 3}
   itemData:
     itemName: 
     ItemID: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

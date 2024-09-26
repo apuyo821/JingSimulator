@@ -47,9 +47,9 @@ public class FinalSelect : MonoBehaviour, IDropHandler
         {
             if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
             {
-                if (actType != 8)
+                if (actType != 7)
                 {
-                    actType = 8;
+                    actType =7;
                     //actType = actNum;
                     ScheduleManager.schedules[2] = actType;
                 }
@@ -65,9 +65,12 @@ public class FinalSelect : MonoBehaviour, IDropHandler
     //FinalChoice 칸을 클릭하면(button 사용) 선택된 행동을 취소하는 함수 & selectPanel의 행동 선택 취소 버튼
     public void clickResetIndex()
     {
-        //button에 쓰이는 함수
-        actType = 0;
-        ScheduleManager.schedules[ScheduleIndex] = actType;
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            //button에 쓰이는 함수
+            actType = 0;
+            ScheduleManager.schedules[ScheduleIndex] = actType;
+        }
     }
 
     //결정 버튼을 눌렀을 때 행동 결정 패널에서 이미지 초기화 하기
@@ -103,9 +106,24 @@ public class FinalSelect : MonoBehaviour, IDropHandler
             if (DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
             {
                 if (ScheduleIndex == 2)
-                    actType = 8;
-                ScheduleManager.schedules[2] = 8;
+                    actType = 7;
+                ScheduleManager.schedules[2] = 7;
             }
         }
+    }
+
+    public void scheduleAcceptSound01()
+    {
+        AudioManager.audioManager.sfx[2].Play();
+    }
+
+    public void scheduleAcceptSound02()
+    {
+        AudioManager.audioManager.sfx[3].Play();
+    }
+
+    public void scheduleAcceptSound03()
+    {
+        AudioManager.audioManager.sfx[4].Play();
     }
 }

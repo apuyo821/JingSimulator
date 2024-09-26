@@ -86,7 +86,7 @@ public class shopItem : MonoBehaviour
         {
             DataBase.DB.playerData.money -= minusMoney;
             itemManager.checkItem(_itemID);
-            buyAudio.Play();
+            AudioManager.audioManager.sfx[0].Play();
             minusMoney = 0;
         }
         else

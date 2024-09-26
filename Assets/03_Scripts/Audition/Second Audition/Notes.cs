@@ -18,7 +18,7 @@ public class Notes : MonoBehaviour
 
     Timer timerCS;
 
-    string resultRank;
+    string resultRank, bonusStat;
 
     public void OnEnable()
     {
@@ -70,9 +70,11 @@ public class Notes : MonoBehaviour
                     {
                         pressNoteIndex = 0;
                         RGManager.RGinstance.clear = true;
-                        timerCS.timeStop();
-                        ResultCalculate(RGManager.RGinstance.miss, RGManager.RGinstance.clear);
-                        RGManager.RGinstance.winOrLose(0);  //success
+                        if(RGManager.RGinstance.processIndex == 3)
+                        {
+                            ResultCalculate(RGManager.RGinstance.miss, RGManager.RGinstance.clear);
+                            RGManager.RGinstance.winOrLose(0);  //success
+                        }
                         RemoveProcess();
                     }
                 }
@@ -162,28 +164,30 @@ public class Notes : MonoBehaviour
 
     void ResultCalculate(int _miss, bool _clear)
     {
-        if (_clear == true || _miss == 0)
+        if (_clear == true && _miss == 0)
         {
             resultRank = "1등";
-            DataBase.DB.playerData.firstPlace++;
-            DataBase.DB.playerData.rankScore++;
+            bonusStat = "보너스 스탯 +8";
+            DataBase.DB.playerData.dance += 8;
         }
-        else if (_clear == true || _miss == 1)
+        else if (_clear == true && _miss <= 1 && _miss > 3)
         {
             resultRank = "2등";
-            DataBase.DB.playerData.rankScore += 2;
+            bonusStat = "보너스 스탯 +4";
+            DataBase.DB.playerData.dance += 4;
         }
-        else if (_clear == true || _miss == 2)
+        else if (_clear == true && _miss <= 3 && _miss > 5)
         {
             resultRank = "3등";
-            DataBase.DB.playerData.rankScore += 3;
+            bonusStat = "보너스 스탯 +2";
+            DataBase.DB.playerData.dance += 2;
         }
-        else if (_clear == false || _miss > 2)
+        else
         {
             resultRank = "4등";
-            DataBase.DB.playerData.rankScore += 4;
         }
 
         RGManager.RGinstance.texts[3].text = resultRank;
+        RGManager.RGinstance.bonusStatText.text = bonusStat;
     }
 }

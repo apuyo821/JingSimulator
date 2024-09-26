@@ -46,22 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goods:
-  - {fileID: 21300000, guid: a0033f0d9140e2249a6e1b264bdd852f, type: 3}
-  - {fileID: 21300000, guid: 61ef207d283e9d34183f328fe4c3606e, type: 3}
-  - {fileID: 21300000, guid: c90e9e7bf1b22c8469e296a51e1b49d8, type: 3}
-  - {fileID: 21300000, guid: 0b9cc8095bf863b488affbd1bf702527, type: 3}
-  - {fileID: 21300000, guid: 707880779ac122f48b2de6fc5f9558fb, type: 3}
   - {fileID: 21300000, guid: 9a3254b0750dba74992905d4923fe874, type: 3}
-  - {fileID: 21300000, guid: 69cba376683bba94885b27f54a556c6e, type: 3}
-  - {fileID: 21300000, guid: 17766f52b6ed2a84494753bacbe7071b, type: 3}
-  - {fileID: 21300000, guid: b82e7005599bd42438f9f9b242b9f590, type: 3}
-  sbSprNum: 0
-  yVelo: 1
-  storeStaffObj: {fileID: 5220705098282798869, guid: 0069332730fbd0743a12b56c086834fc, type: 3}
+  - {fileID: 21300000, guid: 05ecb5dd03f124e47b0d1b70903fb9e9, type: 3}
+  yVelo: 0.2
   consumerObj: {fileID: 0}
   consumerCs: {fileID: 0}
-  HamReceivedTransform: {fileID: 0}
-  Parent: {fileID: 0}
   spriteRenderer: {fileID: 0}
 --- !u!212 &601492374410157391
 SpriteRenderer:
@@ -103,8 +92,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 61ef207d283e9d34183f328fe4c3606e, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 05ecb5dd03f124e47b0d1b70903fb9e9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
