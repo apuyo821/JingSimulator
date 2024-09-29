@@ -47,7 +47,7 @@ public class Cheat : MonoBehaviour
             DataBase.DB.playerData.week = (DataBase.DB.playerData.Day % 7) - 4;
         schedule.MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
         
-        if(DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2 || DataBase.DB.playerData.dDay == 0)
+        if(DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 0)
             buttonManagerCs.btn[4].gameObject.SetActive(true);
         switch (DataBase.DB.playerData.dDay)
         {

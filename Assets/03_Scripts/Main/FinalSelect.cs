@@ -43,22 +43,6 @@ public class FinalSelect : MonoBehaviour, IDropHandler
     void WeekCheck(int _actNum)
     {
         actType = _actNum;
-        if (ScheduleIndex == 2)
-        {
-            if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
-            {
-                if (actType != 7)
-                {
-                    actType =7;
-                    //actType = actNum;
-                    ScheduleManager.schedules[2] = actType;
-                }
-                else
-                {
-                    ScheduleManager.schedules[2] = actType;
-                }
-            }
-        }
         ScheduleManager.schedules[ScheduleIndex] = actType;
     }
 
@@ -84,32 +68,6 @@ public class FinalSelect : MonoBehaviour, IDropHandler
     void Update()
     {
         image.sprite = selectImg[actType];
-        //원래는 금토일이되면은 알바를 해야한다고 알려주기 위해 알바 텍스트를 띄웠지만, 알바가 하나로 줄어들었음에 따라 알바 고정 시키기 용도
-        /*
-        if (ScheduleIndex == 2)
-        {
-            if (DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
-            {
-                if (actType != 0)
-                {
-                    WorkText.gameObject.SetActive(false);
-                }
-                else
-                {
-                    WorkText.gameObject.SetActive(true);
-                }
-            }
-        }
-        */
-        if (ScheduleIndex == 2)
-        {
-            if (DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
-            {
-                if (ScheduleIndex == 2)
-                    actType = 7;
-                ScheduleManager.schedules[2] = 7;
-            }
-        }
     }
 
     public void scheduleAcceptSound01()

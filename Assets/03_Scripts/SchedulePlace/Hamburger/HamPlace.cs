@@ -18,13 +18,5 @@ public class HamPlace : MonoBehaviour
         consumerList.Add(consumer);
         consumer.transform.parent = transform;
         processIndex++;
-        StartCoroutine(HamburgerProcess());
-    }
-
-    IEnumerator HamburgerProcess()
-    {
-        yield return new WaitUntil(() => HamEventZone.isHamEnd == true);
-        Instantiate(prefab, spawnPoint, transform.rotation);
-        HamEventZone.isHamEnd = false;
     }
 }

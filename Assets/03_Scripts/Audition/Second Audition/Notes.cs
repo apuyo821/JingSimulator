@@ -20,11 +20,15 @@ public class Notes : MonoBehaviour
 
     string resultRank, bonusStat;
 
+
+    [SerializeField] AudioSource missSound;
+
     public void OnEnable()
     {
         noteList.Add(gameObject);
         GameObject timerObj = GameObject.Find("secondAuditionTimer");
         timerCS = timerObj.GetComponent<Timer>();
+        missSound.volume = AudioManager.sfxAudioVolume / 200;
     }
 
     public void startProcess()
@@ -53,6 +57,7 @@ public class Notes : MonoBehaviour
                     }
                     else
                     {
+                        missSound.Play();
                         for (int k = 0; k < noteList.Count; k++)
                         {
                             noteList[k].GetComponent<Image>().color = new Color32(225, 105, 105, 150);

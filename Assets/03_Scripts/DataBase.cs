@@ -58,9 +58,9 @@ public class DataBase : MonoBehaviour
     public List<int> temporaryEndingData = new List<int>();
     public List<int> temporaryEventData = new List<int>();
 
-    public bool isAuditionEnd = false;
-
     public bool thirdAudition = false;  //true == 합격, false == 불합격
+
+    public int eventType = 0;
 
     private void Awake()
     {
@@ -78,8 +78,6 @@ public class DataBase : MonoBehaviour
         path = Application.persistentDataPath + "/jingsave";
         playerData = new PlayerData();
         playerData.itemDatas = new List<ItemData>();
-
-        isAuditionEnd = false;
     }
 
     public void SaveData(int slotIndex)
@@ -97,7 +95,6 @@ public class DataBase : MonoBehaviour
 
     public void DataClear()
     {
-        isAuditionEnd = false;
         playerData = new PlayerData();
         playerData.itemDatas = new List<ItemData>();
     }

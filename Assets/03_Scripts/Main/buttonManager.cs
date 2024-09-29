@@ -17,16 +17,31 @@ public class buttonManager : MonoBehaviour
 
     public GameObject[] UIs;
 
+    [SerializeField] Image schBtnImage;
+    [SerializeField] Sprite[] scheduleSprtie;
+
     private void Update()
     {
-        if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 2 || DataBase.DB.playerData.dDay == 0)
+        if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 0)
+        {
             btn[4].gameObject.SetActive(true);
+            btn[0].interactable = false;
+        }
+
+        if(DataBase.DB.playerData.HP < 1 || DataBase.DB.playerData.MP < 1)
+        {
+            schBtnImage.sprite = scheduleSprtie[1];
+        }
+        else
+            schBtnImage.sprite = scheduleSprtie[0];
     }
 
     public void falseBtnItr()
     {
         for (int i = 0; i < btn.Length; i++)
             btn[i].interactable = false;
+
+        btn[5].interactable = true;
     }
 
     public void trueBtnItr()

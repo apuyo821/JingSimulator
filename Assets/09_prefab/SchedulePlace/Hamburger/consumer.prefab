@@ -52,8 +52,8 @@ MonoBehaviour:
   consumerNum: 0
   body: []
   plusY: 1.5
-  velo: 0.3
-  velo3: 0.85
+  velo: 0.15
+  velo3: 0.4
   velo2: 0
   hamEventZoneCS: {fileID: 0}
   jingObj: {fileID: 0}

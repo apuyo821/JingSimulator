@@ -89,12 +89,6 @@ public class jingAnimControl : MonoBehaviour
                 StartCoroutine(Hamburger());
                 break;
 
-            //Rest
-            case 8:
-                transform.position = new Vector3(-6f, -2.45f, 0);
-                spriteRenderer.sprite = sprites[2];
-                break;
-
             default:
                 break;
         }

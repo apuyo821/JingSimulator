@@ -120,6 +120,7 @@ public class ItemButton : MonoBehaviour
                 DataBase.DB.playerData.rizz += 10;
                 skipButton.SetActive(true);
                 omuriceAudioSource.Play();
+                DataBase.DB.playerData.misukham -= 20;
                 break;
 
             default:

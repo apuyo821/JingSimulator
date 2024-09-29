@@ -22,7 +22,7 @@ public class AuditionManager : MonoBehaviour
     public static bool isEndingMenting = false;
     int dialoguLength;
     [SerializeField] GameObject[] endingMentObjs;
-
+    [SerializeField] GameObject backSuEnding;
 
     private void Start()
     {
@@ -53,7 +53,7 @@ public class AuditionManager : MonoBehaviour
                 auditionJing.transform.parent = rythmGameSystem[1].transform;
                 auditionJing.transform.localPosition = new Vector3(0, -140, 0);
                 auditionJing.transform.localScale = new Vector3(40, 40, 40);
-                auditionJingAnimControl.secondAuditionAC();
+                //auditionJingAnimControl.secondAuditionAC();
                 break;
 
             case 2:
@@ -152,6 +152,10 @@ public class AuditionManager : MonoBehaviour
         {
             StartCoroutine(endingMent(endingType));
             compareEndingAndSave();
+        }
+        else
+        {
+            backSuEnding.SetActive(true);
         }
     }
 

@@ -9,8 +9,9 @@ public class OptionManager : MonoBehaviour
     [SerializeField] Text[] volumeValueText;
     [SerializeField] GameObject fullScreenCheck;
 
-    private void Start()
+    private void OnEnable()
     {
+        Debug.Log(AudioManager.mainAudioVolume);
         volumeSlider[0].value = AudioManager.mainAudioVolume;
         volumeSlider[1].value = AudioManager.sfxAudioVolume;
     }

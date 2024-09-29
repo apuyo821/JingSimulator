@@ -15,6 +15,10 @@ public class gymEventManager : MonoBehaviour
     public Text panelText;
     [SerializeField] GameObject scorePanel;
     [SerializeField] Text scroreText;
+    [SerializeField] TMP_Text festivalMoney;
+
+    [Header("게이지바")]
+    [SerializeField] Slider punchingGazeSlider;
 
     public GameObject explainPanel;
 
@@ -24,9 +28,9 @@ public class gymEventManager : MonoBehaviour
 
     [Header("사운드")]
     [SerializeField] AudioSource punchSound01;
-    [SerializeField] AudioSource punchSound02;
     [SerializeField] AudioSource gameEvetnCountDownSound;
     [SerializeField] AudioSource boxingBellSoundEffect;
+    [SerializeField] AudioSource powerUp;
 
     [Header("징버거 캐릭터")]
     [SerializeField] GameObject jingObject;
@@ -34,13 +38,21 @@ public class gymEventManager : MonoBehaviour
     [SerializeField] Sprite[] sprites;
     [SerializeField] float moveVelo;
 
+    [Header("펀치 기계")]
+    [SerializeField] GameObject beforePunching;
+    [SerializeField] GameObject afterPunching;
+
     private void Start()
     {
         explainPanel.SetActive(true);
+        panel.SetActive(false);
         homeButton.SetActive(false);
-        jingObject.transform.localPosition = new Vector3(-300f, -150, 0);
+        jingObject.transform.localPosition = new Vector3(-300f, -14, 0);
         timeCountObject.SetActive(false);
         scorePanel.SetActive(false);
+        punchingGazeSlider.value = 0;
+        beforePunching.SetActive(true);
+        afterPunching.SetActive(false);
     }
 
     public void startTimer()
@@ -54,8 +66,9 @@ public class gymEventManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.P))
             {
+                punchingGazeSlider.value++;
                 punchCount++;
-                punchSound01.Play();
+                powerUp.Play();
             }
             yield return null;
         }
@@ -88,11 +101,11 @@ public class gymEventManager : MonoBehaviour
         timeCountObject.SetActive(false);
         isGO = false;
         homeButton.SetActive(true);
-        boxingBellSoundEffect.Play();
     }
 
     IEnumerator countCal()
     {
+        festivalMoney.gameObject.SetActive(false);
         scorePanel.SetActive(true);
         if (punchCount >= 31)
         {
@@ -101,6 +114,10 @@ public class gymEventManager : MonoBehaviour
             scroreText.text = "99";
             yield return new WaitForSeconds(0.5f);
             scroreText.text = "999";
+            yield return new WaitForSeconds(0.5f);
+            festivalMoney.gameObject.SetActive(true);
+            festivalMoney.text = "우승 상금 : 300원";
+            DataBase.DB.playerData.money = 300;
 
         }
         else if(punchCount >= 21 && punchCount < 31)
@@ -110,6 +127,10 @@ public class gymEventManager : MonoBehaviour
             scroreText.text = "90";
             yield return new WaitForSeconds(0.5f);
             scroreText.text = "900";
+            yield return new WaitForSeconds(0.5f);
+            festivalMoney.gameObject.SetActive(true);
+            festivalMoney.text = "우승 상금 : 200원";
+            DataBase.DB.playerData.money = 200;
 
         }
         else if (punchCount >= 11 && punchCount < 20)
@@ -119,6 +140,10 @@ public class gymEventManager : MonoBehaviour
             scroreText.text = "80";
             yield return new WaitForSeconds(0.5f);
             scroreText.text = "800";
+            yield return new WaitForSeconds(0.5f);
+            festivalMoney.gameObject.SetActive(true);
+            festivalMoney.text = "우승 상금 : 100원";
+            DataBase.DB.playerData.money = 100;
 
         }
         else if (punchCount < 10)
@@ -133,7 +158,7 @@ public class gymEventManager : MonoBehaviour
 
     IEnumerator punch()
     {
-        Vector3 targetPosition = new Vector3(5, -150, 0);
+        Vector3 targetPosition = new Vector3(5, -55, 0);
         yield return new WaitForSeconds(1.7f);
         while (jingObject.transform.localPosition.x < 2)
         {
@@ -141,6 +166,9 @@ public class gymEventManager : MonoBehaviour
             yield return null;
         }
         jingSpriteRenderer.sprite = sprites[1];
+        punchSound01.Play();
+        beforePunching.SetActive(false);
+        afterPunching.SetActive(true);
         yield return new WaitForSeconds(1.2f);
         StartCoroutine(countCal());
     }

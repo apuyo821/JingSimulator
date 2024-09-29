@@ -111,7 +111,7 @@ public class Item : MonoBehaviour
 
             case 1004:
                 itemIcon.sprite = itemSprite[3];
-                explainTxt.text = "오무라이스 : 오무라이스.";
+                explainTxt.text = "오무라이스 : 미숙함을 20 줄여줍니다.";
                 break;
 
             default:

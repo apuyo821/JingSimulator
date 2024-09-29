@@ -74,4 +74,9 @@ public class gameEventManager : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
     }
+
+    public void goTitle()
+    {
+        SceneManager.LoadScene("Title");
+    }
 }

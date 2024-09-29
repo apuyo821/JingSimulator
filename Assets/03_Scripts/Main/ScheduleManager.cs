@@ -38,6 +38,14 @@ public class ScheduleManager : MonoBehaviour
     public GameObject[] jingObjs;
     public ProcessBar processBar;
 
+    [Header("아침 낮 저녁 변경")]
+    [SerializeField] GameObject aCBackGround;
+    [SerializeField] GameObject[] actChangeObjs;
+
+    [Header("휴식 이벤트")]
+    [SerializeField] GameObject restBackGround;
+    [SerializeField] GameObject[] restEventObjs;
+
     int hpChangeValue,hpPreviusValue;
 
     [SerializeField] GameObject blackBG;
@@ -86,10 +94,6 @@ public class ScheduleManager : MonoBehaviour
     {
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
-        if (DataBase.DB.playerData.HP < 1)
-        {
-            buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
-        }
     }
 
     //D-Day 텍스트 설정
@@ -278,7 +282,34 @@ public class ScheduleManager : MonoBehaviour
         {
             Destroy(HamPlace.consumerList[i]);
         }
-        yield return new WaitForSeconds(actChgTime); //배경 전환 시간, 집으로 카메라 바뀌었다가 행동 배경으로 전환
+
+        //////////////////////////////////////////////////////////행동 배경 전환 과정
+        aCBackGround.SetActive(true);
+        if (daycount == 1)
+        {
+            actChangeObjs[1].SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            actChangeObjs[0].SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            actChangeObjs[2].SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+        }
+        else if(daycount == 2)
+        {
+            actChangeObjs[3].SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            actChangeObjs[0].SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            actChangeObjs[4].SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        foreach (GameObject actChangeObj in actChangeObjs)
+        {
+            actChangeObj.SetActive(false);
+        }
+        aCBackGround.SetActive(false);
+        ////////////////////////////////////////////////////////
 
         if (daycount < 3)
         {
@@ -318,7 +349,6 @@ public class ScheduleManager : MonoBehaviour
                     default:
                         break;
                 }
-                DataBase.DB.isAuditionEnd = false;
                 //fist, second, third Audition
                 buttonManager.btn[0].interactable = false;
                 buttonManager.btn[4].gameObject.SetActive(true);
@@ -353,12 +383,21 @@ public class ScheduleManager : MonoBehaviour
 
     public void subActEventCheck()
     {
-        if (DataBase.DB.playerData.GYMCount >= 10 && DataBase.DB.playerData.isGYMEvent == false)
+        if (DataBase.DB.playerData.GYMCount >= 15 && DataBase.DB.playerData.isGYMEvent == false)
+        {
+            DataBase.DB.eventType = 0;
             SceneManager.LoadScene("Event");
-        else if (DataBase.DB.playerData.gameCOunt >= 10 && DataBase.DB.playerData.isGameEvent == false)
+        }
+        else if (DataBase.DB.playerData.gameCOunt >= 15 && DataBase.DB.playerData.isGameEvent == false)
+        {
+            DataBase.DB.eventType = 1;
             SceneManager.LoadScene("Event");
-        else if (DataBase.DB.playerData.drawingCount >= 10 && DataBase.DB.playerData.isDrawingEvent == false)
+        }
+        else if (DataBase.DB.playerData.drawingCount >= 15 && DataBase.DB.playerData.isDrawingEvent == false)
+        {
+            DataBase.DB.eventType = 2;
             SceneManager.LoadScene("Event");
+        }
     }
 
     public bool eventCheck(int _dday)
@@ -389,39 +428,30 @@ public class ScheduleManager : MonoBehaviour
                 break;
 
             case 28:
-                if (DataBase.DB.isAuditionEnd)
-                {
-                    isGO = false;
-                    isEvent = true;
-                    itrCs.dialogueEvent.line.x = 18;
-                    itrCs.dialogueEvent.line.y = 22;
-                    dialoguLength = 5;
-                    itrCs.dialogueEvent.name = "1차 오디션 끝난 후의 대화";
-                }
+                isGO = false;
+                isEvent = true;
+                itrCs.dialogueEvent.line.x = 18;
+                itrCs.dialogueEvent.line.y = 22;
+                dialoguLength = 5;
+                itrCs.dialogueEvent.name = "1차 오디션 끝난 후의 대화";
                 break;
 
-            case 16:
-                if (DataBase.DB.isAuditionEnd)
-                {
-                    isGO = false;
-                    isEvent = true;
-                    itrCs.dialogueEvent.line.x = 23;
-                    itrCs.dialogueEvent.line.y = 29;
-                    dialoguLength = 7;
-                    itrCs.dialogueEvent.name = "2차 오디션 끝난 후의 대화";
-                }
+            case 15:
+                isGO = false;
+                isEvent = true;
+                itrCs.dialogueEvent.line.x = 23;
+                itrCs.dialogueEvent.line.y = 29;
+                dialoguLength = 7;
+                itrCs.dialogueEvent.name = "2차 오디션 끝난 후의 대화";
                 break;
 
-            case 2:
-                if (DataBase.DB.isAuditionEnd)
-                {
-                    isGO = false;
-                    isEvent = true;
-                    itrCs.dialogueEvent.line.x = 30;
-                    itrCs.dialogueEvent.line.y = 36;
-                    dialoguLength = 7;
-                    itrCs.dialogueEvent.name = "3차 오디션 끝난 후의 대화";
-                }
+            case 1:
+                isGO = false;
+                isEvent = true;
+                itrCs.dialogueEvent.line.x = 30;
+                itrCs.dialogueEvent.line.y = 36;
+                dialoguLength = 7;
+                itrCs.dialogueEvent.name = "3차 오디션 끝난 후의 대화";
                 break;
 
             default:
@@ -532,7 +562,7 @@ public class ScheduleManager : MonoBehaviour
 
             //deft
             case 1:
-                if(_actNum == 8)
+                if(_actNum == 7)
                 {
                     gacha = Random.Range(1, 101);
                     if (goal = (gacha <= data.playerData.deft))
@@ -583,18 +613,25 @@ public class ScheduleManager : MonoBehaviour
     //체력 or MP가 0일 때의 이벤트
     IEnumerator IsZero()
     {
-        SchedulePlace[0].SetActive(false);
-        SchedulePlace[8].SetActive(true);
         DataBase.DB.playerData.dDay--;
         DataBase.DB.playerData.HP += 13;
         DataBase.DB.playerData.MP += 6;
-        jingAnimControl.jingAnim.animPosSet(8);
-        yield return new WaitForSeconds(3.0f);
-        SchedulePlace[8].SetActive(false);
-        SchedulePlace[0].SetActive(true);
-        jingAnimControl.jingAnim.animPosSet(0);
+
+        restBackGround.SetActive(true);
+        restEventObjs[0].SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        restEventObjs[1].SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        restEventObjs[2].SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        foreach (GameObject restEvent in restEventObjs)
+        {
+            restEvent.SetActive(false);
+        }
+        restBackGround.SetActive(false);
+
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
-        //buttonManager.btn[0].GetComponentInChildren<Text>().text = "스케쥴";
+
     }
 }

@@ -57,23 +57,23 @@ public class TrumpetJudge : MonoBehaviour
     {
         int vocalStat = DataBase.DB.playerData.vocal + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f);
         if (DataBase.DB.playerData.vocal >= 35)
-            noteVelo = 3;
+            noteVelo = 1;
         else if (DataBase.DB.playerData.vocal >= 28 && DataBase.DB.playerData.vocal < 35)
-            noteVelo = 6;
+            noteVelo = 4;
         else if (DataBase.DB.playerData.vocal < 28)
-            noteVelo = 10;
+            noteVelo = 6;
 
         switch (noteVelo)
         {
-            case 3:
+            case 1:
                 auditionStepExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
                 break;
 
-            case 6:
+            case 4:
                 auditionStepExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
                 break;
 
-            case 10:
+            case 6:
                 auditionStepExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
                 break;
 
@@ -129,23 +129,17 @@ public class TrumpetJudge : MonoBehaviour
     //노트 14개
     void scoreJudge()
     {
-        if(noteCs.headHit == true && noteCs.noteTime > 2 && noteCs.footHit == true)
+        if(noteCs.headHit == true && noteCs.footHit == true)
         {
             score += 500;
             combo++;
             rank = "Perfect";
         }
-        else if(noteCs.headHit == false && noteCs.noteTime >= 2 && noteCs.footHit == true)
+        else if(noteCs.headHit == false && noteCs.footHit == true)
         {
             score += 300;
             combo++;
             rank = "Good";
-        }
-        else if (noteCs.headHit == false && noteCs.noteTime < 2 && noteCs.footHit == true)
-        {
-            score += 100;
-            combo = 0;
-            rank = "OK";
         }
         else if (noteCs.headHit == false && noteCs.footHit == false)
         {
@@ -211,8 +205,13 @@ public class TrumpetJudge : MonoBehaviour
 
     public void GoMain()
     {
-        DataBase.DB.isAuditionEnd = true;
         SceneManager.LoadScene("Main");
+    }
+
+    public void GoTitle()
+    {
+        DataBase.DB.DataClear();
+        SceneManager.LoadScene("Title");
     }
 
     IEnumerator TimeCount()

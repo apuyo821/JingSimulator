@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/06_Scenes/Event.unity
     guid: 26092c69b321ea74c9c69b293880ece4
+  - enabled: 1
+    path: Assets/06_Scenes/ForGallery/AuditionForGallery.unity
+    guid: d03bef208a7493d48a905c25412b22bf
+  - enabled: 1
+    path: Assets/06_Scenes/ForGallery/EventForGallery.unity
+    guid: 4a0ecb1c0cb3e4f4c9aa171e2bedecbf
   m_configObjects: {}

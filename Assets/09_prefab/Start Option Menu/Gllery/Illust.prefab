@@ -129,11 +129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ff22354f84ea544a9a0e5208ba1b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endingNum: 0
   sprites:
   - {fileID: 21300000, guid: 5d5f8c0fcc1f6b44586fdb311cdfe67e, type: 3}
   - {fileID: 21300000, guid: 58466f24c3d1ffc42ae6c0e6b0ecaf8b, type: 3}
   hintText: {fileID: 6697761879492629124}
   illust: {fileID: 4705771261703284632}
+  galleryShow: {fileID: 0}
 --- !u!222 &2793220999702407265
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -191,7 +193,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -215,7 +217,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7004921576819647736}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GalleryShowFUll, Assembly-CSharp
+        m_MethodName: showFull
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4943894905068328426
 MonoBehaviour:
   m_ObjectHideFlags: 0

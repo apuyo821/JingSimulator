@@ -67,5 +67,8 @@ public class AudioManager : MonoBehaviour
             TitleBgm.Stop();
             mainAudio.Stop();
         }
+
+        mainAudioVolume = mainAudio.volume * 100;
+        sfxAudioVolume = sfx[0].volume * 100;
     }
 }

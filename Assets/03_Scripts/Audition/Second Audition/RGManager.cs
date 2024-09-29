@@ -35,6 +35,9 @@ public class RGManager : MonoBehaviour
     [SerializeField] GameObject showStagePanel;
     [SerializeField] TMP_Text showStageText;
 
+    [Header("Jing SD")]
+    [SerializeField] auditionJingAnimControl auditionJing;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -54,9 +57,13 @@ public class RGManager : MonoBehaviour
         if (_danceStat > 40)
             noteAmount = 8;
         else if (_danceStat <= 40 && _danceStat >= 30)
-            noteAmount = 10;
+            noteAmount = 9;
         else if (_danceStat < 30)
-            noteAmount = 16;
+        {
+            noteAmount = 14;
+            timerCS.time = 10;
+            timerCS.slider.maxValue = 10;
+        }
 
         switch (noteAmount)
         {
@@ -64,7 +71,7 @@ public class RGManager : MonoBehaviour
                 auditionGradeExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
                 break;
 
-            case 10:
+            case 9:
                 auditionGradeExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
                 break;
 
@@ -100,7 +107,6 @@ public class RGManager : MonoBehaviour
 
     public void GoMain()
     {
-        DataBase.DB.isAuditionEnd = true;
         SceneManager.LoadScene("Main");
     }
 
@@ -134,7 +140,9 @@ public class RGManager : MonoBehaviour
                     notesCS.typeNum = Random.Range(0, 6);
                     break;
 
-                case 7:
+                case 14:
+                case 16:
+                case 18:
                     notesCS.typeNum = Random.Range(0, 10);
                     break;
 
@@ -155,7 +163,6 @@ public class RGManager : MonoBehaviour
 
     IEnumerator TTO()
     {
-        Debug.Log("d");
         Objs[2].SetActive(true);
         isStart = false;
         timeAmount = 3;
@@ -182,6 +189,7 @@ public class RGManager : MonoBehaviour
     IEnumerator SecondAuditionProcess()
     {
         yield return null;
+        auditionJing.secondAuditionAC();
         processIndex = 1;
         showStagePanel.SetActive(true);
         showStageText.text = processIndex.ToString() + " 스테이지";
@@ -191,6 +199,7 @@ public class RGManager : MonoBehaviour
         //first Stage, index = 0
         StartCoroutine(TTO());
         StartCoroutine(settingAndStart());
+        
 
         yield return new WaitUntil(() => clear == true);
         processIndex++;
@@ -206,6 +215,7 @@ public class RGManager : MonoBehaviour
         //Second Stage, index = 1
         StartCoroutine(TTO());
         StartCoroutine(settingAndStart());
+        auditionJing.secondAuditionAC();
 
         yield return new WaitUntil(() => clear == true);
         processIndex++;
@@ -221,6 +231,7 @@ public class RGManager : MonoBehaviour
         //Last Stage, index = 2
         StartCoroutine(TTO());
         StartCoroutine(settingAndStart());
+        auditionJing.secondAuditionAC();
 
         yield return new WaitUntil(() => clear == true);
         timerCS.timeStop();

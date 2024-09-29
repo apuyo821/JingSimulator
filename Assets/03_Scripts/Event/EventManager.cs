@@ -14,20 +14,26 @@ public class EventManager : MonoBehaviour
             item.SetActive(false);
         }
 
-        if(DataBase.DB.playerData.GYMCount >= 15 && !DataBase.DB.playerData.isGYMEvent)
+        switch (DataBase.DB.eventType)
         {
-            eventType[0].SetActive(true);
-            DataBase.DB.playerData.isGYMEvent = true;
-        }
-        else if(DataBase.DB.playerData.gameCOunt >= 15 && !DataBase.DB.playerData.isGameEvent)
-        {
-            eventType[1].SetActive(true);
-            DataBase.DB.playerData.isGameEvent = true;
-        }
-        else if (DataBase.DB.playerData.drawingCount >= 15 && !DataBase.DB.playerData.isDrawingEvent)
-        {
-            eventType[2].SetActive(true);
-            DataBase.DB.playerData.isDrawingEvent = true;
+            case 0:
+                eventType[0].SetActive(true);
+                DataBase.DB.playerData.isGYMEvent = true;
+                break;
+
+            case 1:
+                eventType[1].SetActive(true);
+                DataBase.DB.playerData.isGameEvent = true;
+                break;
+
+            case 2:
+                eventType[2].SetActive(true);
+                DataBase.DB.playerData.isDrawingEvent = true;
+                break;
+
+            default:
+                SceneManager.LoadScene("Main");
+                break;
         }
     }
 }
