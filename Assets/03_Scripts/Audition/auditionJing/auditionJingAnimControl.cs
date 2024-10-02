@@ -111,7 +111,7 @@ public class auditionJingAnimControl : MonoBehaviour
         transform.localPosition = new Vector3(600, 0, 0);
         while (true)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveVelo*0.1f);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveVelo);
             yield return null;
         }
     }

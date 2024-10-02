@@ -539,6 +539,7 @@ MonoBehaviour:
   itemManager: {fileID: 0}
   buyButton: {fileID: 885393878773750398}
   buttonImage: {fileID: 7935045180776167396}
+  buyButtonButton: {fileID: 2437381540098645358}
   itemID: 1002
   detailInfoPanel: {fileID: 3246669483980256205}
   tmpText: {fileID: 2684083758934627550}

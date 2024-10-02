@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class ScreenSet : MonoBehaviour
 {
+    private void Awake()
+    {
+        Invoke("framelimit", 1f);
+    }
+
+    void framelimit()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     public void DataClear()
     {
         DataBase.DB.playerData = new PlayerData();

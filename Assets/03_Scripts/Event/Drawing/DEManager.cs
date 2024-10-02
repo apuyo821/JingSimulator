@@ -9,6 +9,7 @@ public class DEManager : MonoBehaviour
 
     [SerializeField] GameObject[] images;
     [SerializeField] GameObject homeButton;
+    [SerializeField] GameObject plusPanel;
     private void Start()
     {
         DESetting();
@@ -61,5 +62,7 @@ public class DEManager : MonoBehaviour
         }
         images[3].SetActive(true);
         homeButton.SetActive(true);
+        plusPanel.SetActive(true);
+        DataBase.DB.playerData.deft += 10;
     }
 }

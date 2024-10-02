@@ -9,7 +9,7 @@ public class shopItem : MonoBehaviour
     [SerializeField] ItemManager itemManager;
     [SerializeField] GameObject buyButton;
     [SerializeField] Image buttonImage;
-
+    [SerializeField] Button buyButtonButton;
     [SerializeField] int itemID;
     [SerializeField] GameObject detailInfoPanel;
     [SerializeField] TMP_Text tmpText;
@@ -17,9 +17,11 @@ public class shopItem : MonoBehaviour
     [SerializeField] AudioSource buyAudio;
     int minusMoney = 0;
 
-    private void Start()
+    private void OnEnable()
     {
         detailInfoPanel.SetActive(false);
+        buttonImage.color = new Color(255, 255, 255, 1);
+        buyButtonButton.enabled = true;
     }
 
     public void BuyItem()
@@ -45,7 +47,7 @@ public class shopItem : MonoBehaviour
                 break;
 
             case 1004:
-                tmpText.text = "오무라이스";
+                tmpText.text = "미숙함을 20 줄여줍니다.\n매력이 10 올라갑니다";
                 break;
 
             default:
@@ -98,7 +100,6 @@ public class shopItem : MonoBehaviour
 
         IEnumerator sparkleButton()
         {
-            Button buyButtonButton = buyButton.GetComponent<Button>();
             //buyButtonButton.interactable = false;
             buyButtonButton.enabled = false;
             Color previusColor = buttonImage.color;

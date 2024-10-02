@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class gameEventAudio : MonoBehaviour
 {
-    [SerializeField] AudioSource[] gameAudios;
+    public AudioSource[] gameAudios;
+
+    public AudioSource mainMusic;
 
     private void Start()
     {
         foreach (AudioSource item in gameAudios)
         {
-            item.volume = AudioManager.mainAudioVolume / 400;
+            item.volume = AudioManager.sfxAudioVolume / 300;
         }
+        mainMusic.volume = AudioManager.mainAudioVolume / 300;
     }
 }

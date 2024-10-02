@@ -367,15 +367,12 @@ public class ScheduleManager : MonoBehaviour
             }
             buttonManager.trueBtnItr();
 
-            /*
-            //HP가 0일 때 휴식 이벤트
-            if (DataBase.DB.playerData.HP < 1 || DataBase.DB.playerData.MP < 1)
+            //체력 또는 정신력이 0이 아니라면 체력과 정신력 회복
+            if(DataBase.DB.playerData.HP > 1 && DataBase.DB.playerData.MP > 1)
             {
-                buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
-            }*/
-
-            DataBase.DB.playerData.HP += 4;
-            DataBase.DB.playerData.MP += 2;
+                DataBase.DB.playerData.HP += 4;
+                DataBase.DB.playerData.MP += 2;
+            }
 
             subActEventCheck();
         }
@@ -515,7 +512,7 @@ public class ScheduleManager : MonoBehaviour
             dmCs.ShowDialogue(itrCs.GetDialogue());
         }
         bool first = true, second = false;
-        Color changeColor = new Color(255, 255, 255, 0.5f);
+        Color changeColor = new Color(255, 255, 255, 0.75f);
         GameObject dialoguePanel = GameObject.Find("dialoguePanel");
         Image dialoguePanelImage = dialoguePanel.GetComponent<Image>();
         while (isEvent)

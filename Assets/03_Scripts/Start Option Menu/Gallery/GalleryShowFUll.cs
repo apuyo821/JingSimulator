@@ -10,6 +10,9 @@ public class GalleryShowFUll : MonoBehaviour
 
     [SerializeField] GameObject[] zoomIllustObjs;
     [SerializeField] Image zoomIllust;
+    [Space(10)]
+    [SerializeField] GameObject fullIllustObjs;
+    [SerializeField] Image fullIllust;
 
     public GameObject activeObj;
 
@@ -29,8 +32,16 @@ public class GalleryShowFUll : MonoBehaviour
             {
                 item.SetActive(true);
             }
-            zoomIllust.sprite = illusts[endingIndex];
-            zoomIllust.SetNativeSize();
+            if(endingIndex == 0 || endingIndex == 1||endingIndex == 2 || endingIndex == 3)
+            {
+                fullIllustObjs.SetActive(true);
+                fullIllust.sprite = illusts[endingIndex];
+            }
+            else
+            {
+                zoomIllust.sprite = illusts[endingIndex];
+                zoomIllust.SetNativeSize();
+            }
         }
     }
     public void BackGallery()
@@ -39,5 +50,6 @@ public class GalleryShowFUll : MonoBehaviour
         {
             item.SetActive(false);
         }
+        fullIllustObjs.SetActive(false);
     }
 }

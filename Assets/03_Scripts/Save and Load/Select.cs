@@ -85,6 +85,7 @@ public class Select : MonoBehaviour
             }
         }
         DataClear();
+        warningPanel.SetActive(false);
     }
 
     public void refreshInfo()

@@ -62,6 +62,8 @@ public class DataBase : MonoBehaviour
 
     public int eventType = 0;
 
+    public int gameClear = 0;
+
     private void Awake()
     {
         if (dontDestroyObjects.Contains(gameObject.name))
@@ -115,4 +117,3 @@ public class DataBase : MonoBehaviour
             playerData.misukham = 0;
     }
 }
-

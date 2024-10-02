@@ -17,11 +17,6 @@ public class GalleryPage : MonoBehaviour
     [SerializeField] int pageNum = 0;
 
 
-    private void OnDisable()
-    {
-        pageNum = 0;
-    }
-
     private void OnEnable()
     {
         pageNum = 0;
@@ -86,6 +81,7 @@ public class GalleryPage : MonoBehaviour
         {
             case 0:
                 pageButtons[0].interactable = false;
+                pageButtons[1].interactable = true;
                 endingPageObj[pageNum].SetActive(true);
                 break;
 
@@ -116,6 +112,7 @@ public class GalleryPage : MonoBehaviour
         {
             case 0:
                 pageButtons[0].interactable = false;
+                pageButtons[1].interactable = true;
                 eventPageObj[pageNum].SetActive(true);
                 break;
 

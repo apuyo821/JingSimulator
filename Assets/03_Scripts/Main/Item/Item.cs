@@ -27,6 +27,8 @@ public class Item : MonoBehaviour
     ItemManager ItemManager;
     GameObject[] explainObj = new GameObject[3];
 
+    [SerializeField] AudioSource clickSound;
+
     private void Start()
     {
         if(transform.tag == "Shop")
@@ -34,7 +36,7 @@ public class Item : MonoBehaviour
         if(transform.tag == "Item")
         {
             ItemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
-
+            clickSound = AudioManager.audioManager.sfx[6];
         }
 
         itemImage = transform.GetChild(0).GetComponent<Image>();
@@ -75,6 +77,7 @@ public class Item : MonoBehaviour
     {
         if(transform.tag == "Item")
         {
+            clickSound.Play();
             GameObject explainPanel = GameObject.Find("ExplainDecidePack");
             //0 = Item Icon  1 = explain Text    2 = use Button
             for (int i = 0; i < 3; i++)
@@ -111,7 +114,7 @@ public class Item : MonoBehaviour
 
             case 1004:
                 itemIcon.sprite = itemSprite[3];
-                explainTxt.text = "오무라이스 : 미숙함을 20 줄여줍니다.";
+                explainTxt.text = "오므라이스 : 미숙함을 20 줄여줍니다. \n매력을 10 올려줍니다.";
                 break;
 
             default:

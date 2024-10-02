@@ -13,7 +13,7 @@ public class AuditionManager : MonoBehaviour
 
     public EndingTransition endingTransition;
 
-    int endingType;
+    int endingType = 0, eventTypeNum;
     [Space(5)]
     [Header("엔딩 멘트 관련")]
     [SerializeField] GameObject itrObj;
@@ -23,6 +23,16 @@ public class AuditionManager : MonoBehaviour
     int dialoguLength;
     [SerializeField] GameObject[] endingMentObjs;
     [SerializeField] GameObject backSuEnding;
+
+    private void Awake()
+    {
+        Invoke("framelimit", 1f);
+    }
+
+    void framelimit()
+    {
+        Application.targetFrameRate = 60;
+    }
 
     private void Start()
     {
@@ -45,6 +55,7 @@ public class AuditionManager : MonoBehaviour
                 auditionJing.transform.localPosition = new Vector3(600, 0, 0);
                 auditionJing.transform.localScale = new Vector3(90, 90, 90);
                 auditionJingAnimControl.firstAuditionAC();
+                eventTypeNum = 4;
                 break;
 
             case 1:
@@ -53,11 +64,12 @@ public class AuditionManager : MonoBehaviour
                 auditionJing.transform.parent = rythmGameSystem[1].transform;
                 auditionJing.transform.localPosition = new Vector3(0, -140, 0);
                 auditionJing.transform.localScale = new Vector3(40, 40, 40);
-                //auditionJingAnimControl.secondAuditionAC();
+                eventTypeNum = 5;
                 break;
 
             case 2:
                 rythmGameSystem[2].SetActive(true);
+                eventTypeNum = 6;
                 break;
 
             case 3:
@@ -144,7 +156,7 @@ public class AuditionManager : MonoBehaviour
             }
             else
             {
-
+                endingType = 0;
             }
         }
         Debug.Log(endingType);
@@ -178,6 +190,30 @@ public class AuditionManager : MonoBehaviour
         if (!isExit)
         {
             DataBase.DB.temporaryEndingData.Add(endingType);
+        }
+
+        galleryManager.SaveData();
+    }
+
+    void compareEventAndSave()
+    {
+        bool isExit = false;
+
+        if (DataBase.DB.temporaryEventData.Count > 0)
+        {
+            for (int i = 0; i < DataBase.DB.temporaryEventData.Count; i++)
+            {
+                if (DataBase.DB.temporaryEventData[i] == eventTypeNum)
+                {
+                    isExit = true;
+                    Debug.Log("존재함");
+                    break;
+                }
+            }
+        }
+        if (!isExit)
+        {
+            DataBase.DB.temporaryEventData.Add(eventTypeNum);
         }
 
         galleryManager.SaveData();
@@ -288,5 +324,9 @@ public class AuditionManager : MonoBehaviour
 
         yield return new WaitUntil(() => isEndingMenting == false);
         endingTransition.ProcessStart(_endingType);
+        DataBase.DB.gameClear = 1;
+        string creditKey = "gameClearKey";
+        PlayerPrefs.SetInt(creditKey, DataBase.DB.gameClear);
+        PlayerPrefs.Save();
     }
 }

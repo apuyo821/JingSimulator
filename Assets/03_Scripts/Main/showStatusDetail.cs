@@ -9,7 +9,7 @@ public class showStatusDetail : MonoBehaviour
     public GameObject detailInfoPanel;
     public TMP_Text tmpText;
 
-    private void Start()
+    private void OnEnable()
     {
         detailInfoPanel.SetActive(false);
     }

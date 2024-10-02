@@ -43,6 +43,7 @@ public class SpeechBalloon : MonoBehaviour
 
     IEnumerator move()
     {
+        yield return new WaitForSeconds(0.5f);
         while (transform.localPosition.y < 4)
         {
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y + 5, transform.position.z), yVelo); ;

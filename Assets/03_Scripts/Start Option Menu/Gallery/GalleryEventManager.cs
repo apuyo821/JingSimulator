@@ -6,6 +6,16 @@ public class GalleryEventManager : MonoBehaviour
 {
     [SerializeField] GameObject[] eventCs;
 
+    private void Awake()
+    {
+        Invoke("framelimit", 1f);
+    }
+
+    void framelimit()
+    {
+        Application.targetFrameRate = 60;
+    }   
+
     private void Start()
     {
         foreach (GameObject item in eventCs)

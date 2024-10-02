@@ -14,14 +14,23 @@ public class resoulutionButton : MonoBehaviour
 
     [SerializeField] TMP_Text tMP;
 
+    [SerializeField] GameObject check;
+
     private void Start()
     {
         rPanel.SetActive(false);
     }
 
+
+
     private void Update()
     {
         tMP.text = Screen.width + " X " + Screen.height;
+
+        if (Screen.fullScreen)
+            check.SetActive(true);
+        else
+            check.SetActive(false);
     }
 
     public void set1920()
@@ -64,4 +73,6 @@ public class resoulutionButton : MonoBehaviour
         else
             Screen.SetResolution(Screen.width, Screen.height, false);
     }
+
+
 }

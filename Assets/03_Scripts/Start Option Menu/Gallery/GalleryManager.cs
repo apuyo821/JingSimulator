@@ -79,13 +79,10 @@ public class GalleryManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.DeleteAll();
-        
         foreach (GameObject i in illustPanel)
         {
             i.SetActive(false);
         }
-        //PlayerPrefs.DeleteAll();
         setUp();
     }
 

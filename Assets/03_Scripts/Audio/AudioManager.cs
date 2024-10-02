@@ -28,15 +28,16 @@ public class AudioManager : MonoBehaviour
         DataBase.dontDestroyObjects.Add(gameObject.name);
         DontDestroyOnLoad(gameObject);
 
-        mainAudio.volume = 0.7f;
+        mainAudio.volume = 0.5f;
         for (int i = 0; i < sfx.Length; i++)
         {
-            sfx[i].volume = 0.7f;
+            sfx[i].volume = 0.5f;
         }
         sfx[6].volume = 0.2f;
 
-        mainAudioVolume = 70f;
-        sfxAudioVolume = 70f;
+        mainAudioVolume = 50f;
+        sfxAudioVolume = 50f;
+
     }
 
     public void clickSoundPlay()
@@ -68,7 +69,7 @@ public class AudioManager : MonoBehaviour
             mainAudio.Stop();
         }
 
-        mainAudioVolume = mainAudio.volume * 100;
-        sfxAudioVolume = sfx[0].volume * 100;
+        mainAudioVolume = mainAudio.volume * 150;
+        sfxAudioVolume = sfx[0].volume * 150;
     }
 }

@@ -26,9 +26,12 @@ public class GalleryCards : MonoBehaviour
 
     public void showHint()
     {
-        if (Input.GetMouseButtonDown(1))
+        if(illust.activeSelf == false)
         {
-            hintText.SetActive(true);
+            if (Input.GetMouseButtonDown(1))
+            {
+                hintText.SetActive(true);
+            }
         }
     }
 
@@ -51,16 +54,19 @@ public class GalleryCards : MonoBehaviour
             switch (eventType)
             {
                 case "WorkOutEvent":
+                    DataBase.DB.eventType = 0;
                     DataBase.DB.playerData.isGYMEvent = true;
                     SceneManager.LoadScene("EventForGallery");
                     break;
 
                 case "DrawingEvent":
+                    DataBase.DB.eventType = 2;
                     DataBase.DB.playerData.isDrawingEvent = true;
                     SceneManager.LoadScene("EventForGallery");
                     break;
 
                 case "GameEvent":
+                    DataBase.DB.eventType = 1;
                     DataBase.DB.playerData.isGameEvent = true;
                     SceneManager.LoadScene("EventForGallery");
                     break;

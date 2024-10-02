@@ -38,7 +38,7 @@ public class EndingTransition : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-        mainCamera.orthographic = false;
+        cameraObject.SetActive(false);
 
         //필요한 컴포넌트들 얻기
         volume = volumeObj.gameObject.GetComponent<Volume>();
@@ -50,10 +50,18 @@ public class EndingTransition : MonoBehaviour
         depth.active = false;
         vignette.active = false;
         bloom.active = true;
+
+        for (int i = 0; i < spritesObjs.Length; i++)
+        {
+            spritesObjs[i].SetActive(false);
+        }
     }
 
     public void ProcessStart(int _endingType)
     {
+        cameraObject.SetActive(true);
+        mainCamera.orthographic = false;
+        Debug.Log(_endingType);
         endingType = _endingType;
         if (endingType == 4 || endingType == 1 || endingType == 2 || endingType == 3)
         {
@@ -74,7 +82,6 @@ public class EndingTransition : MonoBehaviour
         spritesObjs[6].SetActive(false);
         spritesObjs[2].SetActive(false);
         spritesObjs[4].SetActive(false);
-        cameraObject.SetActive(true);
         volumeObj.SetActive(true);
         StartCoroutine(Process());
     }
@@ -86,13 +93,13 @@ public class EndingTransition : MonoBehaviour
         {
             //오른쪽 아래
             case 0:
-                cameraObject.transform.position = new Vector3(260, -325, 275);
-                targetPosition = new Vector3(590, -325, 275);
+                cameraObject.transform.position = new Vector3(240, -290, 275);
+                targetPosition = new Vector3(590, -290, 275);
                 break;
 
             //왼쪽 위
             case 1:
-                cameraObject.transform.position = new Vector3(-585, -85, 275);
+                cameraObject.transform.position = new Vector3(-528, -85, 275);
                 targetPosition = new Vector3(-265, -85, 275);
                 break;
 
@@ -113,7 +120,10 @@ public class EndingTransition : MonoBehaviour
 
         if(endingType == 4 || endingType == 1 || endingType == 2 || endingType == 3)
         {
+            spritesObjs[6].SetActive(true);
             spritesObjs[5].SetActive(false);
+            spritesObjs[3].SetActive(false);
+
         }
         else
         {
@@ -159,6 +169,7 @@ public class EndingTransition : MonoBehaviour
         yield return new WaitUntil(() => isMoving == false);
         depth.active = false;
         vignette.active = false;
+        bloom.intensity.value = 0.3f;
     }
 
     //Flash Light Effect

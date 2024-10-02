@@ -73,8 +73,9 @@ public class thirdAuditionManager : MonoBehaviour
 
     IEnumerator mailTransition()
     {
-        Vector3 targetPosition = new Vector3(miniMail.transform.localPosition.x, 0, miniMail.transform.localPosition.z);
+        Vector3 targetPosition = new Vector3(650, 0, 0);
         yield return new WaitForSeconds(1f);
+        miniMail.transform.localPosition = new Vector3(650, -330, 0);
 
         while (miniMail.transform.localPosition.y <= -1f)
         {

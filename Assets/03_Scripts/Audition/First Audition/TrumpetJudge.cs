@@ -57,23 +57,23 @@ public class TrumpetJudge : MonoBehaviour
     {
         int vocalStat = DataBase.DB.playerData.vocal + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f);
         if (DataBase.DB.playerData.vocal >= 35)
-            noteVelo = 1;
+            noteVelo = 5;
         else if (DataBase.DB.playerData.vocal >= 28 && DataBase.DB.playerData.vocal < 35)
-            noteVelo = 4;
+            noteVelo = 8;
         else if (DataBase.DB.playerData.vocal < 28)
-            noteVelo = 6;
+            noteVelo = 15;
 
         switch (noteVelo)
         {
-            case 1:
+            case 5:
                 auditionStepExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
                 break;
 
-            case 4:
+            case 8:
                 auditionStepExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
                 break;
 
-            case 6:
+            case 15:
                 auditionStepExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
                 break;
 
@@ -165,7 +165,7 @@ public class TrumpetJudge : MonoBehaviour
     {
         if (score >= 6000)
         {
-            resultRank = "1등\n";
+            resultRank = "1등";
             bonusStat = "보너스 스탯 +8";
             DataBase.DB.playerData.vocal += 8;
         }
@@ -181,12 +181,14 @@ public class TrumpetJudge : MonoBehaviour
             bonusStat = "보너스 스탯 +2";
             DataBase.DB.playerData.vocal += 2;
         }
-        else if (score < 1000 && score >= 0)
+        else if (score < 1000)
         {
             resultRank = "4등";
         }
         else
-            resultRank = "탈락";
+        {
+            resultRank = "4등";
+        }
     }
 
     void noteVeloSet(int _velo)

@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         UISet(false);
-
+        Invoke("framelimit", 1f);
         //텍스트 파일에 있는 값들 유니티로 불러오기
         //텍스트 파일에 텍스트 들을 \n(엔터)를 기준으로 나누기 - 총 13개의 배열이 생성 된다
         string[] line = InfoDB.text.Substring(0, InfoDB.text.Length - 1).Split('\n');
@@ -69,6 +69,11 @@ public class GameManager : MonoBehaviour
             string[] row = line[i].Split('\t');
             InfoList.Add(new Info(row[0], row[1], row[2], row[3], row[4]));
         }
+    }
+
+    void framelimit()
+    {
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
