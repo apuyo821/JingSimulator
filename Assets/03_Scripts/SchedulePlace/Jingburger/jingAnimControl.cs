@@ -124,16 +124,21 @@ public class jingAnimControl : MonoBehaviour
     {
         anim.SetBool("isSinging", true);
         spriteRenderer.flipX = true;
+        audioSet.actSoundEffect[13].Play();
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
         spriteRenderer.flipX = false;
         sliderObject.transform.localPosition = new Vector3(sliderObject.transform.localPosition.x, sliderObject.transform.localPosition.y - 100, sliderObject.transform.localPosition.z);
+        audioSet.actSoundEffect[13].Stop();
         anim.SetBool("isSinging", false);
     }
 
     IEnumerator broadcasting()
     {
         anim.SetBool("isbroadCast", true);
+        yield return new WaitForSeconds((float)scheduleManager.actFlowTIme / 3 * 1);
+        audioSet.actSoundEffect[8].Play();
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        audioSet.actSoundEffect[8].Stop();
         anim.SetBool("isbroadCast", false);
     }
 
@@ -185,7 +190,9 @@ public class jingAnimControl : MonoBehaviour
     IEnumerator WorkingOut()
     {
         anim.SetBool("isWorkingOut", true);
+        audioSet.actSoundEffect[7].Play();
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        audioSet.actSoundEffect[7].Stop();
         anim.SetBool("isWorkingOut", false);
     }
 
@@ -194,6 +201,12 @@ public class jingAnimControl : MonoBehaviour
         StartCoroutine(DrawingSoundEffect());
         anim.SetBool("isDrawing", true);
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
+
+        for (int i = 4; i < 7; i++)
+        {
+            audioSet.actSoundEffect[i].Stop();
+        }
+
         anim.SetBool("isDrawing", false);
     }
 
@@ -215,7 +228,21 @@ public class jingAnimControl : MonoBehaviour
     IEnumerator Dancing()
     {
         anim.SetBool("isDancing", true);
+        int danceSound = Random.Range(9, 13);
+        audioSet.actSoundEffect[danceSound].Play();
+
+        yield return new WaitForSeconds((float)scheduleManager.actFlowTIme / 5 * 2);
+        audioSet.actSoundEffect[danceSound].Stop();
+        danceSound = Random.Range(9, 13);
+        audioSet.actSoundEffect[danceSound].Play();
+
+        yield return new WaitForSeconds((float)scheduleManager.actFlowTIme / 5 * 4);
+        audioSet.actSoundEffect[danceSound].Stop();
+        danceSound = Random.Range(9, 13);
+        audioSet.actSoundEffect[danceSound].Play();
+
         yield return new WaitUntil(() => ScheduleManager.isActing == false);
+        audioSet.actSoundEffect[danceSound].Stop();
         anim.SetBool("isDancing", false);
     }
 

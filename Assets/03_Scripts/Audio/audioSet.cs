@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class audioSet : MonoBehaviour
 {
@@ -17,9 +18,13 @@ public class audioSet : MonoBehaviour
         clickSound = AudioManager.audioManager.sfx[6];
         ddiYoungddiYoung = AudioManager.audioManager.sfx[7];
 
-        foreach (AudioSource item in actSoundEffect)
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "Start_option_menu")
         {
-            item.volume = AudioManager.sfxAudioVolume / 100;
+            foreach (AudioSource item in actSoundEffect)
+            {
+                item.volume = AudioManager.sfxAudioVolume / 100;
+            }
         }
     }
 
@@ -35,9 +40,13 @@ public class audioSet : MonoBehaviour
 
     private void Update()
     {
-        foreach (AudioSource item in actSoundEffect)
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "Start_option_menu")
         {
-            item.volume = optionManager.volumeSlider[1].value / 150;
+            foreach (AudioSource item in actSoundEffect)
+            {
+                item.volume = optionManager.volumeSlider[1].value / 150;
+            }
         }
     }
 }

@@ -15,6 +15,9 @@ public class AudioManager : MonoBehaviour
     public static float mainAudioVolume;
     public static float sfxAudioVolume;
 
+    [SerializeField] float showMain;
+    [SerializeField] float showSFX;
+
     private void Awake()
     {
         if (DataBase.dontDestroyObjects.Contains(gameObject.name))
@@ -71,5 +74,7 @@ public class AudioManager : MonoBehaviour
 
         mainAudioVolume = mainAudio.volume * 150;
         sfxAudioVolume = sfx[0].volume * 150;
+        showMain = mainAudioVolume;
+        showSFX = sfxAudioVolume;
     }
 }

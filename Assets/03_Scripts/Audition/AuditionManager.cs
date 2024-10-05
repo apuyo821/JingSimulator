@@ -56,6 +56,7 @@ public class AuditionManager : MonoBehaviour
                 auditionJing.transform.localScale = new Vector3(90, 90, 90);
                 auditionJingAnimControl.firstAuditionAC();
                 eventTypeNum = 4;
+                compareEventAndSave();
                 break;
 
             case 1:
@@ -65,11 +66,13 @@ public class AuditionManager : MonoBehaviour
                 auditionJing.transform.localPosition = new Vector3(0, -140, 0);
                 auditionJing.transform.localScale = new Vector3(40, 40, 40);
                 eventTypeNum = 5;
+                compareEventAndSave();
                 break;
 
             case 2:
                 rythmGameSystem[2].SetActive(true);
                 eventTypeNum = 6;
+                compareEventAndSave();
                 break;
 
             case 3:

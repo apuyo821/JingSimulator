@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class HamburgerConsumer : MonoBehaviour
 {
@@ -24,8 +26,14 @@ public class HamburgerConsumer : MonoBehaviour
     [SerializeField] GameObject jingObj;
     [SerializeField] Animator jingAnim;
 
+    [SerializeField] audioSet audioSetCs;
+    [SerializeField] GameObject GameManagerObj;
+
     private void OnEnable()
     {
+        GameManagerObj = GameObject.Find("GameManager");
+        audioSetCs = GameManagerObj.GetComponent<audioSet>();
+
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
 
         isEventing = false;
@@ -50,6 +58,8 @@ public class HamburgerConsumer : MonoBehaviour
             consumerNum = Random.Range(0, 3);
             hamEventZoneCS = collision.gameObject.GetComponent<HamEventZone>();
             GameObject speechBallonClone = Instantiate(prefab, new Vector3(transform.position.x, transform.position.y + plusY, transform.position.z), transform.rotation);
+            SpriteRenderer speechBallonImage = speechBallonClone.GetComponent<SpriteRenderer>();
+            speechBallonImage.enabled = false;
             speechBallonClone.transform.parent = this.transform;
             speechBallonClone.GetComponent<SpeechBalloon>().setting();
 
@@ -79,11 +89,20 @@ public class HamburgerConsumer : MonoBehaviour
     void success()
     {
         jingAnim.SetTrigger("hamburgerSuccess");
+        audioSetCs.actSoundEffect[14].Play();
+        Invoke("playBellSound", 0.5f);
     }
 
     void fail()
     {
         jingAnim.SetTrigger("hamburgerMisstake");
+        audioSetCs.actSoundEffect[15].Play();
+        Invoke("playBellSound", 0.5f);
+    }
+
+    void playBellSound()
+    {
+        audioSetCs.actSoundEffect[16].Play();
     }
 
     public void ToCountProcess()

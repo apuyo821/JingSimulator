@@ -627,6 +627,8 @@ public class ScheduleManager : MonoBehaviour
         }
         restBackGround.SetActive(false);
 
+        WeekCalculate();
+        DayAndMonthCalculate();
         dDaySet(DataBase.DB.playerData.dDay);
         MonthWeekSet(DataBase.DB.playerData.week, DataBase.DB.playerData.Month, DataBase.DB.playerData.Day);
 
