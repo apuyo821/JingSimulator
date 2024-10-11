@@ -11,12 +11,21 @@ TagManager:
   - DetailInfo
   - Consumer
   - EventZone
-  - gagu
   - noteHead
   - noteBody
   - noteFoot
   - Note
   - Judge
+  - DialogueObj
+  - Shop
+  - Item
+  - Wall
+  - gagu
+  - eventScene
+  - room
+  - Title
+  - endingIllust
+  - eventIllust
   layers:
   - Default
   - TransparentFX
@@ -24,7 +33,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 

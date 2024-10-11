@@ -11,7 +11,7 @@ public class PlayerData
     public int auditionIndex = 0;
 
     //날짜 정보
-    public int dDay = 50;
+    public int dDay = 40;
     public int week = 3;        //0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
     public int Month = 7;
     public int Day = 7;
@@ -30,20 +30,45 @@ public class PlayerData
     public int rizz = 0;         //4, 매력
     public int dance = 0;        //5, 댄스
     public int misukham = 0;      //6, 미숙함
-    public int game = 0;
+
+    public int danceCount = 0;
+    public int vocalCount = 0;
+    public int broadcastCount = 0;
+    public int GYMCount = 0;
+    public int gameCOunt = 0;
+    public int drawingCount = 0;
+
+    public List<ItemData> itemDatas;
+    public List<int> EndingIndex = new List<int>();
+    public List<int> EventIndex = new List<int>();
+
+    public bool isGYMEvent = false;
+    public bool isGameEvent = false;
+    public bool isDrawingEvent = false;
 }
 
 public class DataBase : MonoBehaviour
 {
     public static DataBase DB;
 
-    //Audition Index
-    public int auditionIndex = 0;
-
     public string path;
 
-    private static List<string> dontDestroyObjects = new List<string>();
-    public PlayerData playerData = new PlayerData();
+    public static List<string> dontDestroyObjects = new List<string>();
+    public PlayerData playerData;
+    public List<int> temporaryEndingData = new List<int>();
+    public List<int> temporaryEventData = new List<int>();
+
+    public bool thirdAudition = false;  //true == 합격, false == 불합격
+
+    public int eventType = 0;
+
+    public int gameClear = 0;
+
+    [Header("FPS 보여주기")]
+    [SerializeField] private int size = 25;
+    [SerializeField] private Color color = Color.red;
+    private float deltaTime = 0f;
+    bool isFPSShow = false;
 
     private void Awake()
     {
@@ -59,10 +84,13 @@ public class DataBase : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         path = Application.persistentDataPath + "/jingsave";
+        playerData = new PlayerData();
+        playerData.itemDatas = new List<ItemData>();
     }
 
     public void SaveData(int slotIndex)
     {
+        GalleryManager.galleryManager.SaveData();
         string JsonData = JsonUtility.ToJson(playerData, true);
         File.WriteAllText(path + slotIndex.ToString(), JsonData);
     }
@@ -76,5 +104,49 @@ public class DataBase : MonoBehaviour
     public void DataClear()
     {
         playerData = new PlayerData();
+        playerData.itemDatas = new List<ItemData>();
+    }
+
+    private void Update()
+    {
+        if (playerData.deft < 0)
+            playerData.deft = 0;
+        else if (playerData.strength < 0)
+            playerData.strength = 0;
+        else if (playerData.vocal < 0)
+            playerData.vocal = 0;
+        else if (playerData.rizz < 0)
+            playerData.rizz = 0;
+        else if (playerData.dance < 0)
+            playerData.dance = 0;
+        else if (playerData.misukham < 0)
+            playerData.misukham = 0;
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            isFPSShow = !isFPSShow;
+        }
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+
+    }
+
+    private void OnGUI()
+    {
+        if (isFPSShow)
+        {
+            GUIStyle style = new GUIStyle();
+
+            Rect rect = new Rect(30, 30, Screen.width, Screen.height);
+            style.alignment = TextAnchor.UpperLeft;
+            style.fontSize = size;
+            style.fontStyle = FontStyle.Bold;
+            style.normal.textColor = color;
+
+            float ms = deltaTime * 1000f;
+            float fps = 1.0f / deltaTime;
+            string text = string.Format("{0:0.} FPS ({1:0.0} ms)", fps, ms);
+
+            GUI.Label(rect, text, style);
+        }
     }
 }

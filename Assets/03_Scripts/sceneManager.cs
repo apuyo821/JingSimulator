@@ -24,11 +24,16 @@ public class sceneManager : MonoBehaviour
 
     public void GoToauditionScene()
     {
-        SceneManager.LoadScene("auditionScene");
+        SceneManager.LoadScene("Audition");
     }
 
     public void GoToScheduleProcess()
     {
         SceneManager.LoadScene("ScheduleProcess");
+    }
+
+    public void GoToEventScene()
+    {
+        SceneManager.LoadScene("Event");
     }
 }

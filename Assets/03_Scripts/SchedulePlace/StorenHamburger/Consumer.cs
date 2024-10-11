@@ -21,17 +21,6 @@ public class Consumer : MonoBehaviour
         isEventing = false;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
 
-        //부모 오브젝트의 이름에 따라서 컨슈머의 모습과 코드가 바뀜
-        if (transform.parent.name == "Store")
-        {
-            spriteRenderer.sprite = body[0];
-            StartCoroutine(ToStoreCounter());
-        }
-        else if (transform.parent.name == "Hamburger")
-        {
-            spriteRenderer.sprite = body[1];
-            StartCoroutine(ToHamCounter());
-        }
         velo2 = velo;
     }
 
@@ -53,10 +42,10 @@ public class Consumer : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        GameObject speechBallonClone = Instantiate(prefab, new Vector3(transform.position.x, transform.position.y + plusY, transform.position.z - 0.1f), transform.rotation);
+        GameObject speechBallonClone = Instantiate(prefab, new Vector3(transform.position.x, transform.position.y + plusY, transform.position.z), transform.rotation);
         speechBallonClone.transform.parent = this.transform;
         speechBallonClone.GetComponent<SpeechBalloon>().setting();
-        speechBallonClone.GetComponent<SpeechBalloon>().begin();
+        //speechBallonClone.GetComponent<SpeechBalloon>().begin();
     }
 
     public void ToExitGate()
@@ -120,7 +109,7 @@ public class Consumer : MonoBehaviour
         SpriteRenderer SBspr = SBobj.GetComponent<SpriteRenderer>();
         SBspr.enabled = true;
         SpeechBalloon SBcs = GetComponentInChildren<SpeechBalloon>();
-        SBcs.endSelling();
+        //SBcs.endSelling();
         yield return null;
     }
 

@@ -15,10 +15,33 @@ public class buttonManager : MonoBehaviour
     //status text
     public Text[] Texts;
 
+    public GameObject[] UIs;
+
+    [SerializeField] Image schBtnImage;
+    [SerializeField] Sprite[] scheduleSprtie;
+
+    private void Update()
+    {
+        if (DataBase.DB.playerData.dDay == 29 || DataBase.DB.playerData.dDay == 16 || DataBase.DB.playerData.dDay == 0)
+        {
+            btn[4].gameObject.SetActive(true);
+            btn[0].interactable = false;
+        }
+
+        if(DataBase.DB.playerData.HP < 1 || DataBase.DB.playerData.MP < 1)
+        {
+            schBtnImage.sprite = scheduleSprtie[1];
+        }
+        else
+            schBtnImage.sprite = scheduleSprtie[0];
+    }
+
     public void falseBtnItr()
     {
         for (int i = 0; i < btn.Length; i++)
             btn[i].interactable = false;
+
+        btn[5].interactable = true;
     }
 
     public void trueBtnItr()
@@ -32,7 +55,7 @@ public class buttonManager : MonoBehaviour
     public void showStats()
     {
         Texts[0].text = "손재주 : " + DataBase.DB.playerData.deft.ToString();
-        Texts[1].text = "보컬 : " + DataBase.DB.playerData.vocal.ToString();
+        Texts[1].text = "노래 및 발성 : " + DataBase.DB.playerData.vocal.ToString();
         Texts[2].text = "근력 : " + DataBase.DB.playerData.strength.ToString();
         Texts[3].text = "매력 : " + DataBase.DB.playerData.rizz.ToString();
         Texts[4].text = "댄스 : " + DataBase.DB.playerData.dance.ToString();
@@ -65,15 +88,19 @@ public class buttonManager : MonoBehaviour
         btn[0].interactable = false;
     }
 
-    public void ShowWorkText()
+    public void setInvenExplainObj(bool p_flag)
     {
-        if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
+        for (int i = 0; i < 3; i++)
         {
-            Texts[6].gameObject.SetActive(true);
+            UIs[i].SetActive(p_flag);
         }
-        else
+    }
+
+    public void uiControl(bool p_flag)
+    {
+        for (int i = 3; i < 8; i++)
         {
-            Texts[6].gameObject.SetActive(false);
+            UIs[i].SetActive(p_flag);
         }
     }
 }

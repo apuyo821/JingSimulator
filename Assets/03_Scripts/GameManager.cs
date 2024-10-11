@@ -39,9 +39,9 @@ public class Info
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject selectPanel;
-    public GameObject status_panel;
-    public GameObject option_panel;
+    [SerializeField] OptionManager optionManager;
+
+    public GameObject[] UIObj;
     public Text[] Texts;
 
     public Bar[] bars;
@@ -55,11 +55,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        selectPanel.SetActive(false);
-        status_panel.SetActive(false);
-        option_panel.SetActive(false);
-        daySet(DataBase.DB.playerData.dDay);
-
+        UISet(false);
+        Invoke("framelimit", 2f);
         //텍스트 파일에 있는 값들 유니티로 불러오기
         //텍스트 파일에 텍스트 들을 \n(엔터)를 기준으로 나누기 - 총 13개의 배열이 생성 된다
         string[] line = InfoDB.text.Substring(0, InfoDB.text.Length - 1).Split('\n');
@@ -75,10 +72,17 @@ public class GameManager : MonoBehaviour
             InfoList.Add(new Info(row[0], row[1], row[2], row[3], row[4]));
         }
     }
+    void framelimit()
+    {
+        Application.targetFrameRate = 60;
+    }
 
     private void Start()
     {
         SetMaxHPMental(DataBase.DB.playerData.MaxHP, DataBase.DB.playerData.MaxMP);
+        daySet(DataBase.DB.playerData.dDay);
+        optionManager.volumeSlider[0].value = AudioManager.mainAudioVolume;
+        optionManager.volumeSlider[1].value = AudioManager.sfxAudioVolume;
     }
 
     private void Update()
@@ -93,6 +97,9 @@ public class GameManager : MonoBehaviour
             DataBase.DB.playerData.HP = 0;
         if (DataBase.DB.playerData.MP < 0)
             DataBase.DB.playerData.MP = 0;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            UISet(false);
     }
 
     public void SetMaxHPMental(int _health, int _mental)
@@ -149,6 +156,14 @@ public class GameManager : MonoBehaviour
                 InfoList[slotNum].conversion3 + "\n" +
                 InfoList[slotNum].conversion4;
             infoText.text = text.Trim();
+        }
+    }
+
+    void UISet(bool p_flag)
+    {
+        for (int i = 0; i < UIObj.Length; i++)
+        {
+            UIObj[i].SetActive(p_flag);
         }
     }
 }

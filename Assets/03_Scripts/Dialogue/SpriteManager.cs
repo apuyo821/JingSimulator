@@ -18,11 +18,11 @@ public class SpriteManager : MonoBehaviour
     }
 
     // p_target: 어떤 이미지를 변경할 것인지, p_spriteName: 어떤 이미지로 변경할 것인지, p_direction : 이미지의 위치는 어디인지
-    public void SpriteChangeCoroutine(Transform p_target, string p_spriteName, int p_direction)
+    public void SpriteChangeCoroutine(Transform p_target, string p_spriteName)
     {
         // 1. t_image 이미지를 변경
         // Standing Image 오브젝트에는 Image 컴포넌트 X → 그 자식인 Image 오브젝트에는 Image 컴포넌트 O
-        t_image = p_target.GetComponentInChildren<Image>();
+        t_image = p_target.GetChild(0).GetComponent<Image>();
 
         // 2. t_sprite 이미지로 변경
         //Characters 안에서 p_spriteName와 같은 이름의 이미지를 가여와서 t_sprite에 덮기
@@ -30,7 +30,7 @@ public class SpriteManager : MonoBehaviour
         string path = "Image/Characters/" + p_spriteName;
         t_sprite = Resources.Load<Sprite>(path);
 
-        SettingAcP(t_image.rectTransform, p_direction);     //화자에 따라서 이미지 위치 바꾸기
+        //SettingAcP(t_image.rectTransform, p_direction);     //화자에 따라서 이미지 위치 바꾸기
 
         // 두 이미지(Sprite)가 같지 않으면 새 이미지로 변경
         if (!CheckSameSprite(t_image, t_sprite))
@@ -39,6 +39,7 @@ public class SpriteManager : MonoBehaviour
         }
     }
 
+    /*
     void SettingAcP(RectTransform a_rectTransform, int a_direction)
     {
         Vector2 direction = new Vector2();
@@ -59,7 +60,7 @@ public class SpriteManager : MonoBehaviour
                 break;
         }
         setMMP(a_rectTransform, direction);
-    }
+    }*/
 
     void setMMP(RectTransform b_rectTransform, Vector2 _direction)
     {

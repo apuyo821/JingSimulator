@@ -23,10 +23,13 @@ public class FinalSelect : MonoBehaviour, IDropHandler
     {
         dragObj dragObj = eventData.pointerDrag.gameObject.GetComponent<dragObj>();
         
+        
         //행동 오브젝트의 행동 종류를 finalselect 각각의 actType에 저장
         WeekCheck(dragObj.actNum);
 
+        /*
         //행동 선택 시 알바 텍스트 비활성화
+        //원래는 금토일이되면은 알바를 해야한다고 알려주기 위해 알바 텍스트를 띄웠지만, 알바가 하나로 줄어들었음에 따라 그럴 필요가 없어짐
         if(ScheduleIndex == 2)
         {
             if(actType != 0)
@@ -34,61 +37,51 @@ public class FinalSelect : MonoBehaviour, IDropHandler
                 WorkText.gameObject.SetActive(false);
             }
         }
+        */
     }
 
     void WeekCheck(int _actNum)
     {
         actType = _actNum;
-        if (ScheduleIndex == 2)
-        {
-            if(DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
-            {
-                if (actType== 8 || actType == 9)
-                {
-                    //actType = actNum;
-                    ScheduleManager.schedules[2] = actType;
-                }
-                else
-                {
-                    actType = 0;
-                    ScheduleManager.schedules[2] = actType;
-                }
-            }
-        }
         ScheduleManager.schedules[ScheduleIndex] = actType;
     }
 
     //FinalChoice 칸을 클릭하면(button 사용) 선택된 행동을 취소하는 함수 & selectPanel의 행동 선택 취소 버튼
     public void clickResetIndex()
     {
-        //button에 쓰이는 함수
-        actType = 0;
-        ScheduleManager.schedules[ScheduleIndex] = actType;
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            //button에 쓰이는 함수
+            actType = 0;
+            ScheduleManager.schedules[ScheduleIndex] = actType;
+        }
     }
 
     //결정 버튼을 눌렀을 때 행동 결정 패널에서 이미지 초기화 하기
     public void resetActType()
     {
         actType = 0;
+        image.sprite = selectImg[actType];
     }
 
     //선택한 행동을 보여주는 함수
     void Update()
     {
         image.sprite = selectImg[actType];
-        if (ScheduleIndex == 2)
-        {
-            if (DataBase.DB.playerData.week == 5 || DataBase.DB.playerData.week == 6 || DataBase.DB.playerData.week == 0)
-            {
-                if (actType != 0)
-                {
-                    WorkText.gameObject.SetActive(false);
-                }
-                else
-                {
-                    WorkText.gameObject.SetActive(true);
-                }
-            }
-        }
+    }
+
+    public void scheduleAcceptSound01()
+    {
+        AudioManager.audioManager.sfx[2].Play();
+    }
+
+    public void scheduleAcceptSound02()
+    {
+        AudioManager.audioManager.sfx[3].Play();
+    }
+
+    public void scheduleAcceptSound03()
+    {
+        AudioManager.audioManager.sfx[4].Play();
     }
 }

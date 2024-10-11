@@ -16,9 +16,6 @@ public class Dialogue
 
     [Tooltip("스프라이트 넘버")]
     public string[] spriteName;     // 여러 개의 스프라이트 이미지
-
-    [Tooltip("스탠딩 일러스트 위치")]
-    public int imageDirection;      //0 : Left, 1 : Right
 }
 
 [System.Serializable]

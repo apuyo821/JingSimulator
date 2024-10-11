@@ -1,0 +1,73 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class TrumpetUI : MonoBehaviour
+{
+    public TrumpetJudge Judge;
+
+
+    [SerializeField] GameObject comboGroup;
+
+    public Text comboTxt;
+    [SerializeField] Text comboTxtShadow;
+    public Text rankTxt;
+    [SerializeField] Text rankTxtShadow;
+    public Text resultTxt;
+    [SerializeField] TMP_Text bonusStatText;
+    public GameObject ResultPanel;
+
+    bool isEnd;
+
+    private void Awake()
+    {
+        setting_comboUI(false);
+        ResultPanel.SetActive(false);
+        comboGroup.SetActive(true);
+    }
+
+    private void Update()
+    {
+        rankTxt.text = Judge.rank.ToString();
+        if(Judge.combo == 0)
+        {
+            comboTxt.gameObject.SetActive(false);
+            comboTxtShadow.gameObject.SetActive(false);
+            rankTxt.gameObject.SetActive(true);
+            rankTxtShadow.gameObject.SetActive(true);
+            rankTxt.text = Judge.rank.ToString();
+            rankTxtShadow.text = Judge.rank.ToString();
+        }
+        else if (isEnd)
+        {
+            setting_comboUI(false);
+        }
+        else
+        {
+            setting_comboUI(true);
+            rankTxt.text = Judge.rank.ToString();
+            rankTxtShadow.text = Judge.rank.ToString();
+            comboTxt.text = Judge.combo.ToString() + "X";
+            comboTxtShadow.text = Judge.combo.ToString() + "X";
+        }
+    }
+
+    public void showResultPanel(string _resultRank, string _bonusStat)
+    {
+        isEnd = true;
+        setting_comboUI(false);
+        ResultPanel.SetActive(true);
+        resultTxt.text = _resultRank;
+        bonusStatText.text = _bonusStat;
+    }
+
+    void setting_comboUI(bool p_flag)
+    {
+        comboTxt.gameObject.SetActive(p_flag);
+        comboTxtShadow.gameObject.SetActive(p_flag);
+        rankTxt.gameObject.SetActive(p_flag);
+        rankTxtShadow.gameObject.SetActive(p_flag);
+    }
+}

@@ -11,14 +11,17 @@ public class dragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     public int actNum;
     public int slotNum;
     public Image image;
-    
+
+    private void Start()
+    {
+        parent_after_drag = transform.parent;   //Drag가 끝났을 때 원래 자리로 돌아가기 위해서 위치 저장
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        parent_after_drag = transform.parent;   //Drag가 끝났을 때 원래 자리로 돌아가기 위해서 위치 저장
-        transform.SetParent(transform.root);    //하이라키에서 오브젝트가 부모가 되게 만들어줌
-        transform.SetAsLastSibling();           //해당 오브젝트의 순위를 마지막으로 변경(가장 나중에 출력되므로 겹쳐졌을 경우 앞으로 나옵니다.)
-        image.raycastTarget = false;
+            transform.SetParent(transform.root);    //하이라키에서 오브젝트가 부모가 되게 만들어줌
+            transform.SetAsLastSibling();           //해당 오브젝트의 순위를 마지막으로 변경(가장 나중에 출력되므로 겹쳐졌을 경우 앞으로 나옵니다.)
+            image.raycastTarget = false;
     }
 
     public void OnDrag(PointerEventData eventData)
