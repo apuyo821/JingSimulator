@@ -8,6 +8,9 @@ public class TrumpetUI : MonoBehaviour
 {
     public TrumpetJudge Judge;
 
+
+    [SerializeField] GameObject comboGroup;
+
     public Text comboTxt;
     [SerializeField] Text comboTxtShadow;
     public Text rankTxt;
@@ -22,6 +25,7 @@ public class TrumpetUI : MonoBehaviour
     {
         setting_comboUI(false);
         ResultPanel.SetActive(false);
+        comboGroup.SetActive(true);
     }
 
     private void Update()

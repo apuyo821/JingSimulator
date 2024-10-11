@@ -57,7 +57,7 @@ public class thirdAuditionManager : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         afterShowResult.SetActive(true);
-        if (DataBase.DB.playerData.rizz + DataBase.DB.playerData.dance + DataBase.DB.playerData.vocal >= 250)
+        if (DataBase.DB.playerData.rizz + DataBase.DB.playerData.dance + DataBase.DB.playerData.vocal >= 300)
         {
             resultText.text = "гу╟щ!";
             DataBase.DB.thirdAudition = true;

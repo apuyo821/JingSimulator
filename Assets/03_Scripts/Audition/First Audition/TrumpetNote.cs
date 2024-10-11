@@ -13,7 +13,7 @@ public class TrumpetNote : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector3.left * velo);
+        transform.Translate(Vector3.left * velo * 100f * Time.deltaTime);
     }
 
     public void DestroyTimer()

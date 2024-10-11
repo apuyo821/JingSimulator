@@ -22,6 +22,7 @@ public class Notes : MonoBehaviour
 
 
     [SerializeField] AudioSource missSound;
+    [SerializeField] AudioSource correctSound;
 
     public void OnEnable()
     {
@@ -29,6 +30,7 @@ public class Notes : MonoBehaviour
         GameObject timerObj = GameObject.Find("secondAuditionTimer");
         timerCS = timerObj.GetComponent<Timer>();
         missSound.volume = AudioManager.sfxAudioVolume / 200;
+        correctSound.volume = AudioManager.sfxAudioVolume / 200;
     }
 
     public void startProcess()
@@ -52,6 +54,7 @@ public class Notes : MonoBehaviour
                     if (Input.GetKeyDown(KeyToPress))
                     {
                         image.enabled = false;
+                        correctSound.Play();
                         yield return null;
                         pressNoteIndex++;
                     }
@@ -169,19 +172,19 @@ public class Notes : MonoBehaviour
 
     void ResultCalculate(int _miss, bool _clear)
     {
-        if (_clear == true && _miss == 0)
+        if (_clear == true && _miss < 4)
         {
             resultRank = "1등";
             bonusStat = "보너스 스탯 +8";
             DataBase.DB.playerData.dance += 8;
         }
-        else if (_clear == true && _miss <= 1 && _miss > 3)
+        else if (_clear == true && _miss >= 4 && _miss < 7)
         {
             resultRank = "2등";
             bonusStat = "보너스 스탯 +4";
             DataBase.DB.playerData.dance += 4;
         }
-        else if (_clear == true && _miss <= 3 && _miss > 5)
+        else if (_clear == true && _miss >= 7 && _miss < 11)
         {
             resultRank = "3등";
             bonusStat = "보너스 스탯 +2";
@@ -190,6 +193,7 @@ public class Notes : MonoBehaviour
         else
         {
             resultRank = "4등";
+            bonusStat = "";
         }
 
         RGManager.RGinstance.texts[3].text = resultRank;

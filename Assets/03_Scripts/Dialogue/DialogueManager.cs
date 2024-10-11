@@ -25,8 +25,6 @@ public class DialogueManager : MonoBehaviour
 
     bool isDialogue = false;
 
-    [SerializeField] GameObject skipButton;
-
     [Header("텍스트 출력 딜레이")]
     [SerializeField] float textDelay;
 
@@ -88,7 +86,6 @@ public class DialogueManager : MonoBehaviour
     public void ShowDialogue(Dialogue[] p_dialogues)
     {
         isDialogue = true;
-        skipButton.SetActive(true);
         txt_dialogue.text = "";
         txt_name.text = "";
 
@@ -115,7 +112,6 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         dialoguePanelImage.color = new Color(255, 255, 255, 1f);
         dialogueObj.SetActive(false);
-        skipButton.SetActive(false);
         Scene scene = SceneManager.GetActiveScene();
         if (transform.tag == "room")
         {

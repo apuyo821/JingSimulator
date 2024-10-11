@@ -119,7 +119,7 @@ public class HamburgerConsumer : MonoBehaviour
     {
         while (!isEventing)
         {
-            transform.Translate(Vector3.left * velo);
+            transform.Translate(Vector3.left * velo * Time.deltaTime);
             yield return null;
         }
     }
@@ -130,7 +130,7 @@ public class HamburgerConsumer : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 180, 0);
         while (true)
         {
-            transform.Translate(Vector3.left * velo3);
+            transform.Translate(Vector3.left * velo3 * Time.deltaTime);
             yield return null;
         }
     }

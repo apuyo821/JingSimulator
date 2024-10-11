@@ -65,14 +65,8 @@ public class ScheduleManager : MonoBehaviour
         itrCs = itrObj.GetComponent<InteractionEvent>();
         dmCs = FindObjectOfType<DialogueManager>();
 
-        UIObjects[2].SetActive(false);
         //게임 처음시작이거나 오디션이 끝났을 때 체크
         eventCheck(DataBase.DB.playerData.dDay);
-
-        if (DataBase.DB.playerData.HP < 1)
-        {
-            buttonManager.btn[0].GetComponentInChildren<Text>().text = "휴식";
-        }
 
         for (int i = 0; i < SchedulePlace.Length; i++)
         {
@@ -457,7 +451,6 @@ public class ScheduleManager : MonoBehaviour
         }
         if (isEvent)
         {
-            UIObjects[2].SetActive(true);
             buttonManager.falseBtnItr();
             itrCs.dialogueEvent.dialogues = new Dialogue[dialoguLength];
             dmCs.ShowDialogue(itrCs.GetDialogue());
@@ -469,7 +462,6 @@ public class ScheduleManager : MonoBehaviour
     IEnumerator afterFirstStory()
     {
         yield return new WaitUntil(() => isEvent == false);
-        UIObjects[2].SetActive(true);
         blackBG.SetActive(false);
         isFirst = false;
         isGO = false;
@@ -496,7 +488,6 @@ public class ScheduleManager : MonoBehaviour
         //혹시 첫 번째 오디션은 뭘 준비해야 하나요?
         //위의 대사 다음 스케쥴 패널을 띄우고 설명하는 장면
         blackBG.SetActive(false);
-        UIObjects[2].SetActive(true);
         isFirst = false;
         isGO = false;
         isEvent = true;

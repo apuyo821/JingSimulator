@@ -39,6 +39,8 @@ public class Info
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] OptionManager optionManager;
+
     public GameObject[] UIObj;
     public Text[] Texts;
 
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         UISet(false);
-        Invoke("framelimit", 1f);
+        Invoke("framelimit", 2f);
         //텍스트 파일에 있는 값들 유니티로 불러오기
         //텍스트 파일에 텍스트 들을 \n(엔터)를 기준으로 나누기 - 총 13개의 배열이 생성 된다
         string[] line = InfoDB.text.Substring(0, InfoDB.text.Length - 1).Split('\n');
@@ -70,7 +72,6 @@ public class GameManager : MonoBehaviour
             InfoList.Add(new Info(row[0], row[1], row[2], row[3], row[4]));
         }
     }
-
     void framelimit()
     {
         Application.targetFrameRate = 60;
@@ -80,6 +81,8 @@ public class GameManager : MonoBehaviour
     {
         SetMaxHPMental(DataBase.DB.playerData.MaxHP, DataBase.DB.playerData.MaxMP);
         daySet(DataBase.DB.playerData.dDay);
+        optionManager.volumeSlider[0].value = AudioManager.mainAudioVolume;
+        optionManager.volumeSlider[1].value = AudioManager.sfxAudioVolume;
     }
 
     private void Update()
@@ -97,7 +100,6 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
             UISet(false);
-            
     }
 
     public void SetMaxHPMental(int _health, int _mental)

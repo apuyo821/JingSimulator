@@ -19,7 +19,7 @@ public class TrumpetJudge : MonoBehaviour
     public int combo;
 
     [SerializeField] int noteIndex;
-    [SerializeField] int score;
+    [SerializeField] int score = 0;
     [SerializeField] string resultRank;
     [SerializeField] string bonusStat;
 
@@ -35,6 +35,8 @@ public class TrumpetJudge : MonoBehaviour
     [SerializeField] GameObject auditionStepExplainPanel;
     [SerializeField] TMP_Text auditionStepExplainText;
     public bool isAuditioning = false;
+
+    [SerializeField] FABackGroundMove[] backGroundMove;
 
     private void Start()
     {
@@ -56,12 +58,12 @@ public class TrumpetJudge : MonoBehaviour
     void showStepExplainPanel()
     {
         int vocalStat = DataBase.DB.playerData.vocal + Mathf.RoundToInt((float)DataBase.DB.playerData.rizz * 0.2f);
-        if (DataBase.DB.playerData.vocal >= 35)
+        if (vocalStat >= 35)
             noteVelo = 5;
-        else if (DataBase.DB.playerData.vocal >= 28 && DataBase.DB.playerData.vocal < 35)
-            noteVelo = 8;
-        else if (DataBase.DB.playerData.vocal < 28)
-            noteVelo = 15;
+        else if (vocalStat >= 28 && vocalStat < 35)
+            noteVelo = 6;
+        else if (vocalStat < 28)
+            noteVelo = 10;
 
         switch (noteVelo)
         {
@@ -69,11 +71,11 @@ public class TrumpetJudge : MonoBehaviour
                 auditionStepExplainText.text = "오늘은 오디션에\n무조건 통과하겠는걸";
                 break;
 
-            case 8:
+            case 6:
                 auditionStepExplainText.text = "준비는 잘 해온거 같아\n이제 실전만 남았어";
                 break;
 
-            case 15:
+            case 10:
                 auditionStepExplainText.text = "큰일이야, 시간이\n부족했던 거 같은데...";
                 break;
 
@@ -138,17 +140,25 @@ public class TrumpetJudge : MonoBehaviour
         else if(noteCs.headHit == false && noteCs.footHit == true)
         {
             score += 300;
-            combo++;
+            combo = 0;
             rank = "Good";
         }
         else if (noteCs.headHit == false && noteCs.footHit == false)
         {
             Miss++;
+            score += 0;
+            combo = 0;
+            rank = "Miss";
+        }
+        else if (noteCs.headHit == true && noteCs.footHit == false)
+        {
+            Miss++;
+            score += 0;
             combo = 0;
             rank = "Miss";
         }
 
-        if(noteIndex == 14)
+        if (noteIndex == 14)
         {
             scoreCalculate();
             //trumpetUI.showResultPanel(resultRank, bonusStat);
@@ -175,7 +185,7 @@ public class TrumpetJudge : MonoBehaviour
             bonusStat = "보너스 스탯 +4";
             DataBase.DB.playerData.vocal += 4;
         }
-        else if (score < 3000 && score >= 1000)
+        else if (score < 4000 && score >= 1000)
         {
             resultRank = "3등";
             bonusStat = "보너스 스탯 +2";
@@ -230,6 +240,8 @@ public class TrumpetJudge : MonoBehaviour
         yield return null;
         isAuditioning = true;
         noteVeloSet(noteVelo);
+        backGroundMove[0].startBGMoving();
+        backGroundMove[1].startBGMoving();
         removeObjs();
     }
 }

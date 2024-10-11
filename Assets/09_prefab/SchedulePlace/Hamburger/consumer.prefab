@@ -51,13 +51,15 @@ MonoBehaviour:
   prefab: {fileID: 3677841988648124548, guid: ee45c8c93aa91a140bc7deab0c03ebf9, type: 3}
   consumerNum: 0
   body: []
-  plusY: 1.5
-  velo: 0.4
-  velo3: 1
+  plusY: 3
+  velo: 10
+  velo3: 15
   velo2: 0
   hamEventZoneCS: {fileID: 0}
   jingObj: {fileID: 0}
   jingAnim: {fileID: 0}
+  audioSetCs: {fileID: 0}
+  GameManagerObj: {fileID: 0}
 --- !u!212 &216615058265842981
 SpriteRenderer:
   m_ObjectHideFlags: 0

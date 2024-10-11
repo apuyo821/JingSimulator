@@ -85,7 +85,8 @@ public class Select : MonoBehaviour
             }
         }
         DataClear();
-        warningPanel.SetActive(false);
+        if(transform.name == "Save")
+            warningPanel.SetActive(false);
     }
 
     public void refreshInfo()
