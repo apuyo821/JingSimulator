@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
             InfoList.Add(new Info(row[0], row[1], row[2], row[3], row[4]));
         }
     }
+
+    //  게임 시작 시 Frame 락 걸기
     void framelimit()
     {
         Application.targetFrameRate = 60;
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // 게임을 새롭게 시작할 시 볼륨 및 기본 데이터 설정
         SetMaxHPMental(DataBase.DB.playerData.MaxHP, DataBase.DB.playerData.MaxMP);
         daySet(DataBase.DB.playerData.dDay);
         optionManager.volumeSlider[0].value = AudioManager.mainAudioVolume;
