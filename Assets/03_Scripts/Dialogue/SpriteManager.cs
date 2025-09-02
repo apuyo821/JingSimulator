@@ -38,34 +38,4 @@ public class SpriteManager : MonoBehaviour
             t_image.sprite = t_sprite;     // 이미지 교체
         }
     }
-
-    /*
-    void SettingAcP(RectTransform a_rectTransform, int a_direction)
-    {
-        Vector2 direction = new Vector2();
-
-        switch (a_direction)
-        {
-            case 0:
-                //왼쪽, Left
-                direction = new Vector2(0, 0);
-                break;
-
-            case 1:
-                //오른쪽, Right
-                direction = new Vector2(1, 0);
-                break;
-
-            default:
-                break;
-        }
-        setMMP(a_rectTransform, direction);
-    }*/
-
-    void setMMP(RectTransform b_rectTransform, Vector2 _direction)
-    {
-        b_rectTransform.anchorMin = _direction;
-        b_rectTransform.anchorMax = _direction;
-        b_rectTransform.pivot = _direction;
-    }
 }

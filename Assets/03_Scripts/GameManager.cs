@@ -26,6 +26,7 @@ public class Bar
     }
 }
 
+// 각 행동의 추가 변경 사항을 담을 배열
 [Serializable]
 public class Info
 {
@@ -41,10 +42,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] OptionManager optionManager;
 
-    public GameObject[] UIObj;
-    public Text[] Texts;
+    public GameObject[] UIObj;          // 반응형 Ui를 담은 배열
+    public Text[] Texts;                // D-day, Hp, Mp의 Txt
 
-    public Bar[] bars;
+    public Bar[] bars;                  // Hp, Mp를 구분하기 위한 클래스
 
     public TextAsset InfoDB;            //각 행동의 이름과 스탯 변환값가 써져있는 텍스트
     public List<Info> InfoList;         //클래스 Info의 List 형태
@@ -139,6 +140,8 @@ public class GameManager : MonoBehaviour
         panel.SetActive(false);
     }
 
+
+    // View에 들어갈 거
     //Input.GetMouseButtonDown(1) - 우클릭 감지, 우클릭 시 패널과 패널을 슬롯의 살짝 위에 띄우고, 행동의 이름과 스탯의 변환치를 텍스트로 보여줌
     //행동에 따라서 InfoList에 공백이 생기는 경우가 있다. 이것은 infoText.text = test.Trim(); 이 코드로 해결
     //텍스트를 바꿀 때 \n을 이용해 줄바꿈을 해준다. 이 경우 공백임에도 줄바꿈을 해주기 때문에 패널이 못생겨진다

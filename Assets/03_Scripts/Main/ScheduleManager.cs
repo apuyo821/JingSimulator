@@ -76,6 +76,8 @@ public class ScheduleManager : MonoBehaviour
         isHome = true;
         jingAnimControl.jingAnim.animPosSet(0);
         daycount = 0;
+        
+        isFirst = true;
     }
 
     void OnEnable()

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DialogueParser : MonoBehaviour
 {
+    Dialogue dialogue = new Dialogue();
+
     private void Start()
     {
         Parse("dialogueTxt");
@@ -37,7 +39,7 @@ public class DialogueParser : MonoBehaviour
                     row = data[i].Split(',');
                 }
 
-                // 다음 줄이 데이터 보다 길어지면 그냥 break
+                // i가 data의 길이보다 커지면 종료
                 else
                 {
                     break;
