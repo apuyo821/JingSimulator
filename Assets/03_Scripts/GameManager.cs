@@ -42,10 +42,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] OptionManager optionManager;
 
-    public GameObject[] UIObj;          // 반응형 Ui를 담은 배열
-    public Text[] Texts;                // D-day, Hp, Mp의 Txt
-
-    public Bar[] bars;                  // Hp, Mp를 구분하기 위한 클래스
+    
 
     public TextAsset InfoDB;            //각 행동의 이름과 스탯 변환값가 써져있는 텍스트
     public List<Info> InfoList;         //클래스 Info의 List 형태
@@ -56,7 +53,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        UISet(false);
         Invoke("framelimit", 2f);
         //텍스트 파일에 있는 값들 유니티로 불러오기
         //텍스트 파일에 텍스트 들을 \n(엔터)를 기준으로 나누기 - 총 13개의 배열이 생성 된다
@@ -83,16 +79,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // 게임을 새롭게 시작할 시 볼륨 및 기본 데이터 설정
-        SetMaxHPMental(DataBase.DB.playerData.MaxHP, DataBase.DB.playerData.MaxMP);
-        daySet(DataBase.DB.playerData.dDay);
         optionManager.volumeSlider[0].value = AudioManager.mainAudioVolume;
         optionManager.volumeSlider[1].value = AudioManager.sfxAudioVolume;
     }
 
     private void Update()
     {
-        SetHPnMP(DataBase.DB.playerData.HP, DataBase.DB.playerData.MP);
-
         if (DataBase.DB.playerData.HP > 50)
             DataBase.DB.playerData.HP = 50;
         if (DataBase.DB.playerData.MP > 25)
@@ -101,35 +93,6 @@ public class GameManager : MonoBehaviour
             DataBase.DB.playerData.HP = 0;
         if (DataBase.DB.playerData.MP < 0)
             DataBase.DB.playerData.MP = 0;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-            UISet(false);
-    }
-
-    public void SetMaxHPMental(int _health, int _mental)
-    {
-        bars[0].Slider.maxValue = _health;
-        bars[0].Slider.value = _health;
-        bars[1].Slider.maxValue = _mental;
-        bars[1].Slider.value = _mental;
-    }
-
-    public void SetHPnMP(int _HP, int _MP)
-    {
-        bars[0].Slider.value = _HP;
-        bars[1].Slider.value = _MP;
-    }
-
-    public void daySet(int _dDay)
-    {
-        if (_dDay == 0)
-        {
-            Texts[0].text = "D-Day";
-        }
-        else
-        {
-            Texts[0].text = "D" + "-" + _dDay.ToString();
-        }
     }
 
     //IPointerExitHandler로 함수를 만드는게 아닌 유니티의 인스펙터에서 Event Trigger 컴포넌트를 추가하고 거기에서
@@ -162,14 +125,6 @@ public class GameManager : MonoBehaviour
                 InfoList[slotNum].conversion3 + "\n" +
                 InfoList[slotNum].conversion4;
             infoText.text = text.Trim();
-        }
-    }
-
-    void UISet(bool p_flag)
-    {
-        for (int i = 0; i < UIObj.Length; i++)
-        {
-            UIObj[i].SetActive(p_flag);
         }
     }
 }
