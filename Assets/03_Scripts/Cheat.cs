@@ -17,7 +17,7 @@ public class Cheat : MonoBehaviour
 
     private void Start()
     {
-        GameObject other = GameObject.Find("ScheduleManager");
+        GameObject other = GameObject.Find("");
         schedule = other.gameObject.GetComponent<ScheduleManager>();
         panels[0].SetActive(false);
         panels[1].SetActive(false);
@@ -80,27 +80,27 @@ public class Cheat : MonoBehaviour
         switch (_num)
         {
             case 0:
-                countText[_num].text = "∫∏ƒ√ : " + DataBase.DB.playerData.vocalCount.ToString();
+                countText[_num].text = "Î≥¥Ïª¨ : " + DataBase.DB.playerData.vocalCount.ToString();
                 break;
 
             case 1:
-                countText[_num].text = "¥ÌΩ∫ : " + DataBase.DB.playerData.danceCount.ToString();
+                countText[_num].text = "ÎåÑÏä§ : " + DataBase.DB.playerData.danceCount.ToString();
                 break;
 
             case 2:
-                countText[_num].text = "πÊº€ : " + DataBase.DB.playerData.broadcastCount.ToString();
+                countText[_num].text = "Î∞©ÏÜ° : " + DataBase.DB.playerData.broadcastCount.ToString();
                 break;
 
             case 3:
-                countText[_num].text = "∞‘¿” : " + DataBase.DB.playerData.gameCOunt.ToString();
+                countText[_num].text = "Í≤åÏûÑ : " + DataBase.DB.playerData.gameCOunt.ToString();
                 break;
 
             case 4:
-                countText[_num].text = "øÓµø : " + DataBase.DB.playerData.GYMCount.ToString();
+                countText[_num].text = "Ïö¥Îèô : " + DataBase.DB.playerData.GYMCount.ToString();
                 break;
 
             case 5:
-                countText[_num].text = "±◊∏≤ : " + DataBase.DB.playerData.drawingCount.ToString();
+                countText[_num].text = "Í∑∏Î¶º : " + DataBase.DB.playerData.drawingCount.ToString();
                 break;
 
             default:
